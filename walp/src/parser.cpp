@@ -480,7 +480,7 @@ ParseResult CommandParser::parse_detailed(const char* input) {
         }
     }
 
-    int n_find = 0, n_other = 0, n_neg = 0, n_q = 0, n_pron = 0, n_place = 0, n_content = 0;
+    int n_find = 0, n_other = 0, n_neg = 0, n_q = 0, n_pron = 0, n_place = 0;
     std::uint8_t obj_m = 0xFF, col_m = 0xFF, brand = 0;
     bool obj_seen = false, col_seen = false, conflict_obj = false, conflict_color = false, conflict_brand = false;
     std::uint32_t avoid = 0, cond = 0;
@@ -498,7 +498,6 @@ ParseResult CommandParser::parse_detailed(const char* input) {
         const Seg& s = segs[i];
         if (s.kb) {
             const KBEntry& e = *s.kb;
-            ++n_content;
             if (e.rel == REL_NEAR || e.rel == REL_HYPO || e.rel == REL_MOD || e.rel == REL_HYPER) { novel = true; ++rel_used; }
             if (e.rel != REL_HYPER && e.conf < conf) conf = e.conf;
             switch (e.cat) {
