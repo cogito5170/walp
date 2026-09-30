@@ -1,0 +1,143 @@
+find the red card	OK type=card color=red
+Can you find a blue key?	OK type=key color=blue
+find me a cup	OK type=cup
+look for the green box pls	OK type=box color=green
+find a visa card	OK type=card brand=visa
+can you locate the black mastercard	OK type=card color=black brand=master
+Find the red visa card but stay away from the counter	OK type=card color=red brand=visa avoid=counter
+find a key within 150 steps	OK type=key deadline=150
+search for the blue cup, don't go near the shelves	OK type=cup color=blue avoid=shelf
+find a green card in under 300 ticks	OK type=card color=green deadline=300
+Could you find the black box? If you're not sure, take another look.	OK type=box color=black uncertain=observe
+find the red key and if something's blocking you, replan	OK type=key color=red blocked=replan
+find a master card, avoid the floor, 250 steps max	OK type=card brand=master avoid=floor deadline=250
+pls find teh blue box	OK type=box color=blue
+findthe green cup	OK type=cup color=green
+I need you to find a black key	OK type=key color=black
+Hey robot, locate a card for me	OK type=card
+find a visa card, stay off the desk, if unsure observe again, if blocked replan	OK type=card brand=visa avoid=desk uncertain=observe blocked=replan
+Find a red cup within 100 steps and replan if the way is blocked	OK type=cup color=red deadline=100 blocked=replan
+search for a box. keep away from the counter.	OK type=box avoid=counter
+Would you please find the blue master card?	OK type=card color=blue brand=master
+find a greeen key	OK type=key color=green
+find a black cup, avoid the shelf area, look again if uncertain	OK type=cup color=black avoid=shelf uncertain=observe
+go find a key	OK type=key
+can u find a card thats red, visa	OK type=card color=red brand=visa
+find the box in 400 steps or less	OK type=box deadline=400
+locate the green box without going near the desk	OK type=box color=green avoid=desk
+find a blue card; if you get blocked, plan a new route	OK type=card color=blue blocked=replan
+Find me a black visa card within 500 ticks	OK type=card color=black brand=visa deadline=500
+look for a cup but stay off the floor	OK type=cup avoid=floor
+find a red key, double-check if unsure	OK type=key color=red uncertain=observe
+Please find the green mastercard, avoid the counter, 200 steps	OK type=card color=green brand=master avoid=counter deadline=200
+search for a black box, if path blocked replan, if unsure re-observe	OK type=box color=black uncertain=observe blocked=replan
+find blue key asap within 80 steps	OK type=key color=blue deadline=80
+fnd a red cup	OK type=cup color=red
+find a key avoid shelves	OK type=key avoid=shelf
+I'm looking for my blue box, can you find it?	OK type=box color=blue
+find the card. stay away from the desk. you have 120 steps.	OK type=card avoid=desk deadline=120
+Find a green cup, and if the route's blocked just replan	OK type=cup color=green blocked=replan
+locate a master card	OK type=card brand=master
+빨간 카드 찾아줘	OK type=card color=red
+파란 열쇠 찾아봐	OK type=key color=blue
+컵 좀 찾아	OK type=cup
+초록색 상자 찾아주세요	OK type=box color=green
+비자 카드 찾아줘	OK type=card brand=visa
+검은색 마스터카드 좀 찾아줄래?	OK type=card color=black brand=master
+빨간 비자카드 찾아줘, 카운터 쪽은 피해	OK type=card color=red brand=visa avoid=counter
+열쇠 200틱 안에 찾아	OK type=key deadline=200
+파란 컵 찾아줘 선반 쪽은 가지 마	OK type=cup color=blue avoid=shelf
+초록 카드 300스텝 안에 찾아줘	OK type=card color=green deadline=300
+검정 상자 찾아주세요. 확실하지 않으면 다시 봐 주세요	OK type=box color=black uncertain=observe
+빨간 열쇠 찾아봐, 막히면 경로 다시 짜	OK type=key color=red blocked=replan
+마스터 카드 찾아줘 바닥은 피하고 250틱 안에	OK type=card brand=master avoid=floor deadline=250
+파란상자찾아줘	OK type=box color=blue
+초록 컵 찾아죠	OK type=cup color=green
+검은 열쇠 좀 찾아 줄래요?	OK type=key color=black
+카드 하나 찾아봐	OK type=card
+비자카드 찾아줘. 책상 근처는 피하고, 애매하면 다시 관찰하고, 막히면 재계획해	OK type=card brand=visa avoid=desk uncertain=observe blocked=replan
+빨간 컵 100스텝 안에 찾아줘 막히면 다시 계획 세워	OK type=cup color=red deadline=100 blocked=replan
+상자 찾아 카운터는 피해서	OK type=box avoid=counter
+파란색 마스터 카드 찾아주시겠어요?	OK type=card color=blue brand=master
+초록 열쇠 찾아바	OK type=key color=green
+검은 컵 찾아줘 선반 피하고 헷갈리면 다시 봐	OK type=cup color=black avoid=shelf uncertain=observe
+열쇠 어딨는지 찾아줘	OK type=key
+빨간색 비자 카드 찾아	OK type=card color=red brand=visa
+상자 400틱 이내로 찾아줘	OK type=box deadline=400
+책상 쪽 가지 말고 초록 상자 찾아줘	OK type=box color=green avoid=desk
+파란 카드 찾아, 길 막히면 다시 경로 계획해	OK type=card color=blue blocked=replan
+검정 비자카드 500틱 안에 찾아주세요	OK type=card color=black brand=visa deadline=500
+바닥 쪽은 피해서 컵 찾아줘	OK type=cup avoid=floor
+빨간 열쇠 찾아줘 불확실하면 한 번 더 봐	OK type=key color=red uncertain=observe
+초록 마스터카드 찾아줘요 카운터 피하고 200스텝 안에	OK type=card color=green brand=master avoid=counter deadline=200
+검은 상자 찾아 막히면 재계획, 불확실하면 재관찰	OK type=box color=black uncertain=observe blocked=replan
+파란 열쇠 80틱안에 찾아줘	OK type=key color=blue deadline=80
+빨간 컵 찾아주라	OK type=cup color=red
+선반은 피해서 열쇠 찾아봐	OK type=key avoid=shelf
+카드 찾아줘 책상 근처 가지 말고 120틱 안에	OK type=card avoid=desk deadline=120
+초록 컵 찾아봐 막혀 있으면 다시 계획하고	OK type=cup color=green blocked=replan
+마스터 카드 하나만 찾아줄래	OK type=card brand=master
+블루 박스 찾아줘	OK type=box color=blue
+까만 열쇠 찾아	OK type=key color=black
+bring me the red card	REJECT
+pick up the blue key	REJECT
+clean the desk	REJECT
+go to the kitchen	REJECT
+find it	REJECT
+can you find that one again?	REJECT
+find a card that's not blue	REJECT
+find any key except the red one	REJECT
+find the red blue card	REJECT
+find a phone	REJECT
+find the yellow cup	REJECT
+find an amex card	REJECT
+find the blue one	REJECT
+what's on the shelf?	REJECT
+how are you today?	REJECT
+find the red card and then find a blue key	REJECT
+find a cup and bring it to the counter	REJECT
+find a green visa master card	REJECT
+find the black box and clean it	REJECT
+find my wallet	REJECT
+find a purple key	REJECT
+search for something	REJECT
+go to the counter	REJECT
+find a cup, not a black one	REJECT
+is there a key on the desk?	REJECT
+find them	REJECT
+thanks!	REJECT
+put the box on the shelf	REJECT
+find a red card and a green cup	REJECT
+find a visa key	REJECT
+find a discover card	REJECT
+빨간 카드 가져와	REJECT
+파란 열쇠 집어줘	REJECT
+책상 청소해줘	REJECT
+부엌으로 가	REJECT
+그거 찾아	REJECT
+아까 그거 다시 찾아줘	REJECT
+파란 거 말고 카드 찾아줘	REJECT
+빨간색 아닌 열쇠 찾아	REJECT
+빨갛고 파란 카드 찾아줘	REJECT
+핸드폰 찾아줘	REJECT
+노란 컵 찾아	REJECT
+아멕스 카드 찾아줘	REJECT
+파란 거 찾아줘	REJECT
+선반 위에 뭐 있어?	REJECT
+안녕 뭐해?	REJECT
+빨간 카드 찾고 파란 열쇠도 찾아줘	REJECT
+컵 찾아서 카운터에 갖다 놔	REJECT
+열쇠 찾아와	REJECT
+지갑 찾아줘	REJECT
+보라색 상자 찾아	REJECT
+뭐든 찾아봐	REJECT
+카운터로 가줘	REJECT
+검은 컵 말고 다른 컵 찾아	REJECT
+책상에 열쇠 있어?	REJECT
+걔네 찾아	REJECT
+고마워	REJECT
+상자 선반에 올려놔	REJECT
+빨간 카드랑 초록 컵 찾아줘	REJECT
+비자 마스터 카드 찾아줘	REJECT
+초록빨강 상자 찾아줘	REJECT
+흰색 카드 찾아줘	REJECT

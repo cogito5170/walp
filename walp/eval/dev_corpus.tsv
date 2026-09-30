@@ -1,0 +1,56 @@
+find the blue visa card	OK type=card color=blue brand=visa
+Find object(card, color=blue, brand=visa). If uncertain, observe_again. If blocked, replan.	OK type=card color=blue brand=visa uncertain=observe blocked=replan
+find a red key	OK type=key color=red
+locate the green cup	OK type=cup color=green
+please find a black box	OK type=box color=black
+find a mastercard	OK type=card brand=master
+find a red master card within 200 steps	OK type=card color=red brand=master deadline=200
+find the blue cup and avoid the shelves	OK type=cup color=blue avoid=shelf
+avoid counters and find a green key	OK type=key color=green avoid=counter
+find a black card, if blocked, stop	OK type=card color=black blocked=hold
+find a red box. if unsure, skip	OK type=box color=red uncertain=skip
+search for a blue key	OK type=key color=blue
+look for a green box	OK type=box color=green
+don't go near the desks, find the red cup	OK type=cup color=red avoid=desk
+find the key	OK type=key
+파란 비자 카드 찾아줘	OK type=card color=blue brand=visa
+파란 비자카드를 찾아	OK type=card color=blue brand=visa
+빨간 열쇠 찾아	OK type=key color=red
+초록색 컵을 찾아주세요	OK type=cup color=green
+검은 상자 좀 찾아줘	OK type=box color=black
+마스터카드 찾아	OK type=card brand=master
+선반 피해서 파란 컵 찾아	OK type=cup color=blue avoid=shelf
+카운터는 가지 마 빨간 상자 찾아	OK type=box color=red avoid=counter
+200틱 안에 초록 열쇠 찾아	OK type=key color=green deadline=200
+파란 컵 찾아 불확실하면 다시 관찰해	OK type=cup color=blue uncertain=observe
+빨간 카드 찾아 막히면 재계획	OK type=card color=red blocked=replan
+막히면 멈춰 검은 열쇠 찾아	OK type=key color=black blocked=hold
+Locate the azure drinking cup	OK type=cup color=blue
+find a crimson crate	OK type=box color=red
+find my coffee mug	OK type=cup
+하늘색 머그컵 찾아줘	OK type=cup color=blue
+신용카드 찾아	OK type=card
+find it	REJECT
+그거 찾아	REJECT
+bring me a red cup	REJECT
+빨간 컵 가져와	REJECT
+find a card that is not blue	REJECT
+파란 거 말고 빨간 카드 찾아	REJECT
+find a yellow key	REJECT
+find a phone	REJECT
+where is my key	REJECT
+열쇠 어디 있어	REJECT
+find a red blue card	REJECT
+find a visa key	REJECT
+find a card and a key	REJECT
+clean the desk	REJECT
+find the blue one	REJECT
+find a card within 5 minutes	REJECT
+find a card within 200	REJECT
+find a card on the desk	REJECT
+go to the kitchen	REJECT
+blue visa card	REJECT
+find the container	AMBIGUOUS
+파란 용기 찾아	AMBIGUOUS
+find a teal cup	AMBIGUOUS
+avoid the tables and find a key	OK type=key avoid=desk+counter

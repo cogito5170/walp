@@ -1,0 +1,119 @@
+{"id": 0, "status": "TOOL", "tool": "run_shell", "args": {"command": "ls -la logs"}}
+{"id": 1, "status": "TOOL", "tool": "run_shell", "args": {"command": "git status"}}
+{"id": 2, "status": "TOOL", "tool": "run_shell", "args": {"command": "df -h"}}
+{"id": 3, "status": "TOOL", "tool": "run_shell", "args": {"command": "python3 -m pytest tests/test_foo.py -q"}}
+{"id": 4, "status": "TOOL", "tool": "run_shell", "args": {"command": "du -sh novel"}}
+{"id": 5, "status": "TOOL", "tool": "run_shell", "args": {"command": "wc -l codify/ledger.jsonl"}}
+{"id": 6, "status": "TOOL", "tool": "run_shell", "args": {"command": "tail -n 50 logs/bot.log"}}
+{"id": 7, "status": "TOOL", "tool": "run_shell", "args": {"command": "echo hello"}}
+{"id": 8, "status": "TOOL", "tool": "run_experiment", "args": {"command": "python3 bench.py --n 100"}}
+{"id": 9, "status": "TOOL", "tool": "run_experiment", "args": {"command": "pytest -x tests/", "minutes": 10}}
+{"id": 10, "status": "TOOL", "tool": "run_experiment", "args": {"command": "make test", "minutes": 5}}
+{"id": 11, "status": "TOOL", "tool": "run_experiment", "args": {"command": "python3 sim.py --seed 7"}}
+{"id": 12, "status": "TOOL", "tool": "run_experiment", "args": {"command": "bash scripts/tests.sh"}}
+{"id": 13, "status": "TOOL", "tool": "run_experiment", "args": {"command": "python3 train.py --epochs 2", "minutes": 10}}
+{"id": 14, "status": "TOOL", "tool": "run_experiment", "args": {"command": "node bench.js"}}
+{"id": 15, "status": "TOOL", "tool": "run_probes", "args": {"commands": "uname -a\nnproc\nfree -m"}}
+{"id": 16, "status": "TOOL", "tool": "run_probes", "args": {"commands": "python3 --version\nnode --version\ngcc --version"}}
+{"id": 17, "status": "TOOL", "tool": "run_probes", "args": {"commands": "ls data\nls logs\nls tmp", "minutes": 1}}
+{"id": 18, "status": "TOOL", "tool": "run_probes", "args": {"commands": "curl -sI example.com\nping -c1 example.com", "minutes": 4}}
+{"id": 19, "status": "TOOL", "tool": "run_probes", "args": {"commands": "git log -1\ngit branch\ngit stash list"}}
+{"id": 20, "status": "TOOL", "tool": "run_probes", "args": {"commands": "which python3\nwhich gcc\nwhich yosys"}}
+{"id": 21, "status": "TOOL", "tool": "edit_file", "args": {"path": "config.py", "old": "DEBUG = True", "new": "DEBUG = False"}}
+{"id": 22, "status": "TOOL", "tool": "edit_file", "args": {"path": "README.md", "old": "v1.2", "new": "v1.3"}}
+{"id": 23, "status": "TOOL", "tool": "edit_file", "args": {"path": "scripts/run.sh", "old": "TIMEOUT=30", "new": "TIMEOUT=60"}}
+{"id": 24, "status": "TOOL", "tool": "edit_file", "args": {"path": "solver/params.py", "old": "max_iter=100", "new": "max_iter=500"}}
+{"id": 25, "status": "TOOL", "tool": "edit_file", "args": {"path": "novel/style.py", "old": "temperature: 0.7", "new": "temperature: 0.9"}}
+{"id": 26, "status": "TOOL", "tool": "edit_file", "args": {"path": "docs/intro.txt", "old": "Hello world", "new": "Hello, world"}}
+{"id": 27, "status": "TOOL", "tool": "edit_file", "args": {"path": "app/main.py", "old": "recieve", "new": "receive"}}
+{"id": 28, "status": "TOOL", "tool": "set_key", "args": {"name": "GEMINI_API_KEY", "value": "abc123-fake"}}
+{"id": 29, "status": "TOOL", "tool": "set_key", "args": {"name": "DISCORD_TOKEN", "value": "fake-token-000"}}
+{"id": 30, "status": "TOOL", "tool": "set_key", "args": {"name": "SMTP_HOST", "value": "smtp.example.com"}}
+{"id": 31, "status": "TOOL", "tool": "set_key", "args": {"name": "DB_PASSWORD", "value": "not-a-real-pw-42"}}
+{"id": 32, "status": "TOOL", "tool": "set_key", "args": {"name": "WEBHOOK_URL", "value": "https://hooks.example.com/fake/xyz"}}
+{"id": 33, "status": "TOOL", "tool": "set_key", "args": {"name": "OPENAI_KEY", "value": "sk-fake-0000"}}
+{"id": 34, "status": "TOOL", "tool": "create_pr", "args": {"title": "라우터 평가 코퍼스 추가"}}
+{"id": 35, "status": "TOOL", "tool": "create_pr", "args": {"title": "Fix ledger double count"}}
+{"id": 36, "status": "TOOL", "tool": "create_pr", "args": {"title": "VM 배포 스크립트 정리", "body": "타임아웃을 60초로 늘림"}}
+{"id": 37, "status": "TOOL", "tool": "create_pr", "args": {"title": "Add probe table output", "body": "Adds a markdown table for probe results"}}
+{"id": 38, "status": "TOOL", "tool": "create_pr", "args": {"title": "문체 페르소나 조정"}}
+{"id": 39, "status": "TOOL", "tool": "create_pr", "args": {"title": "Bump scipy to 1.18"}}
+{"id": 40, "status": "TOOL", "tool": "dispatch_command", "args": {"command": "!점수"}}
+{"id": 41, "status": "TOOL", "tool": "dispatch_command", "args": {"command": "!연구 광대역 등화기 선행조사"}}
+{"id": 42, "status": "TOOL", "tool": "dispatch_command", "args": {"command": "!status"}}
+{"id": 43, "status": "TOOL", "tool": "dispatch_command", "args": {"command": "!도움말"}}
+{"id": 44, "status": "TOOL", "tool": "dispatch_command", "args": {"command": "!report weekly"}}
+{"id": 45, "status": "TOOL", "tool": "dispatch_command", "args": {"command": "!연구 LUT 비용 모델"}}
+{"id": 46, "status": "TOOL", "tool": "repair", "args": {"command": "python3 run.py", "symptom": "ModuleNotFoundError: No module named 'yaml'"}}
+{"id": 47, "status": "TOOL", "tool": "repair", "args": {"command": "pytest tests/test_io.py", "symptom": "AssertionError: expected 3 got 2"}}
+{"id": 48, "status": "TOOL", "tool": "repair", "args": {"command": "bash scripts/deploy.sh", "symptom": "Permission denied"}}
+{"id": 49, "status": "TOOL", "tool": "repair", "args": {"command": "make build", "symptom": "undefined reference to main"}}
+{"id": 50, "status": "TOOL", "tool": "repair", "args": {"command": "node server.js", "symptom": "EADDRINUSE"}}
+{"id": 51, "status": "TOOL", "tool": "repair", "args": {"command": "python3 -m law.bench", "symptom": "KeyError: 'rate'"}}
+{"id": 52, "status": "TOOL", "tool": "send_email", "args": {"to": "alice@example.com", "subject": "회의 일정", "body": "내일 10시에 봬요"}}
+{"id": 53, "status": "TOOL", "tool": "send_email", "args": {"to": "bob@example.com", "subject": "Weekly report", "body": "Numbers attached below."}}
+{"id": 54, "status": "TOOL", "tool": "send_email", "args": {"to": "team@example.com", "subject": "배포 완료", "body": "v2.1 배포 끝났습니다", "attach": "logs/deploy.log"}}
+{"id": 55, "status": "TOOL", "tool": "send_email", "args": {"to": "carol@example.com", "subject": "Lunch?", "body": "Are you free at noon?"}}
+{"id": 56, "status": "TOOL", "tool": "send_email", "args": {"to": "prof@example.com", "subject": "면담 요청", "body": "다음 주 화요일 가능하신가요"}}
+{"id": 57, "status": "TOOL", "tool": "send_email", "args": {"to": "dave@example.com", "subject": "Invoice", "body": "Please see attached", "attach": "report.pdf"}}
+{"id": 58, "status": "TOOL", "tool": "save_memory", "args": {"topic": "선호 언어", "content": "사용자는 한국어 답변을 선호함"}}
+{"id": 59, "status": "TOOL", "tool": "save_memory", "args": {"topic": "deploy", "content": "deploys run on the Oracle VM"}}
+{"id": 60, "status": "TOOL", "tool": "save_memory", "args": {"topic": "회의 요일", "content": "매주 목요일 오후 3시"}}
+{"id": 61, "status": "TOOL", "tool": "save_memory", "args": {"topic": "coffee", "content": "I take it black"}}
+{"id": 62, "status": "TOOL", "tool": "save_memory", "args": {"topic": "서버 시간대", "content": "VM 은 UTC 기준"}}
+{"id": 63, "status": "TOOL", "tool": "save_memory", "args": {"topic": "build tool", "content": "we use make not ninja"}}
+{"id": 64, "status": "TOOL", "tool": "write_public_answer", "args": {"filename": "result.txt", "content": "정답은 42"}}
+{"id": 65, "status": "TOOL", "tool": "write_public_answer", "args": {"filename": "answer_ber.md", "content": "BER 1e-4 at 30 dB"}}
+{"id": 66, "status": "TOOL", "tool": "write_public_answer", "args": {"filename": "summary.md", "content": "3개 중 2개 통과"}}
+{"id": 67, "status": "TOOL", "tool": "write_public_answer", "args": {"filename": "q7.txt", "content": "x = 3"}}
+{"id": 68, "status": "TOOL", "tool": "write_public_answer", "args": {"filename": "notes.txt", "content": "재현 성공"}}
+{"id": 69, "status": "TOOL", "tool": "write_public_answer", "args": {"filename": "status.txt", "content": "done"}}
+{"id": 70, "status": "ASK"}
+{"id": 71, "status": "ASK"}
+{"id": 72, "status": "ASK"}
+{"id": 73, "status": "ASK"}
+{"id": 74, "status": "ASK"}
+{"id": 75, "status": "ASK"}
+{"id": 76, "status": "ASK"}
+{"id": 77, "status": "ASK"}
+{"id": 78, "status": "ASK"}
+{"id": 79, "status": "ASK"}
+{"id": 80, "status": "ASK"}
+{"id": 81, "status": "ASK"}
+{"id": 82, "status": "ASK"}
+{"id": 83, "status": "ASK"}
+{"id": 84, "status": "ASK"}
+{"id": 85, "status": "ASK"}
+{"id": 86, "status": "ASK"}
+{"id": 87, "status": "ASK"}
+{"id": 88, "status": "ASK"}
+{"id": 89, "status": "TOOL", "tool": "run_experiment", "args": {"command": "python3 bench.py"}}
+{"id": 90, "status": "ASK"}
+{"id": 91, "status": "ASK"}
+{"id": 92, "status": "ASK"}
+{"id": 93, "status": "REJECT"}
+{"id": 94, "status": "REJECT"}
+{"id": 95, "status": "REJECT"}
+{"id": 96, "status": "REJECT"}
+{"id": 97, "status": "ASK"}
+{"id": 98, "status": "ASK"}
+{"id": 99, "status": "REJECT"}
+{"id": 100, "status": "REJECT"}
+{"id": 101, "status": "REJECT"}
+{"id": 102, "status": "REJECT"}
+{"id": 103, "status": "REJECT"}
+{"id": 104, "status": "REJECT"}
+{"id": 105, "status": "REJECT"}
+{"id": 106, "status": "REJECT"}
+{"id": 107, "status": "REJECT"}
+{"id": 108, "status": "REJECT"}
+{"id": 109, "status": "REJECT"}
+{"id": 110, "status": "REJECT"}
+{"id": 111, "status": "REJECT"}
+{"id": 112, "status": "REJECT"}
+{"id": 113, "status": "REJECT"}
+{"id": 114, "status": "REJECT"}
+{"id": 115, "status": "REJECT"}
+{"id": 116, "status": "REJECT"}
+{"id": 117, "status": "REJECT"}
+{"id": 118, "status": "REJECT"}

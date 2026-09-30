@@ -1,0 +1,119 @@
+이거 실행해줘 `ls -la logs`	TOOL run_shell command=<code>
+Run `git status` in the repo please	TOOL run_shell command=<code>
+저장소에서 `df -h` 한 번 돌려서 결과 보여줘	TOOL run_shell command=<code>
+can u run `python3 -m pytest tests/test_foo.py -q` for me	TOOL run_shell command=<code>
+셸에서 `du -sh novel` 좀 쳐 줄래?	TOOL run_shell command=<code>
+Please execute `wc -l codify/ledger.jsonl` and tell me the number.	TOOL run_shell command=<code>
+로그 끝부분 보고 싶어. `tail -n 50 logs/bot.log` 실행 부탁	TOOL run_shell command=<code>
+just run `echo hello` real quick	TOOL run_shell command=<code>
+격리해서 돌려봐 `python3 bench.py --n 100`	TOOL run_experiment command=<code>
+Run `pytest -x tests/` in a clean sandbox, give it 10 minutes	TOOL run_experiment command=<code> minutes=10
+흔적 안 남게 `make test` 돌려줘, 5분 제한으로	TOOL run_experiment command=<code> minutes=5
+Try `python3 sim.py --seed 7` in an isolated worktree so nothing leaks into my tree.	TOOL run_experiment command=<code>
+깨끗한 워크트리에서 `bash scripts/tests.sh` 실험 한 번 해봐	TOOL run_experiment command=<code>
+Can you run the experiment `python3 train.py --epochs 2` without leaving any trace? 15 minutes max.	TOOL run_experiment command=<code> minutes=15
+작업 디렉터리 더럽히지 말고 따로 떼어서 `node bench.js` 돌려 볼래?	TOOL run_experiment command=<code>
+이 세 개 병렬로 찔러봐 `uname -a` `nproc` `free -m` 표로 줘	TOOL run_probes commands=<code>
+Run these probes in parallel and tabulate: `python3 --version`, `node --version`, `gcc --version`	TOOL run_probes commands=<code>
+탐침 여러 개 동시에: `ls data` `ls logs` `ls tmp`, 시간은 1분이면 돼	TOOL run_probes commands=<code> minutes=1
+Fire off these in parallel, 4 minutes timeout: `curl -sI example.com` `ping -c1 example.com`	TOOL run_probes commands=<code> minutes=4
+동시에 돌려서 결과 표로 정리해줘: `git log -1` `git branch` `git stash list`	TOOL run_probes commands=<code>
+quick parallel check of `which python3`, `which gcc`, `which yosys` -- table pls	TOOL run_probes commands=<code>
+config.py 에서 `DEBUG = True` 를 `DEBUG = False` 로 바꿔줘	TOOL edit_file path=config.py old="DEBUG = True" new="DEBUG = False"
+In README.md replace `v1.2` with `v1.3`.	TOOL edit_file path=README.md old=v1.2 new=v1.3
+scripts/run.sh 파일의 `TIMEOUT=30` 을 `TIMEOUT=60` 으로 고쳐 줘	TOOL edit_file path=scripts/run.sh old=TIMEOUT=30 new=TIMEOUT=60
+Change `max_iter=100` to `max_iter=500` in solver/params.py please	TOOL edit_file path=solver/params.py old=max_iter=100 new=max_iter=500
+novel/style.py 안에 있는 `temperature: 0.7` 부분을 `temperature: 0.9` 로 수정 부탁해	TOOL edit_file path=novel/style.py old="temperature: 0.7" new="temperature: 0.9"
+edit docs/intro.txt: swap `Hello world` for `Hello, world`	TOOL edit_file path=docs/intro.txt old="Hello world" new="Hello, world"
+오타 났다. app/main.py 에서 `recieve` 를 `receive` 로 바꿔	TOOL edit_file path=app/main.py old=recieve new=receive
+.env 에 GEMINI_API_KEY 를 abc123-fake 로 저장해줘	TOOL set_key name=GEMINI_API_KEY value=abc123-fake
+Set DISCORD_TOKEN to fake-token-000 in the env file.	TOOL set_key name=DISCORD_TOKEN value=fake-token-000
+SMTP_HOST 값은 smtp.example.com 이야. 설정에 넣어둬	TOOL set_key name=SMTP_HOST value=smtp.example.com
+store the password: DB_PASSWORD=not-a-real-pw-42	TOOL set_key name=DB_PASSWORD value=not-a-real-pw-42
+비밀값 하나 등록: 이름 WEBHOOK_URL, 값 https://hooks.example.com/fake/xyz	TOOL set_key name=WEBHOOK_URL value=https://hooks.example.com/fake/xyz
+please save OPENAI_KEY as sk-fake-0000 into .env	TOOL set_key name=OPENAI_KEY value=sk-fake-0000
+지금 브랜치 밀고 "라우터 평가 코퍼스 추가" 라는 제목으로 PR 열어줘	TOOL create_pr title="라우터 평가 코퍼스 추가"
+Open a pull request titled "Fix ledger double count"	TOOL create_pr title="Fix ledger double count"
+PR 올려줘. 제목은 "VM 배포 스크립트 정리", 본문은 "타임아웃을 60초로 늘림"	TOOL create_pr title="VM 배포 스크립트 정리" body="타임아웃을 60초로 늘림"
+push this branch and make a PR called "Add probe table output" with description "Adds a markdown table for probe results"	TOOL create_pr title="Add probe table output" body="Adds a markdown table for probe results"
+풀리퀘 하나 만들어: 제목 "문체 페르소나 조정"	TOOL create_pr title="문체 페르소나 조정"
+create PR "Bump scipy to 1.18" pls	TOOL create_pr title="Bump scipy to 1.18"
+!점수 좀 돌려줘	TOOL dispatch_command command=!점수
+!연구 광대역 등화기 선행조사	TOOL dispatch_command command="!연구 광대역 등화기 선행조사"
+Run the bot command `!status`	TOOL dispatch_command command=<code>
+봇한테 !도움말 쳐줘	TOOL dispatch_command command=!도움말
+please trigger !report weekly	TOOL dispatch_command command="!report weekly"
+명령 테이블에 넘겨: `!연구 LUT 비용 모델`	TOOL dispatch_command command=<code>
+`python3 run.py` 돌리면 "ModuleNotFoundError: No module named 'yaml'" 가 나. 알아서 고쳐줘	TOOL repair command=<code> symptom="ModuleNotFoundError: No module named 'yaml'"
+Fix this until it passes: `pytest tests/test_io.py` fails with "AssertionError: expected 3 got 2"	TOOL repair command=<code> symptom="AssertionError: expected 3 got 2"
+`bash scripts/deploy.sh` 가 "Permission denied" 로 죽어. 고쳐질 때까지 자동으로 수리 루프 돌려.	TOOL repair command=<code> symptom="Permission denied"
+Repro: `make build` -- symptom: "undefined reference to main". Please auto-repair.	TOOL repair command=<code> symptom="undefined reference to main"
+`node server.js` 실행하면 EADDRINUSE 에러. 원인 찾아서 될 때까지 고쳐줘	TOOL repair command=<code> symptom=EADDRINUSE
+keep fixing until `python3 -m law.bench` stops printing "KeyError: 'rate'"	TOOL repair command=<code> symptom="KeyError: 'rate'"
+alice@example.com 에게 제목 "회의 일정", 내용 "내일 10시에 봬요" 로 메일 보내줘	TOOL send_email to=alice@example.com subject="회의 일정" body="내일 10시에 봬요"
+Email bob@example.com with subject "Weekly report" and body "Numbers attached below."	TOOL send_email to=bob@example.com subject="Weekly report" body="Numbers attached below."
+team@example.com 로 메일: 제목 "배포 완료", 본문 "v2.1 배포 끝났습니다", 첨부 logs/deploy.log	TOOL send_email to=team@example.com subject="배포 완료" body="v2.1 배포 끝났습니다" attach=logs/deploy.log
+send an email to carol@example.com, subject "Lunch?", body "Are you free at noon?"	TOOL send_email to=carol@example.com subject=Lunch? body="Are you free at noon?"
+교수님(prof@example.com)께 "면담 요청" 제목으로 "다음 주 화요일 가능하신가요" 라고 메일 좀	TOOL send_email to=prof@example.com subject="면담 요청" body="다음 주 화요일 가능하신가요"
+Mail dave@example.com: subject "Invoice", body "Please see attached", attach report.pdf	TOOL send_email to=dave@example.com subject=Invoice body="Please see attached" attach=report.pdf
+기억해둬: 주제 "선호 언어", 내용 "사용자는 한국어 답변을 선호함"	TOOL save_memory topic="선호 언어" content="사용자는 한국어 답변을 선호함"
+Remember under "deploy" that deploys run on the Oracle VM.	TOOL save_memory topic=deploy content="deploys run on the Oracle VM"
+장기 메모리에 저장: 회의 요일 -- 매주 목요일 오후 3시	TOOL save_memory topic="회의 요일" content="매주 목요일 오후 3시"
+save to memory, topic "coffee", content "I take it black"	TOOL save_memory topic=coffee content="I take it black"
+이거 잊지 마. 주제는 "서버 시간대", 내용은 "VM 은 UTC 기준"	TOOL save_memory topic="서버 시간대" content="VM 은 UTC 기준"
+Store this fact in long-term memory -- topic: build tool, content: we use make not ninja	TOOL save_memory topic="build tool" content="we use make not ninja"
+공개 답변 폴더에 result.txt 로 "정답은 42" 저장해줘	TOOL write_public_answer filename=result.txt content="정답은 42"
+Save "BER 1e-4 at 30 dB" as answer_ber.md in the public answers folder	TOOL write_public_answer filename=answer_ber.md content="BER 1e-4 at 30 dB"
+공개 답안으로 summary.md 파일 만들어서 "3개 중 2개 통과" 라고 써줘	TOOL write_public_answer filename=summary.md content="3개 중 2개 통과"
+write a public answer file named q7.txt containing "x = 3"	TOOL write_public_answer filename=q7.txt content="x = 3"
+public answers 에 notes.txt 로 올려줘, 내용: "재현 성공"	TOOL write_public_answer filename=notes.txt content="재현 성공"
+Put "done" into public answer file status.txt	TOOL write_public_answer filename=status.txt content=done
+이 파일 고쳐줘	ASK
+셸 명령 하나 돌려줘	ASK
+Run a command for me.	ASK
+격리해서 실험 하나 돌려줘	ASK
+Open a PR.	ASK
+PR 좀 올려줘	ASK
+alice@example.com 한테 메일 보내줘	ASK
+Send an email to the team about the release.	ASK
+이거 기억해둬	ASK
+Save a key to .env	ASK
+GEMINI_API_KEY 저장해줘	ASK
+config.py 에서 DEBUG 값 좀 바꿔줘	ASK
+replace foo with bar	ASK
+공개 답변으로 저장해줘	ASK
+write a public answer "42"	ASK
+고쳐질 때까지 수리해줘, 계속 에러 나	ASK
+`pytest` fails, fix it	ASK
+병렬로 탐침 좀 돌려줘	ASK
+봇 명령 하나 실행해	ASK
+`python3 bench.py` 이거 그냥 돌릴까 격리해서 돌릴까? 알아서 해	ASK
+이 결과 메일로 보내고 공개 폴더에도 저장해줘	ASK
+Update the token	ASK
+오류 고쳐 줘: "TypeError: NoneType object is not subscriptable"	ASK
+셸 명령이 뭔지 설명해줘	REJECT
+메일 쓰는 법 알려줘	REJECT
+오늘 저녁 뭐 먹을지 추천해줘	REJECT
+What's the weather in Seoul today?	REJECT
+이 논문 요약해줘	REJECT
+Run the SPICE simulation for the CTLE.	REJECT
+안녕! 잘 지냈어?	REJECT
+thanks, that's all for now	REJECT
+PR 이 뭐야? 풀리퀘스트랑 머지 차이 알려줘	REJECT
+How do I write a good commit message?	REJECT
+`ls -la` 옵션 각각 무슨 뜻이야?	REJECT
+.env 파일은 왜 git 에 올리면 안 돼?	REJECT
+비트코인 지금 사도 될까?	REJECT
+Translate "good morning" into Japanese.	REJECT
+자기소개서 첫 문단 써줘	REJECT
+tell me a joke about compilers	REJECT
+어제 보낸 메일 답장 왔어?	REJECT
+What does git rebase do vs merge?	REJECT
+이 데이터로 그래프 그려줘	REJECT
+기억력 좋아지는 방법 알려줘	REJECT
+The experiment results look weird, what do you think?	REJECT
+격리 실험이란 개념을 설명해 줄 수 있어?	REJECT
+Can you recommend a good book on DSP?	REJECT
+회의록 정리해줘	REJECT
+I'm tired lol	REJECT
+소설 이어서 써줘	REJECT
