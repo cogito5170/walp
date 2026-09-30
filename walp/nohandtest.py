@@ -27,7 +27,27 @@ CS = BT.CS
 
 
 def _작업(arg) -> dict:
+    """씨앗 하나. WALP_CKPT_DIR 이 서 있으면 끝난 씨앗의 결과를 거기 두고 다시 돌 때 건너뛴다 —
+    첫 봉인 실행이 컨테이너 회수로 결과 없이 죽었다(2026-09-30, 약 3시간째). 분석은 바뀌지 않는다."""
     seed, 학습, 시험글, 다수, 성장만들기 = arg
+    import os
+    ck = os.environ.get("WALP_CKPT_DIR")
+    ckp = Path(ck) / f"seed{seed}.json" if ck else None
+    if ckp and ckp.exists():
+        d = json.loads(ckp.read_text(encoding="utf-8"))
+        d["H물음"] = {float(k): v for k, v in d["H물음"].items()}
+        d["N물음"] = {float(k): v for k, v in d["N물음"].items()}
+        return d
+    out = _작업_본(seed, 학습, 시험글, 다수, 성장만들기)
+    if ckp:
+        ckp.parent.mkdir(parents=True, exist_ok=True)
+        tmp = ckp.with_suffix(".tmp")
+        tmp.write_text(json.dumps(out, ensure_ascii=False), encoding="utf-8")
+        os.replace(tmp, ckp)
+    return out
+
+
+def _작업_본(seed, 학습, 시험글, 다수, 성장만들기) -> dict:
     t0 = time.time()
     체 = {}
     for 손 in (True, False):
