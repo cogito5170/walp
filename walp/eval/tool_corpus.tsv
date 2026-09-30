@@ -1,0 +1,126 @@
+이 카운터 lint 좀 돌려줘 module cnt(input clk, output reg [2:0] q);\nalways @(posedge clk) q <= q + 1;\nendmodule	TOOL lint_rtl design=<code>
+Can you lint this Verilog, non-strict pls: module cnt(input clk, output reg [2:0] q);\nalways @(posedge clk) q <= q + 1;\nendmodule	TOOL lint_rtl design=<code> strict=false
+베릴레이터로 경고 있는지 봐주세요 module cnt(input clk, output reg [2:0] q);\nalways @(posedge clk) q <= q + 1;\nendmodule	TOOL lint_rtl design=<code>
+이거 yosys로 합성해서 셀 몇개인지 알려줘: module cnt(input clk, output reg [2:0] q);\nalways @(posedge clk) q <= q + 1;\nendmodule	TOOL synth_rtl design=<code>
+Synthesize this, top is cnt: module cnt(input clk, output reg [2:0] q);\nalways @(posedge clk) q <= q + 1;\nendmodule	TOOL synth_rtl design=<code> top=cnt
+합성 결과 셀 수만 세 주세요 탑 모듈은 cnt module cnt(input clk, output reg [2:0] q);\nalways @(posedge clk) q <= q + 1;\nendmodule	TOOL synth_rtl design=<code> top=cnt
+디자인이랑 테스트벤치 줄게 돌려봐. 디자인: module cnt(input clk, output reg [2:0] q);\nalways @(posedge clk) q <= q + 1;\nendmodule 테벤: module tb; reg clk=0; wire [2:0] q; cnt u(clk,q);\nalways #5 clk=~clk;\ninitial #100 $finish;\nendmodule	TOOL run_rtl design=<code> testbench=<code>
+Run this sim for 30 seconds, no waveform. design: module cnt(input clk, output reg [2:0] q);\nalways @(posedge clk) q <= q + 1;\nendmodule tb: module tb; reg clk=0; wire [2:0] q; cnt u(clk,q);\nalways #5 clk=~clk;\ninitial #100 $finish;\nendmodule	TOOL run_rtl design=<code> testbench=<code> seconds=30 waveform=false
+iverilog로 실제로 시뮬 돌려주세요, 커버리지 최소 70%로. 설계 module cnt(input clk, output reg [2:0] q);\nalways @(posedge clk) q <= q + 1;\nendmodule 테스트벤치 module tb; reg clk=0; wire [2:0] q; cnt u(clk,q);\nalways #5 clk=~clk;\ninitial #100 $finish;\nendmodule	TOOL run_rtl design=<code> testbench=<code> min_coverage=70
+이 assert가 모든 입력에서 성립하는지 증명해줘 depth 30으로 module p(input clk, input a, output reg y);\nalways @(posedge clk) y <= a;\nalways @* assert(1);\nendmodule	TOOL prove_rtl design=<code> depth=30
+Formally prove the property in this module, bounded only please: module p(input clk, input a, output reg y);\nalways @(posedge clk) y <= a;\nalways @* assert(1);\nendmodule	TOOL prove_rtl design=<code> unbounded=false
+형식검증으로 이 속성 참인지 확인 부탁드려요 module p(input clk, input a, output reg y);\nalways @(posedge clk) y <= a;\nalways @* assert(1);\nendmodule	TOOL prove_rtl design=<code>
+100MHz 타이밍 맞는지 FPGA에 배치배선 해줘 module cnt(input clk, output reg [2:0] q);\nalways @(posedge clk) q <= q + 1;\nendmodule	TOOL place_rtl design=<code> target_mhz=100
+Place and route this at 48 MHz on the hx8k: module cnt(input clk, output reg [2:0] q);\nalways @(posedge clk) q <= q + 1;\nendmodule	TOOL place_rtl design=<code> target_mhz=48 chip=hx8k
+nextpnr로 75MHz 목표로 타이밍 봐주세여 module cnt(input clk, output reg [2:0] q);\nalways @(posedge clk) q <= q + 1;\nendmodule	TOOL place_rtl design=<code> target_mhz=75
+납품 전에 IP 사인오프 게이트 돌려줘. 커버리지 90% 기준. 디자인 module cnt(input clk, output reg [2:0] q);\nalways @(posedge clk) q <= q + 1;\nendmodule 테벤 module tb; reg clk=0; wire [2:0] q; cnt u(clk,q);\nalways #5 clk=~clk;\ninitial #100 $finish;\nendmodule	TOOL ip_signoff design=<code> testbench=<code> min_coverage=90
+Run the IP sign-off gates with a 50 MHz timing target. design: module cnt(input clk, output reg [2:0] q);\nalways @(posedge clk) q <= q + 1;\nendmodule tb: module tb; reg clk=0; wire [2:0] q; cnt u(clk,q);\nalways #5 clk=~clk;\ninitial #100 $finish;\nendmodule	TOOL ip_signoff design=<code> testbench=<code> target_mhz=50
+사인오프 한번 쫙 돌려주세요 module cnt(input clk, output reg [2:0] q);\nalways @(posedge clk) q <= q + 1;\nendmodule 테스트벤치는 module tb; reg clk=0; wire [2:0] q; cnt u(clk,q);\nalways #5 clk=~clk;\ninitial #100 $finish;\nendmodule	TOOL ip_signoff design=<code> testbench=<code>
+손실 25dB, SNR 30 dB로 링크 BER 재줘	TOOL serdes_link loss_db=25 snr_db=30
+serdes 링크 시뮬, DFE 탭 5개 비트 10만	TOOL serdes_link dfe_taps=5 bits=100000
+Simulate a SerDes link with 30 dB loss, 7 FFE taps and 6 dB CTLE peaking	TOOL serdes_link loss_db=30 ffe_taps=7 ctle_peaking_db=6
+채널 손실 20dB에서 아이 다이어그램 없이 BER만 측정해주세요 시드 3	TOOL serdes_link loss_db=20 eye=false seed=3
+탭 비트폭 3,4,6 일때 BER 곡선 뽑아줘	TOOL quant_sweep widths=3,4,6
+Sweep tap word length vs BER at 25 dB loss	TOOL quant_sweep loss_db=25
+양자화 트레이드오프 곡선 보고싶어요, SNR 28 dB, ffe 9탭	TOOL quant_sweep snr_db=28 ffe_taps=9
+ADC 분해능 5,6,7,8비트로 BER 쓸어줘	TOOL adc_sweep widths=5,6,7,8
+BER vs ADC resolution and full scale, full scales 2.0,3.0 please	TOOL adc_sweep full_scales=2.0,3.0
+adc 비트수랑 풀스케일 같이 스윕, 손실 30dB 비트 20만	TOOL adc_sweep loss_db=30 bits=200000
+채널이 나빠질수록 워드길이가 어디까지 버티는지 봐줘, 손실 20,25,30	TOOL loss_sweep losses=20,25,30
+How far does an 8-bit word hold as loss grows? target BER 0.0001	TOOL loss_sweep widths=8 target_ber=0.0001
+로스 스윕 돌려주세요 ADC 양자화 끄고	TOOL loss_sweep quantize_adc=false
+신경망 이퀄라이저 돌려봐 손실 25dB SNR 30dB	TOOL nn_equalizer loss_db=25 snr_db=30
+Train the NN equalizer with 32 hidden units for 20 epochs	TOOL nn_equalizer hidden=32 epochs=20
+NN 등화기 가중치 6비트로 양자화해서 BER 봐주세요 윈도우 12	TOOL nn_equalizer weight_bits=6 window=12
+NN 이퀄라이저 kind nn, 탭 7개로 iCE40 면적이랑 Fmax 알려줘	TOOL eq_area kind=nn taps=7
+Area and Fmax of the equaliser at 8 bits, target 80 MHz	TOOL eq_area bits=8 target_mhz=80
+등화기 실제 디바이스 면적 재주세요 히든 4개	TOOL eq_area hidden=4
+이 RC 넷리스트 ngspice로 돌려줘 * rc lowpass\nR1 in out 1k\nC1 out 0 1n\n.end	TOOL run_spice netlist=<code>
+Simulate this netlist, give it 30 seconds: * rc lowpass\nR1 in out 1k\nC1 out 0 1n\n.end	TOOL run_spice netlist=<code> seconds=30
+스파이스 시뮬 부탁해요~ * rc lowpass\nR1 in out 1k\nC1 out 0 1n\n.end	TOOL run_spice netlist=<code>
+공정 산포 넣어서 몬테카를로 100번 돌려줘, spread는 R1=5% * rc lowpass\nR1 in out 1k\nC1 out 0 1n\n.end	TOOL monte_carlo netlist=<code> spread=R1=5% runs=100
+Monte Carlo on this circuit with spread C1=10%, seed 42: * rc lowpass\nR1 in out 1k\nC1 out 0 1n\n.end	TOOL monte_carlo netlist=<code> spread=C1=10% seed=42
+R1=3% 산포로 몬테 카를로 해주세요 * rc lowpass\nR1 in out 1k\nC1 out 0 1n\n.end	TOOL monte_carlo netlist=<code> spread=R1=3%
+gm/Id 개념 좀 알려줘	TOOL concept name=gm/Id
+Look up the concept of setup time	TOOL concept name="setup time"
+serdes 도메인 IC 개념들 보여주세요	TOOL concept domain=serdes
+교과서에서 CDC 동기화기 설명 찾아줘	TOOL textbook question="CDC 동기화기 설명"
+What does the textbook say about metastability MTBF?	TOOL textbook question="metastability MTBF"
+책 기준으로 DFE 에러 전파가 뭔지 알려주세요, 섹션 3개만	TOOL textbook question="DFE 에러 전파" sections=3
+검증된 스파이스 예제 목록 보여줘	TOOL spice_example
+Fetch the ready-made inverter netlist	TOOL spice_example name=inverter
+current_mirror 예제 넷리스트 가져와 주세요	TOOL spice_example name=current_mirror
+inverter 예제로 회로도 그려줘	TOOL draw_circuit example=inverter
+Draw the schematic for this netlist: * rc lowpass\nR1 in out 1k\nC1 out 0 1n\n.end	TOOL draw_circuit code=<code>
+차동쌍 예제 diff_pair 회로도 그려주세요 체크는 끄고	TOOL draw_circuit example=diff_pair check=false
+uploads/eye.png 사진 봐줘	TOOL read_image path=uploads/eye.png
+Look at scope.png and tell me the rise time	TOOL read_image path=scope.png question="rise time"
+스크린샷 waveform.jpg에서 글리치 있는지 봐주세요	TOOL read_image path=waveform.jpg question="글리치 있는지"
+datasheet.pdf 3쪽 읽어줘	TOOL read_pdf path=datasheet.pdf 쪽=3
+Read spec.pdf and find the jitter tolerance	TOOL read_pdf path=spec.pdf 물음="jitter tolerance"
+paper.pdf 5-7쪽 좀 읽어주세요	TOOL read_pdf path=paper.pdf 쪽=5-7
+serdes/link.py 100번째 줄부터 읽어줘	TOOL read_file path=serdes/link.py start=100
+Show me rtl/fifo.v	TOOL read_file path=rtl/fifo.v
+recon/rover.py 파일 50줄만 보여주세요	TOOL read_file path=recon/rover.py lines=50
+arXiv 2412.18579 수식들 코드로 바꿔줘	TOOL codify_paper arxiv_id=2412.18579
+Codify the algorithms in arXiv 2602.07400	TOOL codify_paper arxiv_id=2602.07400
+저전력 CDR 설계 방법론 리서치 해줘	TOOL research goal="저전력 CDR 설계 방법론"
+Research methods for low-latency DFE implementation	TOOL research goal="low-latency DFE implementation"
+항공기 결함검사 드론 3D 시뮬 만들어줘 dt 0.01로	TOOL simulate_inspection dt=0.01
+Make the aircraft inspection drone sim with the pi policy	TOOL simulate_inspection 정책=pi
+무인 편대 스웜 위협회피 시뮬레이션 HTML 만들어 주세요	TOOL simulate_formation
+Build the swarm formation threat-avoidance simulation	TOOL simulate_formation
+RuH2-P1 배터리 1C, 0도에서 사이클 분석해줘	TOOL ruh2_battery c_rate=1 temp_c=0
+Ni-H2 battery model analysis at 45 C without protection	TOOL ruh2_battery temp_c=45 protect=false
+니켈수소 배터리 프리차지 없이 어떻게 되는지 봐주세요	TOOL ruh2_battery precharge=false
+RuH2-P1 보고서 산출물 만들어줘	TOOL ruh2_make 산출물=보고서
+Generate the RuH2 battery scene output	TOOL ruh2_make 장면=battery
+RECON-R1 로버 설계 요약 알려줘	TOOL recon_rover 무엇=요약
+What were the recon rover simulation results?	TOOL recon_rover
+정찰 로버 산출물 상태 보여줘	TOOL recon_make 산출물=상태
+RECON-R1 산출물 전부 만들어주세요	TOOL recon_make 대상=전부
+hongdae/F1 매장 3D 렌더 해줘	TOOL render_space 대상=hongdae/F1
+Render hongdae/F1 from an aerial view only	TOOL render_space 대상=hongdae/F1 시점=aerial
+이 마크다운 보고서 PDF로 만들어줘 제목은 링크측정: # 측정 요약\n- BER 1e-4 @ 25dB\n- 면적 312 LUT	TOOL report_pdf markdown_text=<code> 제목=링크측정
+Turn this markdown into a report PDF: # 측정 요약\n- BER 1e-4 @ 25dB\n- 면적 312 LUT	TOOL report_pdf markdown_text=<code>
+저번에 저장한 DFE 탭 결론 기억에서 찾아줘	TOOL search_memory query="DFE 탭 결론"
+Search memory for the ADC full scale decision	TOOL search_memory query="ADC full scale decision"
+오케스트레이터로 8비트 곱셈기 설계 문제 풀어줘	TOOL orchestrator_solve problem="8비트 곱셈기 설계"
+Solve with the orchestrator: design a 4-entry FIFO that passes lint	TOOL orchestrator_solve problem="design a 4-entry FIFO that passes lint"
+오케스트레이터 최근 런 어떻게 되고있어?	TOOL orchestrator_status
+Check orchestrator run 20260929-1 status	TOOL orchestrator_status run=20260929-1
+내 디자인 합성해줘	ASK
+이거 시뮬 돌려줘	ASK
+Can you lint my module?	ASK
+PDF 좀 읽어줘	ASK
+몬테카를로 돌려주세요	ASK
+prove my property please	ASK
+FPGA에 배치배선 해줘 module cnt(input clk, output reg [2:0] q);\nalways @(posedge clk) q <= q + 1;\nendmodule	ASK
+테스트벤치 없이 이거 실행해봐 module cnt(input clk, output reg [2:0] q);\nalways @(posedge clk) q <= q + 1;\nendmodule	ASK
+사진 봐줘	ASK
+논문 코드로 바꿔줘	ASK
+보고서 PDF로 만들어주세요	ASK
+시뮬레이션 HTML 하나 만들어줘	ASK
+면적 얼마나 나와?	ASK
+Draw it in 3D	ASK
+아까 그거 다시 해줘	ASK
+fix this file	ASK
+배터리랑 로버 산출물 만들어줘 하나만	ASK
+Run the sweep	ASK
+안녕하세요!	REJECT
+hi there	REJECT
+오늘 서울 날씨 어때?	REJECT
+김치찌개 레시피 알려줘	REJECT
+Tell me a joke	REJECT
+어제 손흥민 골 넣었어?	REJECT
+Who won the 2022 World Cup?	REJECT
+주말에 볼 영화 추천해줘	REJECT
+점심 뭐 먹지	REJECT
+What's a good name for my cat?	REJECT
+고마워요 ㅎㅎ	REJECT
+재밌는 얘기 하나 해줘	REJECT
+Recommend a good sci-fi novel	REJECT
+제주도 여행 코스 짜줘	REJECT
+How do I make pancakes?	REJECT
+요즘 인기있는 노래 뭐야?	REJECT
+good morning!	REJECT

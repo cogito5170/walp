@@ -1,0 +1,5 @@
+#!/bin/sh
+# WALP LLM 차단: `claude` CLI 대역. 부르면 기록하고 실패한다.
+[ -n "$WALP_NOLLM_LOG" ] && printf '%s\tclaude\t%s\t%s\n' "$(date +%s)" "$*" "$$" >> "$WALP_NOLLM_LOG"
+echo "WALP: LLM(claude) 호출 차단" >&2
+exit 97

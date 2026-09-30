@@ -1,0 +1,108 @@
+{"id": 0, "status": "TOOL", "tool": "read_file", "args": {"path": "scripts/tests.sh"}}
+{"id": 1, "status": "TOOL", "tool": "read_file", "args": {"path": "law/bench.py", "start": 120, "lines": 60}}
+{"id": 2, "status": "TOOL", "tool": "codify_paper", "args": {"arxiv_id": "2412.18579"}}
+{"id": 3, "status": "TOOL", "tool": "codify_paper", "args": {"arxiv_id": "2602.07400"}}
+{"id": 4, "status": "TOOL", "tool": "research", "args": {"goal": "저전력 DFE 구조 방법론 조사"}}
+{"id": 5, "status": "TOOL", "tool": "research", "args": {"goal": "reduce LUT count for NN inference on FPGAs"}}
+{"id": 6, "status": "TOOL", "tool": "simulate_inspection", "args": {}}
+{"id": 7, "status": "TOOL", "tool": "simulate_inspection", "args": {"정책": "pi", "dt": 0.01}}
+{"id": 8, "status": "TOOL", "tool": "simulate_formation", "args": {}}
+{"id": 9, "status": "TOOL", "tool": "simulate_formation", "args": {}}
+{"id": 10, "status": "TOOL", "tool": "ruh2_battery", "args": {"무엇": "사이클", "c_rate": 2.0, "temp_c": 45.0}}
+{"id": 11, "status": "TOOL", "tool": "ruh2_battery", "args": {"temp_c": 0.0, "protect": false}}
+{"id": 12, "status": "TOOL", "tool": "ruh2_make", "args": {"산출물": "보고서"}}
+{"id": 13, "status": "TOOL", "tool": "ruh2_make", "args": {"장면": "battery"}}
+{"id": 14, "status": "TOOL", "tool": "report_pdf", "args": {"markdown_text": "# 측정 요약\n- BER 1e-6"}}
+{"id": 15, "status": "TOOL", "tool": "report_pdf", "args": {"markdown_text": "## Summary\nLoss 25 dB", "제목": "Link Budget"}}
+{"id": 16, "status": "TOOL", "tool": "recon_rover", "args": {"무엇": "요약"}}
+{"id": 17, "status": "TOOL", "tool": "recon_rover", "args": {}}
+{"id": 18, "status": "TOOL", "tool": "recon_make", "args": {"대상": "전부"}}
+{"id": 19, "status": "TOOL", "tool": "recon_make", "args": {"산출물": "상태"}}
+{"id": 20, "status": "TOOL", "tool": "render_space", "args": {"대상": "hongdae/F1", "시점": "aerial"}}
+{"id": 21, "status": "TOOL", "tool": "render_space", "args": {"시점": "eye"}}
+{"id": 22, "status": "TOOL", "tool": "draw_circuit", "args": {"code": "M1 out in vdd vdd pmos\nM2 out in 0 0 nmos"}}
+{"id": 23, "status": "TOOL", "tool": "draw_circuit", "args": {"code": "R1 a b 1k\nC1 b 0 1n", "check": false}}
+{"id": 24, "status": "TOOL", "tool": "run_rtl", "args": {"design": "module c(input clk,output reg [3:0] q);always @(posedge clk) q<=q+1;endmodule", "testbench": "module tb;reg clk=0;c u(clk,);initial #50 $finish;endmodule", "top": "tb"}}
+{"id": 25, "status": "TOOL", "tool": "run_rtl", "args": {"design": "module a(input x,output y);assign y=~x;endmodule", "testbench": "module tb;reg x;a u(x,);initial begin x=0;#1 $finish;end endmodule", "seconds": 120, "waveform": false}}
+{"id": 26, "status": "TOOL", "tool": "run_rtl", "args": {"design": "module m(input a,output b);assign b=a;endmodule", "testbench": "module tb;reg a;m u(a,);initial #1 $finish;endmodule", "min_coverage": 90.0}}
+{"id": 27, "status": "TOOL", "tool": "lint_rtl", "args": {"design": "module f(input a,output b);assign b=a;endmodule"}}
+{"id": 28, "status": "TOOL", "tool": "lint_rtl", "args": {"design": "module g(input [1:0] a,output b);assign b=a;endmodule", "strict": false}}
+{"id": 29, "status": "TOOL", "tool": "synth_rtl", "args": {"design": "module h(input a,b,output y);assign y=a&b;endmodule"}}
+{"id": 30, "status": "TOOL", "tool": "synth_rtl", "args": {"design": "module add2(input [1:0] a,b,output [2:0] s);assign s=a+b;endmodule", "top": "add2"}}
+{"id": 31, "status": "TOOL", "tool": "prove_rtl", "args": {"design": "module k(input clk,output reg q=0);always @(posedge clk) q<=~q;always @* assert(q==q);endmodule"}}
+{"id": 32, "status": "TOOL", "tool": "prove_rtl", "args": {"design": "module p(input a,output y);assign y=a;always @* assert(y==a);endmodule", "depth": 40}}
+{"id": 33, "status": "TOOL", "tool": "prove_rtl", "args": {"design": "module q(input a,output y);assign y=a;always @* assert(y==a);endmodule", "depth": 10, "unbounded": false}}
+{"id": 34, "status": "TOOL", "tool": "place_rtl", "args": {"design": "module r(input clk,d,output reg q);always @(posedge clk) q<=d;endmodule", "target_mhz": 100.0}}
+{"id": 35, "status": "TOOL", "tool": "place_rtl", "args": {"design": "module s(input clk,d,output reg q);always @(posedge clk) q<=d;endmodule", "target_mhz": 48.0, "chip": "up5k"}}
+{"id": 36, "status": "TOOL", "tool": "place_rtl", "args": {"design": "module t(input clk,d,output reg q);always @(posedge clk) q<=d;endmodule", "target_mhz": 75.0, "chip": "hx8k"}}
+{"id": 37, "status": "TOOL", "tool": "serdes_link", "args": {"loss_db": 30.0}}
+{"id": 38, "status": "TOOL", "tool": "serdes_link", "args": {"loss_db": 25.0, "snr_db": 28.0, "ffe_taps": 11, "dfe_taps": 4}}
+{"id": 39, "status": "TOOL", "tool": "serdes_link", "args": {"ctle_peaking_db": 6.0, "eye": false}}
+{"id": 40, "status": "TOOL", "tool": "serdes_link", "args": {"bits": 1000000, "seed": 3}}
+{"id": 41, "status": "TOOL", "tool": "quant_sweep", "args": {}}
+{"id": 42, "status": "TOOL", "tool": "quant_sweep", "args": {"widths": "3,4,5,6", "loss_db": 22.0}}
+{"id": 43, "status": "TOOL", "tool": "adc_sweep", "args": {}}
+{"id": 44, "status": "TOOL", "tool": "adc_sweep", "args": {"widths": "5,6,7", "full_scales": "2.0,3.0"}}
+{"id": 45, "status": "TOOL", "tool": "loss_sweep", "args": {"losses": "20,30,40", "widths": "8"}}
+{"id": 46, "status": "TOOL", "tool": "loss_sweep", "args": {"widths": "9,10", "target_ber": 0.0001}}
+{"id": 47, "status": "TOOL", "tool": "nn_equalizer", "args": {"loss_db": 28.0}}
+{"id": 48, "status": "TOOL", "tool": "nn_equalizer", "args": {"hidden": 32, "epochs": 20}}
+{"id": 49, "status": "TOOL", "tool": "eq_area", "args": {}}
+{"id": 50, "status": "TOOL", "tool": "eq_area", "args": {"kind": "ffe", "taps": 7, "bits": 8}}
+{"id": 51, "status": "TOOL", "tool": "ip_signoff", "args": {"design": "module u(input a,output y);assign y=a;endmodule", "testbench": "module tb;reg a;u x(a,);initial #1 $finish;endmodule"}}
+{"id": 52, "status": "TOOL", "tool": "ip_signoff", "args": {"design": "module v(input clk,d,output reg q);always @(posedge clk) q<=d;endmodule", "testbench": "module tb;reg clk,d;v x(clk,d,);initial #1 $finish;endmodule", "min_coverage": 95.0, "target_mhz": 60.0}}
+{"id": 53, "status": "TOOL", "tool": "run_spice", "args": {"netlist": "V1 in 0 PULSE(0 1 0 1n 1n 5n 10n)\nR1 in out 1k\nC1 out 0 1p\n.tran 0.1n 50n\n.end"}}
+{"id": 54, "status": "TOOL", "tool": "run_spice", "args": {"netlist": "V1 a 0 1\nR1 a b 1k\nR2 b 0 1k\n.op\n.end", "seconds": 30}}
+{"id": 55, "status": "TOOL", "tool": "monte_carlo", "args": {"netlist": "V1 a 0 1\nR1 a b 1k\nR2 b 0 1k\n.op\n.end", "spread": "R1=5%", "runs": 100}}
+{"id": 56, "status": "TOOL", "tool": "monte_carlo", "args": {"netlist": "V1 a 0 1\nR1 a b 1k\nC1 b 0 1n\n.op\n.end", "spread": "C1=10%", "runs": 50, "seed": 7}}
+{"id": 57, "status": "TOOL", "tool": "concept", "args": {"name": "gm/Id"}}
+{"id": 58, "status": "TOOL", "tool": "concept", "args": {"name": "slew rate", "level": "beginner"}}
+{"id": 59, "status": "TOOL", "tool": "textbook", "args": {"question": "CDR 루프 대역폭"}}
+{"id": 60, "status": "TOOL", "tool": "textbook", "args": {"question": "how is setup time margin budgeted?", "sections": 3}}
+{"id": 61, "status": "TOOL", "tool": "spice_example", "args": {}}
+{"id": 62, "status": "TOOL", "tool": "spice_example", "args": {"name": "rc_lowpass"}}
+{"id": 63, "status": "TOOL", "tool": "read_image", "args": {"path": "uploads/eye.png"}}
+{"id": 64, "status": "TOOL", "tool": "read_image", "args": {"path": "shots/layout.jpg", "question": "is the guard ring closed?"}}
+{"id": 65, "status": "TOOL", "tool": "read_pdf", "args": {"path": "docs/datasheet.pdf", "쪽": "12"}}
+{"id": 66, "status": "TOOL", "tool": "read_pdf", "args": {"path": "papers/jssc.pdf", "물음": "DFE 탭 몇 개 썼는지"}}
+{"id": 67, "status": "TOOL", "tool": "search_memory", "args": {"query": "ADC 풀스케일 결정"}}
+{"id": 68, "status": "TOOL", "tool": "search_memory", "args": {"query": "iCE40 chip choice decision"}}
+{"id": 69, "status": "TOOL", "tool": "orchestrator_solve", "args": {"problem": "4탭 FIR 필터 RTL 짓고 검증까지"}}
+{"id": 70, "status": "TOOL", "tool": "orchestrator_solve", "args": {"problem": "build a UART tx and prove its stop bit"}}
+{"id": 71, "status": "TOOL", "tool": "orchestrator_status", "args": {}}
+{"id": 72, "status": "TOOL", "tool": "orchestrator_status", "args": {"run": "20260929-1412"}}
+{"id": 73, "status": "ASK"}
+{"id": 74, "status": "ASK"}
+{"id": 75, "status": "ASK"}
+{"id": 76, "status": "ASK"}
+{"id": 77, "status": "ASK"}
+{"id": 78, "status": "ASK"}
+{"id": 79, "status": "ASK"}
+{"id": 80, "status": "ASK"}
+{"id": 81, "status": "ASK"}
+{"id": 82, "status": "ASK"}
+{"id": 83, "status": "ASK"}
+{"id": 84, "status": "ASK"}
+{"id": 85, "status": "ASK"}
+{"id": 86, "status": "ASK"}
+{"id": 87, "status": "ASK"}
+{"id": 88, "status": "ASK"}
+{"id": 89, "status": "ASK"}
+{"id": 90, "status": "ASK"}
+{"id": 91, "status": "REJECT"}
+{"id": 92, "status": "REJECT"}
+{"id": 93, "status": "REJECT"}
+{"id": 94, "status": "REJECT"}
+{"id": 95, "status": "REJECT"}
+{"id": 96, "status": "REJECT"}
+{"id": 97, "status": "REJECT"}
+{"id": 98, "status": "REJECT"}
+{"id": 99, "status": "REJECT"}
+{"id": 100, "status": "REJECT"}
+{"id": 101, "status": "REJECT"}
+{"id": 102, "status": "REJECT"}
+{"id": 103, "status": "REJECT"}
+{"id": 104, "status": "REJECT"}
+{"id": 105, "status": "REJECT"}
+{"id": 106, "status": "REJECT"}
+{"id": 107, "status": "REJECT"}

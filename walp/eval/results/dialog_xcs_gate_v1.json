@@ -1,0 +1,193 @@
+{
+ "n": 177,
+ "정확도": {
+  "손만": 0.621,
+  "손+다수": 0.65,
+  "손+XCS": 0.644,
+  "XCS만": 0.565
+ },
+ "맞은수": {
+  "손만": 110,
+  "손+다수": 115,
+  "손+XCS": 114,
+  "XCS만": 100
+ },
+ "쌍대_이김_짐": {
+  "vs손만": [
+   4,
+   0
+  ],
+  "vs손+다수": [
+   4,
+   5
+  ]
+ },
+ "p_단측": {
+  "vs손만": 0.0625,
+  "vs손+다수": 0.74609
+ },
+ "손규칙_빈자리": 52,
+ "XCS_채움": 5,
+ "XCS_채움_맞음": 4,
+ "다수행위": "about_self",
+ "승격": false,
+ "틀린_예": [
+  {
+   "글": "Could you please look for a black card? Thanks in advance",
+   "정답": "task",
+   "손": "capability",
+   "XCS": "task"
+  },
+  {
+   "글": "ㅎㅇ",
+   "정답": "greet",
+   "손": "yes",
+   "XCS": "greet"
+  },
+  {
+   "글": "yo",
+   "정답": "greet",
+   "손": null,
+   "XCS": null
+  },
+  {
+   "글": "굿모닝",
+   "정답": "greet",
+   "손": "thanks",
+   "XCS": "greet"
+  },
+  {
+   "글": "see ya later walp",
+   "정답": "bye",
+   "손": null,
+   "XCS": null
+  },
+  {
+   "글": "이만 가볼게요 안녕히 계세요",
+   "정답": "bye",
+   "손": "greet",
+   "XCS": "greet"
+  },
+  {
+   "글": "빠이",
+   "정답": "bye",
+   "손": null,
+   "XCS": null
+  },
+  {
+   "글": "gtg ttyl",
+   "정답": "bye",
+   "손": null,
+   "XCS": null
+  },
+  {
+   "글": "내일 봐 월프",
+   "정답": "bye",
+   "손": null,
+   "XCS": null
+  },
+  {
+   "글": "굿나잇 👋",
+   "정답": "bye",
+   "손": "thanks",
+   "XCS": "bye"
+  },
+  {
+   "글": "ㄳㄳ",
+   "정답": "thanks",
+   "손": null,
+   "XCS": null
+  },
+  {
+   "글": "오 똑똑한데?",
+   "정답": "thanks",
+   "손": null,
+   "XCS": null
+  },
+  {
+   "글": "perfect, exactly what i needed",
+   "정답": "thanks",
+   "손": null,
+   "XCS": null
+  },
+  {
+   "글": "찾아줘서 고맙다 ㅎㅎ",
+   "정답": "thanks",
+   "손": "task",
+   "XCS": "task"
+  },
+  {
+   "글": "are you a real person or a bot",
+   "정답": "about_self",
+   "손": null,
+   "XCS": null
+  },
+  {
+   "글": "월프는 무슨 뜻이야",
+   "정답": "about_self",
+   "손": "knowledge",
+   "XCS": "knowledge"
+  },
+  {
+   "글": "너 몇살임",
+   "정답": "about_self",
+   "손": null,
+   "XCS": null
+  },
+  {
+   "글": "what model are you running on",
+   "정답": "about_self",
+   "손": null,
+   "XCS": null
+  },
+  {
+   "글": "너는 어디에 살아? 서버?",
+   "정답": "about_self",
+   "손": null,
+   "XCS": null
+  },
+  {
+   "글": "너 감정 있어?",
+   "정답": "about_self",
+   "손": null,
+   "XCS": null
+  },
+  {
+   "글": "카드 말고 다른 것도 찾을 수 있음?",
+   "정답": "capability",
+   "손": "task",
+   "XCS": "task"
+  },
+  {
+   "글": "다른 로봇이랑 협업 가능해?",
+   "정답": "capability",
+   "손": "about_self",
+   "XCS": "capability"
+  },
+  {
+   "글": "영어도 알아들어?",
+   "정답": "capability",
+   "손": null,
+   "XCS": null
+  },
+  {
+   "글": "날아다닐 수 있어? ㅋㅋ",
+   "정답": "capability",
+   "손": null,
+   "XCS": null
+  },
+  {
+   "글": "어떻게 쓰는거야",
+   "정답": "help",
+   "손": null,
+   "XCS": null
+  }
+ ],
+ "학습_모음": 219,
+ "원장_라벨": 0,
+ "원장_밴딧": 0,
+ "봉인누수_뺌": 0,
+ "집단_규칙수": 648,
+ "초": 16.5,
+ "씨앗": 7
+}

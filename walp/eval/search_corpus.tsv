@@ -1,0 +1,118 @@
+instagram 로그인 방식과 보안 정책 설명해줘	SEARCH	two-factor|password|login
+what is WebAuthn	SEARCH	public key|authenticator|browser
+OAuth랑 OIDC 차이가 뭐야	SEARCH	authorization|authentication|ID token
+패스키가 비밀번호보다 안전한 이유가 뭔가요?	SEARCH	public key|phishing|private key
+2단계 인증 앱이랑 SMS 인증 중에 뭐가 더 안전해?	SEARCH	SIM swap|TOTP|authenticator
+how does TOTP generate those 6 digit codes	SEARCH	HMAC|time|secret
+비자카드 해외결제 수수료 정책이 뭐야	SEARCH	foreign transaction|fee|Visa
+마스터카드랑 비자카드 결제 네트워크 차이 알려줘	SEARCH	Mastercard|Visa|network
+gogle 계정 2단계 인증 어떻게 켜는지 알려줘	SEARCH	2-Step Verification|Google|security
+pyhton에서 GIL이 뭐야?	SEARCH	Global Interpreter Lock|thread|CPython
+Rust의 소유권(ownership) 개념 설명해줄래	SEARCH	ownership|borrow|lifetime
+what's the difference between TCP and UDP	SEARCH	connection|reliable|datagram
+DNS가 도메인을 IP로 바꾸는 과정 설명해줘	SEARCH	resolver|root|IP address
+HTTPS 핸드셰이크 과정 좀 알려주세요	SEARCH	TLS|certificate|key exchange
+explain how a SerDes works	SEARCH	serializer|deserializer|clock recovery
+CTLE가 뭔지랑 왜 쓰는지 설명 부탁해요	SEARCH	equalizer|high frequency|channel loss
+DFE 결정 궤환 등화기 원리가 뭐야	SEARCH	decision feedback|ISI|equalizer
+what is PAM4 signaling and why use it over NRZ	SEARCH	four levels|bandwidth|NRZ
+카톡 종단간 암호화 기능 있어?	SEARCH	end-to-end|encryption|secret chat
+whatsap end to end encryption how does it work	SEARCH	Signal Protocol|end-to-end|key
+JWT 토큰 구조가 어떻게 돼?	SEARCH	header|payload|signature
+쿠키랑 세션 차이 알려줘	SEARCH	cookie|session|server
+What is a CSRF attack and how do I prevent it	SEARCH	cross-site|token|SameSite
+XSS 공격 종류 설명해줘	SEARCH	stored|reflected|DOM
+SQL 인젝션 방어 방법이 뭐가 있어요?	SEARCH	prepared statement|parameterized|input
+what does a VPN actually hide	SEARCH	IP address|encryption|tunnel
+IPv4랑 IPv6 차이점 정리해줘	SEARCH	128-bit|32-bit|address
+kubernets pod랑 deployment 차이가 뭐임	SEARCH	Pod|Deployment|ReplicaSet
+dokcer 컨테이너랑 가상머신 차이 설명해줘	SEARCH	container|virtual machine|kernel
+Git에서 rebase랑 merge 차이가 뭔가요	SEARCH	rebase|merge|history
+how does garbage collection work in java	SEARCH	heap|garbage collector|generation
+javscript 이벤트 루프가 뭐야	SEARCH	event loop|call stack|queue
+what is the difference between a process and a thread	SEARCH	process|thread|memory
+SSD랑 HDD 속도 차이 왜 나는 거야	SEARCH	NAND flash|seek|latency
+PCIe 5.0 대역폭이 얼마나 돼?	SEARCH	32 GT/s|lane|bandwidth
+what is jitter in high speed links	SEARCH	jitter|clock|eye diagram
+아이 다이어그램 보는 법 알려주세요	SEARCH	eye diagram|jitter|eye opening
+광합성 과정 간단히 설명해줘	SEARCH	chlorophyll|carbon dioxide|glucose
+why is the sky blue	SEARCH	Rayleigh scattering|wavelength|sunlight
+블랙홀은 어떻게 생기는 거야?	SEARCH	black hole|gravity|star
+mRNA 백신 작동 원리가 궁금해요	SEARCH	mRNA|spike protein|immune
+양자컴퓨터 큐비트가 뭔지 쉽게 설명해줘	SEARCH	qubit|superposition|entanglement
+how does bluetooth pairing work securly	SEARCH	pairing|key|Bluetooth
+와이파이 WPA2랑 WPA3 차이 알려줘	SEARCH	WPA3|SAE|handshake
+애플페이는 카드번호를 어떻게 보호해?	SEARCH	token|Secure Element|Apple Pay
+what is tokenization in card payments	SEARCH	token|PAN|payment
+넷플릭스 추천 알고리즘은 어떻게 동작해?	SEARCH	recommendation|collaborative filtering|Netflix
+slak 이랑 discrod 차이점 비교해줘	SEARCH	Slack|Discord|workspace
+what is a hash function used for in passwords	SEARCH	hash|salt|bcrypt
+비밀번호 해시에 솔트를 왜 넣어?	SEARCH	salt|rainbow table|hash
+REST API랑 GraphQL 뭐가 달라?	SEARCH	REST|GraphQL|query
+CDN이 뭐고 왜 빨라지는 거야	SEARCH	edge|cache|latency
+explian the OSI model layers briefly	SEARCH	OSI|layer|transport
+유튜브 프리미엄 가족요금제 공유 정책 어떻게 돼?	SEARCH	YouTube Premium|family|household
+SSO 싱글사인온이 뭐야? 원리좀	SEARCH	single sign-on|identity provider|SAML
+what is the diffrence between symmetric and asymmetric encription	SEARCH	symmetric|asymmetric|public key
+LDPC 코드가 뭔지 설명 부탁	SEARCH	parity check|error correction|decoding
+iphne 페이스아이디 얼마나 안전해?	SEARCH	Face ID|Secure Enclave|depth
+what is a PLL and how does it lock	SEARCH	phase detector|VCO|loop filter
+트위터 로그인할때 보안키 쓰는법 알려줘	SEARCH	security key|two-factor|FIDO
+linx 파일 권한 755가 무슨 뜻이야	SEARCH	read|write|execute
+how do passkeys sync across devices	SEARCH	passkey|iCloud Keychain|Google Password Manager
+hwo does a transistor work	SEARCH	transistor|gate|current
+파란 비자카드 찾아줘, 선반은 피해서	GRID	-
+find a red mug	GRID	-
+빨간 열쇠 어디 있는지 찾아줄래?	GRID	-
+초록색 상자 찾아와	GRID	-
+검정 컵 좀 찾아줘 바닥은 밟지 말고	GRID	-
+find the blue key but avoid the desk	GRID	-
+마스터카드 빨간거 30틱 안에 찾아	GRID	-
+get me the green box within 50 ticks	GRID	-
+책상 피해서 검은 열쇠 찾아봐	GRID	-
+can you find the black visa card?	GRID	-
+파란 컵 어딨어? 찾아줄래	GRID	-
+locate a red box, stay off the counter	GRID	-
+카운터랑 선반 피해서 초록 카드 찾아줘	GRID	-
+find green cup, deadline 40 ticks	GRID	-
+검정 상자를 20틱 안에 찾아줘	GRID	-
+where is the blue master card? go find it	GRID	-
+빨강 상자 찾아. 바닥 금지	GRID	-
+look for a black key avoiding the shelf	GRID	-
+초록 열쇠 찾아줘요	GRID	-
+find the red visa card and avoid the floor and desk	GRID	-
+이 verilog 합성해줘 ```module top(input a, output b); assign b = ~a; endmodule```	TOOL	-
+serdes 링크 시뮬 손실 20dB	TOOL	-
+scripts/tests.sh 파일 보여줘	TOOL	-
+`ls logs` 실행해줘	TOOL	-
+run the link simulation with 25 dB channel loss and 3 DFE taps	TOOL	-
+logs/build.log 마지막 50줄 보여줘	TOOL	-
+synthesize this: ```module and2(input a,b, output y); assign y=a&b; endmodule```	TOOL	-
+CTLE 피킹 6dB로 놓고 아이 다이어그램 뽑아줘	TOOL	-
+`git status` 돌려봐	TOOL	-
+show me the contents of config/settings.yaml	TOOL	-
+내 verilog 코드 타이밍 분석 돌려줘 ```module r(input clk,d, output reg q); always @(posedge clk) q<=d; endmodule```	TOOL	-
+run tests.sh and tell me what fails	TOOL	-
+PAM4 32Gbaud 조건으로 BER 시뮬 돌려줘	TOOL	-
+`df -h` 결과 보여줘	TOOL	-
+sweep the equalizer taps from 1 to 5 on my channel file data/ch1.s4p	TOOL	-
+고마워	NONE	-
+오늘 저녁 메뉴 추천해줘	NONE	-
+나 너무 피곤해	NONE	-
+농담 하나 해줘	NONE	-
+너 이름이 뭐야?	NONE	-
+hello there	NONE	-
+thanks, that helped a lot	NONE	-
+잘 자	NONE	-
+ㅋㅋㅋ 웃기다	NONE	-
+how are you doing today?	NONE	-
+심심한데 말동무 해줄래	NONE	-
+good morning!	NONE	-
+너는 뭘 좋아해?	NONE	-
+ok cool	NONE	-
+오늘 기분이 좀 우울하네	NONE	-
+tell me something nice	NONE	-
+응 알겠어	NONE	-
+what's up?	NONE	-
+주말에 뭐하지	NONE	-
+수고했어 오늘도	NONE	-

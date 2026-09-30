@@ -1,0 +1,364 @@
+# 봉인 시험 모음 v4 — 독립 에이전트가 규칙·다른 모음을 보지 않고 씀, 성장망 사전등록 실험용, 2026-09-30
+task	빨간 카드 좀 찾아줘봐
+task	열쇠 어딨는지 좀 봐줄래?
+task	find me the blue cup pls
+task	파란 컵 찾아와 책상 쪽은 가지 말고
+task	비자카드 찾아줄 수 있어? 선반은 빼고
+task	초록색 상자 30틱 안에 찾아
+task	검정 열쇠 ㄱㄱ
+task	마스터카드 하나 찾아주셈
+task	할아버지가 컵을 어디 뒀는지 모르겠구나 좀 찾아주겠니
+task	yo WALP grab me that green box, avoid the floor
+task	카드좀찾아줘바닥말고
+task	상자 찾기 부탁드립니다. 카운터 근처는 피해주세요.
+task	could you locate a red key within 20 ticks?
+task	열쇠 좀... 또 잃어버렸어 ㅠ 찾아줘
+task	파랑 카드 서치 ㄱ
+task	컵 어디갔냐 찾아내
+task	please look for a black card but not near the shelf
+task	빨간상자 50틱내로
+task	비자 카드 찾아 주세요 급해요
+task	저기요 녹색 컵 좀 찾아주실 수 있을까요
+task	key. find. now.
+task	마스타카드 차자줘
+task	책상이랑 선반 피해서 파란 열쇠 찾아
+task	초록 박스 어디있는지 확인좀
+task	검은 컵 찾아라 제한시간 40틱
+task	내 카드 좀 찾아 줘요~ 빨간색이에요
+task	hey can u find the box? the blue one
+task	상자를 찾아 주면 좋겠는데
+task	카운터 말고 다른 데서 컵 찾아봐
+task	열쇠찾기 시작
+task	빨간 열쇠 없어졌어 찾아줘ㅠㅠ
+task	find visa card, skip desk and counter
+task	녹색카드 서치해줘
+task	그 까만 상자 좀 찾아만 줘 가져올 필요는 없고
+task	파란컵!! 찾아!!
+task	사무실 어딘가에 컵이 있을 텐데 찾아볼래?
+task	Where's the red box? go find it
+task	선생님 열쇠 찾아주세요 바닥은 보지 마시고요
+task	마스터 카드 25틱 안에 찾아와봐
+task	find a card lol any card
+task	컵 하나만 찾아주라
+task	초록 열쇠 찾기, 선반 제외, 60틱
+task	검정색 카드 찾아봐 비자꺼
+task	박스 좀 찾아줄 수 있냐
+task	부탁인데 빨간 컵 좀 찾아줄래
+task	이번엔 파란 상자 찾아봐
+task	이거 찾아줘: 열쇠
+task	search for green cup no floor
+task	카드 어디 있음? 찾아와
+task	열쇠를 찾아주십시오
+task	상자 찾아조
+task	빨간 비자카드 찾아줘 책상 근처 말고
+task	블루 키 찾아줘
+task	레드 컵 파인드
+task	can you go find my black key? it's somewhere in the office
+task	카운터 피해서 상자 찾아라 100틱
+task	녹색 상자 찾아와 빨리빨리
+task	혹시 지금 파란 카드 좀 찾아줄 수 있어?
+task	찾아줘 컵
+task	열쇠 좀 찾아볼래? 선반 위는 말고
+task	i need the green card found asap
+task	검은색 컵 찾아주면 고맙겠어
+task	카드!!! 마스터!!! 찾아!!!
+task	상자하나찾아봐줘요
+task	find cup avoid desk shelf counter
+task	파란 카드 좀 부탁해 바닥은 건너뛰고
+task	열쇠 찾아줘 부탁해 제발
+task	빨강 상자 수색 개시
+task	오늘은 초록 컵 찾아볼까?
+task	WALP, the key. find it for me would ya
+task	비자 카드 어딨는지 알아내봐
+task	까만 열쇠 찾아줘 30틱
+task	컵 찾아와 근데 카운터는 건드리지 마
+task	레드 카드 찾아 please
+greet	하이하이
+greet	방가방가
+greet	ㅎㅇㅎㅇ
+greet	좋은 아침이에요
+greet	hello there
+greet	헬로우 월프
+greet	월프야 나 왔어
+greet	yo WALP
+greet	오랜만이야!
+greet	굿모닝~
+greet	hey hey
+greet	안뇽
+greet	여어
+greet	안녕하십니까 처음 뵙겠습니다
+greet	sup
+greet	저 왔어요 ㅎㅎ
+greet	하이루
+greet	what's up little bot
+greet	헬로
+greet	good evening WALP
+greet	안녕 로봇아
+greet	방가워요
+greet	어이 월프
+greet	월프 안녕~ 오늘도 반가워
+greet	howdy
+bye	ㅂㅂㅂ
+bye	이만 가볼게
+bye	담에 봐
+bye	나 간다~
+bye	see ya
+bye	퇴근합니다 수고요
+bye	잘 있어 월프
+bye	다음에 또 올게요
+bye	catch you later
+bye	로그아웃할게
+bye	빠이빠이
+bye	안녕히 계세요~
+bye	먼저 들어가 볼게요
+bye	gtg
+bye	난 이만 잘게 굿밤
+bye	내일 봐!
+bye	take care WALP
+bye	나중에 또 부를게
+bye	오늘은 여기까지
+bye	수고하셨습니다 들어갈게요
+bye	바이바이~
+bye	그럼 이만
+bye	잘자 월프
+bye	cya later alligator
+bye	끝! 나 갈래
+thanks	ㄱㅅㄱㅅ
+thanks	오 대박 찾았네
+thanks	감사감사
+thanks	역시 월프 최고
+thanks	땡큐
+thanks	thx a lot
+thanks	덕분에 살았다
+thanks	고마워요 진짜 ㅠㅠ
+thanks	잘했어 기특하네
+thanks	nice job buddy
+thanks	와 빠르다 짱이다
+thanks	고맙구나 얘야
+thanks	감사합니다 수고하셨어요
+thanks	you're a lifesaver
+thanks	이야 똑똑한데?
+thanks	굳굳
+thanks	ty ty
+thanks	완벽해!
+thanks	도움 많이 됐어요
+thanks	칭찬해 월프
+thanks	오 고마워잉
+thanks	much appreciated
+thanks	최고최고 👍
+thanks	캄사합니다
+thanks	쌩유베리머치
+about_self	너 누구야?
+about_self	너 정체가 뭐야
+about_self	너 AI야?
+about_self	are you a real person?
+about_self	누가 너 만들었어?
+about_self	너 GPT 기반이야?
+about_self	너 사람이야 로봇이야
+about_self	이름이 왜 월프야?
+about_self	what model are you running on
+about_self	너 몇 살이야?
+about_self	넌 어디서 왔니
+about_self	혹시 챗봇이세요?
+about_self	너 LLM 쓰냐
+about_self	who built you?
+about_self	너 진짜 로봇이야?
+about_self	너 성별 있어?
+about_self	월프 뜻이 뭐야?
+about_self	너 클로드야?
+about_self	넌 생각을 할 수 있는 존재야?
+about_self	are you sentient lol
+about_self	개발자가 누구에요?
+about_self	자기소개 좀 해봐
+about_self	너 인공지능 맞지?
+about_self	너한테 감정 있어?
+about_self	what are you exactly
+capability	너 뭐 할 수 있어?
+capability	뭘 할 줄 아니
+capability	can you find things other than cards?
+capability	우산도 찾을 수 있어?
+capability	너 요리도 해?
+capability	너 번역 가능?
+capability	can you fly?
+capability	너 기능이 뭐야
+capability	폰 찾는 것도 돼?
+capability	노란색 컵도 찾을 수 있나요?
+capability	넌 어떤 일까지 가능해?
+capability	사무실 밖에서도 찾을 수 있어?
+capability	what are your skills
+capability	너 계산도 할 줄 알아?
+capability	여러 개 동시에 찾기 가능?
+capability	말 알아듣는 거 한국어만 돼?
+capability	할 줄 아는 게 찾기밖에 없어?
+capability	너 노래 부를 줄 알아?
+capability	is searching the only thing you do
+capability	지갑도 찾아지나
+capability	음성인식 되나요
+capability	부엌도 뒤질 수 있어?
+capability	너 그림도 그릴 줄 알아?
+capability	할 수 있는 거 목록 좀
+capability	can u do anything besides finding stuff
+help	어떻게 쓰는 거야?
+help	사용법 알려줘
+help	명령어 뭐 있어?
+help	how do I use this thing
+help	뭐라고 쳐야 찾아줘?
+help	예시 좀 보여줘
+help	색깔은 어떻게 지정해?
+help	피할 구역은 어떻게 말하면 돼?
+help	틱 제한 거는 법 알려줘
+help	what should I type
+help	처음인데 뭐부터 하면 돼요?
+help	도움말
+help	사용 설명서 있어?
+help	카드 브랜드 넣는 법?
+help	give me an example command
+help	명령 형식이 어떻게 돼
+help	매뉴얼 보여줘
+help	이거 어케 씀
+help	입력 예시 plz
+help	how do I tell it to avoid the desk
+help	문법이 어떻게 되나요
+help	사용하는 방법 좀 가르쳐 주세요 할머니가 잘 몰라서
+help	찾기 시키려면 뭐라고 해야돼
+help	튜토리얼 없음?
+help	help me get started
+knowledge	비자카드랑 마스터카드 차이가 뭐야?
+knowledge	오늘 서울 날씨 어때?
+knowledge	지구에서 제일 높은 산은?
+knowledge	what's the capital of Australia
+knowledge	광합성이 뭐야
+knowledge	달까지 거리 얼마나 돼?
+knowledge	물 끓는점이 몇 도야
+knowledge	요즘 뉴스 뭐 있어?
+knowledge	who invented the telephone
+knowledge	세종대왕은 언제 태어났어?
+knowledge	블록체인이 뭔지 설명해줘
+knowledge	파이썬이 뭐야?
+knowledge	환율 지금 얼마야
+knowledge	how does wifi work
+knowledge	고양이는 왜 골골거려?
+knowledge	무지개는 왜 생겨?
+knowledge	대한민국 인구 몇 명?
+knowledge	what does LLM stand for
+knowledge	빛의 속도가 얼마지
+knowledge	김치는 언제부터 먹었어?
+knowledge	미국 대통령 누구야 지금
+knowledge	비타민 C는 어디에 좋아?
+knowledge	열쇠는 누가 처음 만들었어?
+knowledge	컵라면은 몇 분 익혀야돼?
+knowledge	is a tomato a fruit
+complaint	아 또 틀렸네
+complaint	이거 왜 이래
+complaint	엉뚱한 걸 찾아왔잖아
+complaint	너무 느려 답답해
+complaint	that's not what I asked for
+complaint	장난하냐 이게 파란색이야?
+complaint	계속 이상한 소리만 하네
+complaint	쓸모없다 진짜
+complaint	아까부터 못 찾고 있잖아
+complaint	말귀를 못 알아듣네
+complaint	ugh useless bot
+complaint	선반 가지 말랬는데 왜 갔어
+complaint	시간 다 지났잖아 뭐하는거야
+complaint	답이 틀렸어요
+complaint	실망이다 월프
+complaint	이게 뭐야 ㅡㅡ
+complaint	짜증나 제대로 좀 해
+complaint	you keep getting it wrong
+complaint	버그 있는 거 아냐?
+complaint	하... 또 멈췄네
+complaint	빨간색 아니고 검은 거 가져왔잖아
+complaint	이러면 안 쓰지
+complaint	응답이 너무 늦음
+complaint	왜 매번 같은 말만 해
+complaint	this is so frustrating
+out_of_scope	시 한 편 써줘
+out_of_scope	점심 뭐 먹을지 추천해줘
+out_of_scope	나 요즘 너무 우울해
+out_of_scope	커피 좀 타다 줘
+out_of_scope	write me a poem about cats
+out_of_scope	이메일 대신 써줄래?
+out_of_scope	주식 뭐 살까
+out_of_scope	노래 하나 불러줘
+out_of_scope	내 숙제 좀 해줘
+out_of_scope	피자 주문해줘
+out_of_scope	너는 민트초코 좋아해?
+out_of_scope	tell me a joke
+out_of_scope	여자친구한테 뭐라고 사과하지
+out_of_scope	짧은 소설 하나 써봐
+out_of_scope	이 코드 디버깅 해줘
+out_of_scope	알람 7시에 맞춰줘
+out_of_scope	불 좀 꺼줘
+out_of_scope	에어컨 켜줘
+out_of_scope	영화 추천 좀
+out_of_scope	위로 좀 해줘 힘들다
+out_of_scope	이 문장 영어로 번역해봐
+out_of_scope	우리 팀장 어떻게 생각해?
+out_of_scope	로또 번호 뽑아줘
+out_of_scope	draw me a picture of a dog
+out_of_scope	다이어트 식단 짜줘
+out_of_scope	택시 불러줘
+yes	넹넹
+yes	그치
+yes	yep yep
+yes	웅웅
+yes	콜
+yes	오케이 그걸로
+yes	맞아맞아
+yes	그래 그렇게 해
+yes	당근이지
+yes	sure thing
+yes	옙
+yes	좋아 진행해
+yes	ㅇㅋ
+yes	yeah go ahead
+yes	그렇죠
+yes	넵넵
+yes	물론이지
+yes	맞습니다
+yes	affirmative
+yes	그래그래
+yes	어어 맞아
+yes	오키도키
+yes	예예
+yes	딱 그거야
+yes	absolutely
+no	nah
+no	아니아니
+no	ㄴㄴ
+no	놉
+no	아니요 괜찮아요
+no	싫어
+no	nope
+no	그거 아냐
+no	안 해도 돼
+no	됐어
+no	노노
+no	아닌데?
+no	절대 아니지
+no	취소
+no	아뇨
+no	not really
+no	그건 아니야
+no	음 아니
+no	안돼
+no	no way
+no	ㄴㄴㄴ
+no	아니거든
+no	필요없어
+no	틀렸어
+no	nah man
+task	초록 비자카드 찾아봐 바닥이랑 책상 빼고 45틱
+task	yo find da cup bro
+task	아까 그 상자 다시 한번 찾아봐줄래
+greet	월프 하잉 ㅎㅎ
+bye	ok im out
+thanks	수고했어 오늘도
+about_self	너 어느 회사꺼야
+capability	do you understand english too?
+help	조건 여러 개 넣으려면 어떻게 써요?
+knowledge	열대야 기준이 몇 도야?
+complaint	아니 그게 아니라니까 몇 번을 말해
+yes	yup that one
+no	아냐 그거 말고

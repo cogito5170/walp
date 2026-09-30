@@ -1,0 +1,53 @@
+{
+ "n": 118,
+ "가르기_정확도": 0.839,
+ "혼동": {
+  "SEARCH": {
+   "SEARCH": 53,
+   "GRID": 0,
+   "TOOL": 4,
+   "NONE": 6
+  },
+  "GRID": {
+   "SEARCH": 0,
+   "GRID": 20,
+   "TOOL": 0,
+   "NONE": 0
+  },
+  "TOOL": {
+   "SEARCH": 1,
+   "GRID": 0,
+   "TOOL": 7,
+   "NONE": 7
+  },
+  "NONE": {
+   "SEARCH": 1,
+   "GRID": 0,
+   "TOOL": 0,
+   "NONE": 19
+  }
+ },
+ "검색_재현율": 0.8413,
+ "불필요한_검색": 2,
+ "실패": [
+  "SEARCH→NONE | 2단계 인증 앱이랑 SMS 인증 중에 뭐가 더 안전해?",
+  "SEARCH→TOOL | Rust의 소유권(ownership) 개념 설명해줄래",
+  "SEARCH→TOOL | explain how a SerDes works",
+  "SEARCH→TOOL | CTLE가 뭔지랑 왜 쓰는지 설명 부탁해요",
+  "SEARCH→NONE | 카톡 종단간 암호화 기능 있어?",
+  "SEARCH→NONE | PCIe 5.0 대역폭이 얼마나 돼?",
+  "SEARCH→TOOL | 아이 다이어그램 보는 법 알려주세요",
+  "SEARCH→NONE | REST API랑 GraphQL 뭐가 달라?",
+  "SEARCH→NONE | explian the OSI model layers briefly",
+  "SEARCH→NONE | iphne 페이스아이디 얼마나 안전해?",
+  "TOOL→NONE | run the link simulation with 25 dB channel loss and 3 DFE taps",
+  "TOOL→NONE | logs/build.log 마지막 50줄 보여줘",
+  "TOOL→NONE | `git status` 돌려봐",
+  "TOOL→NONE | 내 verilog 코드 타이밍 분석 돌려줘 ```module r(input clk,d, output reg q); always @(posedge",
+  "TOOL→SEARCH | run tests.sh and tell me what fails",
+  "TOOL→NONE | PAM4 32Gbaud 조건으로 BER 시뮬 돌려줘",
+  "TOOL→NONE | `df -h` 결과 보여줘",
+  "TOOL→NONE | sweep the equalizer taps from 1 to 5 on my channel file data/ch1.s4p",
+  "NONE→SEARCH | what's up?"
+ ]
+}
