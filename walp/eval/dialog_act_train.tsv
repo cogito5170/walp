@@ -1,0 +1,220 @@
+# 학습 모음(흉내 원장) — 독립 에이전트가 규칙을 보지 않고 씀, 2026-09-30
+task	빨간 카드 찾아줘
+task	열쇠 어딨는지 찾아봐
+task	파란 컵 좀 찾아줄래?
+task	상자 찾아
+task	검정 열쇠 찾아주세요
+task	visa 카드 찾아줘 책상은 빼고
+task	초록색 상자 찾아줘 선반 쪽은 가지 마
+task	find the red key
+task	can you find a blue cup for me?
+task	주홍 머그 찾아줘
+task	컵 어디 있는지 알아?
+task	열쇠좀찾아줘ㅠㅠ급해
+task	마스터카드 찾아 20틱 안에
+task	카운터 피해서 검은 컵 찾아줘
+task	find box, avoid the floor
+task	빨강 카드 visa로 찾아줘 바닥이랑 책상은 피하고 30틱 안에
+task	내 열쇠 어디 갔지? 좀 찾아줄 수 있어?
+task	상자 하나만 찾아다 줘
+task	파란색 열쇠요
+task	컵 찾아줘요~
+task	master card 찾아줘 plz
+task	green box 좀 찾아봐
+task	청록 컵 찾아줘
+task	카드 찾기
+task	혹시 열쇠 찾아줄 수 있나요?
+task	노란 상자 찾아줘
+task	find my black card asap
+task	선반 말고 다른 데서 컵 찾아
+task	10틱 안에 빨간 컵 찾아와
+task	박스 찾아줘
+task	키 좀 찾아ㅋㅋ
+task	초록 카드 어디 있는지 찾아봐 줘
+task	Locate the green key please
+task	열쇠를 찾아 주시겠어요? 책상 근처는 안 봐도 돼요
+task	파랑 머그컵 좀
+task	visa카드 어디있냐
+task	책상 위에 있는 상자 말고 다른 상자 찾아줘
+task	검은색 열쇠 15틱 안에 찾아줄래
+task	카드 좀 찾아주라 빨간 거
+task	유리컵 찾아줘
+task	봉투 찾아줘
+task	where's the blue box? find it
+task	컵 찾아줘 카운터랑 바닥은 피해서
+task	찾아줘 열쇠
+task	빨간 열쇠 파란 열쇠 말고 빨간 거
+task	상자 어디 있어? 찾아봐
+task	마스터 카드 찾아줘 선반 피하고
+task	search for a cup, not on the counter
+task	은색 열쇠 찾아봐줘
+task	검정 카드 좀 찾아봐 🙏
+greet	안녕
+greet	하이~
+greet	좋은 아침!
+greet	hello
+greet	반가워 walp
+greet	안녕하세요 ㅎㅎ
+greet	ㅎㅇ
+greet	hi there
+greet	오랜만이야
+greet	walp 안뇽 👋
+greet	헬로헬로
+greet	좋은 저녁이에요
+greet	hey walp
+greet	안녕 로봇아
+greet	굿모닝~~
+bye	잘 가
+bye	바이
+bye	다음에 봐
+bye	수고
+bye	bye
+bye	나 이제 간다
+bye	수고하셨습니다
+bye	ㅂㅂ
+bye	see you later
+bye	잘 있어 walp
+bye	오늘은 여기까지 할게 안녕
+bye	내일 또 올게~
+bye	gn
+bye	이만 가볼게요
+bye	빠이빠이 👋
+thanks	고마워
+thanks	감사합니다!
+thanks	잘했어
+thanks	좋아 딱이야
+thanks	thanks
+thanks	nice
+thanks	ㄱㅅ
+thanks	오 찾았네 대박
+thanks	thank you so much
+thanks	최고야 walp 👍
+thanks	덕분에 살았다
+thanks	고맙습니다 ㅎㅎ
+thanks	완벽해
+thanks	good job
+thanks	땡큐~
+thanks	수고했어 잘했네
+about_self	너 누구야
+about_self	이름이 뭐야?
+about_self	너 LLM이야?
+about_self	누가 만들었어
+about_self	are you a bot?
+about_self	walp가 무슨 뜻이야
+about_self	너 사람이야 로봇이야
+about_self	넌 몇 살이야?
+about_self	what are you
+about_self	너 GPT야?
+about_self	너 어디서 돌아가? 서버?
+about_self	자기소개 좀 해봐
+about_self	너 진짜 로봇 맞아?
+about_self	who made you
+about_self	너 무슨 모델 써?
+capability	뭐 할 수 있어?
+capability	커피도 탈 수 있어?
+capability	can you open doors?
+capability	너 그림 그릴 줄 알아?
+capability	찾을 수 있는 게 뭐야?
+capability	너 걸어다닐 수 있어?
+capability	what can you do
+capability	물건 옮기는 것도 돼?
+capability	색깔 말고 크기로도 찾을 수 있어?
+capability	너 말고 다른 방도 갈 수 있어?
+capability	노트북도 찾을 수 있나요
+capability	기능이 뭐뭐 있어
+capability	can you remember things I told you?
+capability	너 사진 볼 수 있어?
+capability	한 번에 여러 개 찾는 것도 가능?
+help	어떻게 써?
+help	사용법 알려줘
+help	명령어 뭐 있어?
+help	도와줘 뭐라고 말해야 돼?
+help	how do I use this
+help	help
+help	처음인데 뭐부터 하면 돼요?
+help	피할 곳 지정하려면 어떻게 말해?
+help	틱 제한은 어떻게 걸어?
+help	사용 예시 좀 보여줘
+help	이거 쓰는 법 모르겠어
+help	명령 형식이 어떻게 돼?
+help	how do i tell it to avoid the desk
+help	브랜드 지정은 어떻게 하는 거야
+help	?? 뭐라고 쳐야 돼
+knowledge	WebAuthn이 뭐야?
+knowledge	인스타그램 로그인 방식 알려줘
+knowledge	서울 인구 몇 명이야?
+knowledge	what is TCP?
+knowledge	광합성 설명해줘
+knowledge	날씨 어때?
+knowledge	지금 몇 시야
+knowledge	파이썬에서 리스트랑 튜플 차이가 뭐야
+knowledge	who won the world cup in 2022
+knowledge	달까지 거리 얼마야?
+knowledge	OAuth랑 JWT 차이 알려줘
+knowledge	비트코인 지금 얼마야
+knowledge	how does a transistor work
+knowledge	임진왜란 몇 년에 일어났어?
+knowledge	DNS가 뭐임
+knowledge	물 끓는점이 몇 도야
+complaint	틀렸잖아
+complaint	그게 아니라고
+complaint	이상한데?
+complaint	답답하네
+complaint	뭔 소리야
+complaint	that's wrong
+complaint	별로야
+complaint	틀렸잖아 왜 그래
+complaint	아 또 엉뚱한 거 찾았네
+complaint	내가 파란 거라고 했잖아
+complaint	왜 이렇게 느려
+complaint	이건 컵이 아니잖아 ㅡㅡ
+complaint	말을 못 알아듣네
+complaint	this is useless
+complaint	하... 몇 번을 말해
+complaint	제대로 좀 해봐
+out_of_scope	오늘 저녁 메뉴 추천해줘
+out_of_scope	노래 불러줘
+out_of_scope	시 써줘
+out_of_scope	내 메일 정리해줘
+out_of_scope	주식 뭐 살까
+out_of_scope	tell me a joke
+out_of_scope	날 위로해줘
+out_of_scope	날씨 좋은 곳 추천해줘
+out_of_scope	피자 주문해줘
+out_of_scope	write me a python script
+out_of_scope	내 숙제 대신 해줘
+out_of_scope	재밌는 영화 추천 좀
+out_of_scope	알람 7시에 맞춰줘
+out_of_scope	너는 민트초코 어떻게 생각해?
+out_of_scope	이 문장 영어로 번역해줘
+out_of_scope	끝말잇기 하자
+yes	네
+yes	응
+yes	맞아
+yes	그래
+yes	ㅇㅇ
+yes	yes
+yes	넵
+yes	오케이
+yes	ㅇㅋ
+yes	yep
+yes	네 맞아요
+yes	그거 맞음
+yes	웅
+yes	sure
+yes	그렇지
+no	아니
+no	아니요
+no	아뇨
+no	ㄴㄴ
+no	no
+no	틀려
+no	아니야
+no	nope
+no	그거 아님
+no	아니 그거 말고
+no	노노
+no	안 돼
+no	아닌데요
+no	nah
+no	ㄴ

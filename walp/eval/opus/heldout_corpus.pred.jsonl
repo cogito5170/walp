@@ -1,0 +1,143 @@
+{"id": 0, "status": "OK", "goal": {"type": "card", "color": "red"}}
+{"id": 1, "status": "OK", "goal": {"type": "key", "color": "blue"}}
+{"id": 2, "status": "OK", "goal": {"type": "cup"}}
+{"id": 3, "status": "OK", "goal": {"type": "box", "color": "green"}}
+{"id": 4, "status": "OK", "goal": {"type": "card", "brand": "visa"}}
+{"id": 5, "status": "OK", "goal": {"type": "card", "color": "black", "brand": "master"}}
+{"id": 6, "status": "OK", "goal": {"type": "card", "color": "red", "brand": "visa", "avoid": "counter"}}
+{"id": 7, "status": "OK", "goal": {"type": "key", "deadline": 150}}
+{"id": 8, "status": "OK", "goal": {"type": "cup", "color": "blue", "avoid": "shelf"}}
+{"id": 9, "status": "OK", "goal": {"type": "card", "color": "green", "deadline": 300}}
+{"id": 10, "status": "OK", "goal": {"type": "box", "color": "black", "uncertain": "observe"}}
+{"id": 11, "status": "OK", "goal": {"type": "key", "color": "red", "blocked": "replan"}}
+{"id": 12, "status": "OK", "goal": {"type": "card", "brand": "master", "avoid": "floor", "deadline": 250}}
+{"id": 13, "status": "OK", "goal": {"type": "box", "color": "blue"}}
+{"id": 14, "status": "OK", "goal": {"type": "cup", "color": "green"}}
+{"id": 15, "status": "OK", "goal": {"type": "key", "color": "black"}}
+{"id": 16, "status": "OK", "goal": {"type": "card"}}
+{"id": 17, "status": "OK", "goal": {"type": "card", "brand": "visa", "avoid": "desk", "uncertain": "observe", "blocked": "replan"}}
+{"id": 18, "status": "OK", "goal": {"type": "cup", "color": "red", "deadline": 100, "blocked": "replan"}}
+{"id": 19, "status": "OK", "goal": {"type": "box", "avoid": "counter"}}
+{"id": 20, "status": "OK", "goal": {"type": "card", "color": "blue", "brand": "master"}}
+{"id": 21, "status": "OK", "goal": {"type": "key", "color": "green"}}
+{"id": 22, "status": "OK", "goal": {"type": "cup", "color": "black", "avoid": "shelf", "uncertain": "observe"}}
+{"id": 23, "status": "OK", "goal": {"type": "key"}}
+{"id": 24, "status": "OK", "goal": {"type": "card", "color": "red", "brand": "visa"}}
+{"id": 25, "status": "OK", "goal": {"type": "box", "deadline": 400}}
+{"id": 26, "status": "OK", "goal": {"type": "box", "color": "green", "avoid": "desk"}}
+{"id": 27, "status": "OK", "goal": {"type": "card", "color": "blue", "blocked": "replan"}}
+{"id": 28, "status": "OK", "goal": {"type": "card", "color": "black", "brand": "visa", "deadline": 500}}
+{"id": 29, "status": "OK", "goal": {"type": "cup", "avoid": "floor"}}
+{"id": 30, "status": "OK", "goal": {"type": "key", "color": "red", "uncertain": "observe"}}
+{"id": 31, "status": "OK", "goal": {"type": "card", "color": "green", "brand": "master", "avoid": "counter", "deadline": 200}}
+{"id": 32, "status": "OK", "goal": {"type": "box", "color": "black", "blocked": "replan", "uncertain": "observe"}}
+{"id": 33, "status": "OK", "goal": {"type": "key", "color": "blue", "deadline": 80}}
+{"id": 34, "status": "OK", "goal": {"type": "cup", "color": "red"}}
+{"id": 35, "status": "OK", "goal": {"type": "key", "avoid": "shelf"}}
+{"id": 36, "status": "OK", "goal": {"type": "box", "color": "blue"}}
+{"id": 37, "status": "OK", "goal": {"type": "card", "avoid": "desk", "deadline": 120}}
+{"id": 38, "status": "OK", "goal": {"type": "cup", "color": "green", "blocked": "replan"}}
+{"id": 39, "status": "OK", "goal": {"type": "card", "brand": "master"}}
+{"id": 40, "status": "OK", "goal": {"type": "card", "color": "red"}}
+{"id": 41, "status": "OK", "goal": {"type": "key", "color": "blue"}}
+{"id": 42, "status": "OK", "goal": {"type": "cup"}}
+{"id": 43, "status": "OK", "goal": {"type": "box", "color": "green"}}
+{"id": 44, "status": "OK", "goal": {"type": "card", "brand": "visa"}}
+{"id": 45, "status": "OK", "goal": {"type": "card", "color": "black", "brand": "master"}}
+{"id": 46, "status": "OK", "goal": {"type": "card", "color": "red", "brand": "visa", "avoid": "counter"}}
+{"id": 47, "status": "OK", "goal": {"type": "key", "deadline": 200}}
+{"id": 48, "status": "OK", "goal": {"type": "cup", "color": "blue", "avoid": "shelf"}}
+{"id": 49, "status": "OK", "goal": {"type": "card", "color": "green", "deadline": 300}}
+{"id": 50, "status": "OK", "goal": {"type": "box", "color": "black", "uncertain": "observe"}}
+{"id": 51, "status": "OK", "goal": {"type": "key", "color": "red", "blocked": "replan"}}
+{"id": 52, "status": "OK", "goal": {"type": "card", "brand": "master", "avoid": "floor", "deadline": 250}}
+{"id": 53, "status": "OK", "goal": {"type": "box", "color": "blue"}}
+{"id": 54, "status": "OK", "goal": {"type": "cup", "color": "green"}}
+{"id": 55, "status": "OK", "goal": {"type": "key", "color": "black"}}
+{"id": 56, "status": "OK", "goal": {"type": "card"}}
+{"id": 57, "status": "OK", "goal": {"type": "card", "brand": "visa", "avoid": "desk", "uncertain": "observe", "blocked": "replan"}}
+{"id": 58, "status": "OK", "goal": {"type": "cup", "color": "red", "deadline": 100, "blocked": "replan"}}
+{"id": 59, "status": "OK", "goal": {"type": "box", "avoid": "counter"}}
+{"id": 60, "status": "OK", "goal": {"type": "card", "color": "blue", "brand": "master"}}
+{"id": 61, "status": "OK", "goal": {"type": "key", "color": "green"}}
+{"id": 62, "status": "OK", "goal": {"type": "cup", "color": "black", "avoid": "shelf", "uncertain": "observe"}}
+{"id": 63, "status": "OK", "goal": {"type": "key"}}
+{"id": 64, "status": "OK", "goal": {"type": "card", "color": "red", "brand": "visa"}}
+{"id": 65, "status": "OK", "goal": {"type": "box", "deadline": 400}}
+{"id": 66, "status": "OK", "goal": {"type": "box", "color": "green", "avoid": "desk"}}
+{"id": 67, "status": "OK", "goal": {"type": "card", "color": "blue", "blocked": "replan"}}
+{"id": 68, "status": "OK", "goal": {"type": "card", "color": "black", "brand": "visa", "deadline": 500}}
+{"id": 69, "status": "OK", "goal": {"type": "cup", "avoid": "floor"}}
+{"id": 70, "status": "OK", "goal": {"type": "key", "color": "red", "uncertain": "observe"}}
+{"id": 71, "status": "OK", "goal": {"type": "card", "color": "green", "brand": "master", "avoid": "counter", "deadline": 200}}
+{"id": 72, "status": "OK", "goal": {"type": "box", "color": "black", "blocked": "replan", "uncertain": "observe"}}
+{"id": 73, "status": "OK", "goal": {"type": "key", "color": "blue", "deadline": 80}}
+{"id": 74, "status": "OK", "goal": {"type": "cup", "color": "red"}}
+{"id": 75, "status": "OK", "goal": {"type": "key", "avoid": "shelf"}}
+{"id": 76, "status": "OK", "goal": {"type": "card", "avoid": "desk", "deadline": 120}}
+{"id": 77, "status": "OK", "goal": {"type": "cup", "color": "green", "blocked": "replan"}}
+{"id": 78, "status": "OK", "goal": {"type": "card", "brand": "master"}}
+{"id": 79, "status": "OK", "goal": {"type": "box", "color": "blue"}}
+{"id": 80, "status": "OK", "goal": {"type": "key", "color": "black"}}
+{"id": 81, "status": "REJECT"}
+{"id": 82, "status": "REJECT"}
+{"id": 83, "status": "REJECT"}
+{"id": 84, "status": "REJECT"}
+{"id": 85, "status": "REJECT"}
+{"id": 86, "status": "REJECT"}
+{"id": 87, "status": "REJECT"}
+{"id": 88, "status": "REJECT"}
+{"id": 89, "status": "REJECT"}
+{"id": 90, "status": "REJECT"}
+{"id": 91, "status": "REJECT"}
+{"id": 92, "status": "REJECT"}
+{"id": 93, "status": "ASK"}
+{"id": 94, "status": "REJECT"}
+{"id": 95, "status": "REJECT"}
+{"id": 96, "status": "REJECT"}
+{"id": 97, "status": "REJECT"}
+{"id": 98, "status": "REJECT"}
+{"id": 99, "status": "REJECT"}
+{"id": 100, "status": "REJECT"}
+{"id": 101, "status": "REJECT"}
+{"id": 102, "status": "REJECT"}
+{"id": 103, "status": "REJECT"}
+{"id": 104, "status": "REJECT"}
+{"id": 105, "status": "REJECT"}
+{"id": 106, "status": "REJECT"}
+{"id": 107, "status": "REJECT"}
+{"id": 108, "status": "REJECT"}
+{"id": 109, "status": "REJECT"}
+{"id": 110, "status": "REJECT"}
+{"id": 111, "status": "REJECT"}
+{"id": 112, "status": "REJECT"}
+{"id": 113, "status": "REJECT"}
+{"id": 114, "status": "REJECT"}
+{"id": 115, "status": "REJECT"}
+{"id": 116, "status": "REJECT"}
+{"id": 117, "status": "REJECT"}
+{"id": 118, "status": "REJECT"}
+{"id": 119, "status": "REJECT"}
+{"id": 120, "status": "REJECT"}
+{"id": 121, "status": "REJECT"}
+{"id": 122, "status": "REJECT"}
+{"id": 123, "status": "REJECT"}
+{"id": 124, "status": "ASK"}
+{"id": 125, "status": "REJECT"}
+{"id": 126, "status": "REJECT"}
+{"id": 127, "status": "REJECT"}
+{"id": 128, "status": "REJECT"}
+{"id": 129, "status": "REJECT"}
+{"id": 130, "status": "REJECT"}
+{"id": 131, "status": "REJECT"}
+{"id": 132, "status": "REJECT"}
+{"id": 133, "status": "REJECT"}
+{"id": 134, "status": "REJECT"}
+{"id": 135, "status": "REJECT"}
+{"id": 136, "status": "REJECT"}
+{"id": 137, "status": "REJECT"}
+{"id": 138, "status": "REJECT"}
+{"id": 139, "status": "REJECT"}
+{"id": 140, "status": "REJECT"}
+{"id": 141, "status": "REJECT"}
+{"id": 142, "status": "REJECT"}

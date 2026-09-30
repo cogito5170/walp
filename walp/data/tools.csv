@@ -1,0 +1,59 @@
+# WALP 도구 사전 v2 — SE 도구를 자연어로 고르는 낱말과 인자 낱말. LLM 없이 이것만으로 고른다.
+# v1 은 봉인 문장(eval/tool_corpus.tsv)을 **보기 전에** 썼다(채점 결과 eval/results/route_heldout_v1.json).
+# v2 는 v1 의 실패 **부류**를 보고 고쳤다 — 그래서 v1 모음은 이제 held-out 이 아니다. v2 의 수는
+# 두 번째 봉인 모음(eval/tool_corpus_v2.tsv, 이 파일이 동결된 뒤 채점)에서만 잰다.
+# v3(2026-09-29): 셸·쓰기·네트워크 도구 11종을 더했다. 봉인 v3(eval/tool_corpus_v3.tsv, sha 78c27002)을 **안 읽고**
+#   도구 설명만 보고 썼다. 이 도구들은 고른 뒤 바로 돌지 않는다 — 사람이 `!walp 확인 <표>` 해야 돈다.
+#   새 종류: cmd·cmds(백틱 안 명령) · quote1·quote2(따옴표 둘: 옛·새) · email · envname(대문자_이름) · bang(!명령) ·
+#   after(표지 뒤 글) · fname(경로 없는 파일 이름). 새 증거: @backtick @multicode @email @envname @bang @pair
+#
+# 칸(탭): tool <TAB> 고르는 낱말(|) <TAB> 인자(;: 이름=종류:낱말/낱말)
+#   낱말~w  무게를 적는다(없으면 1+글자수/4, 최대 4). 혼자서 문턱(1.5)을 못 넘게 하려면 낮게.
+#   @pdf @img @file @verilog @netlist @markdown @acronym @arxiv  — 글의 **꼴**에서 오는 증거(무게 2)
+#   종류: num · code · path · arxiv · rest · bool(부정어 근처면 false) · enum(값 목록, @circuit_examples 등은
+#         SE 가 가진 목록) · ident(낱말 뒤의 식별자) · list(쉼표 수열)
+read_file	@file~1.2|파일 읽어|파일 열어|파일 보여|파일 내용|줄부터|줄만|read file|open file|show me|show file|lines of	path=path;start=num:줄부터/번째 줄/line/from line;lines=num:줄만/lines
+codify_paper	@arxiv~1.5|코드화|코드로 바꿔|수식을 코드|논문을 코드|codify|paper to code|implement the paper|turn the paper	arxiv_id=arxiv
+research	연구해|리서치|research|문헌 조사|선행 연구 찾아|survey the literature	goal=rest
+simulate_inspection	결함검사|결함 검사|항공기 검사|검사 드론|inspection drone|aircraft inspection|기체 검사|b737	정책=enum:pi/mamba;dt=num:dt/시간 간격/time step
+simulate_formation	편대|스웜|swarm|formation|위협회피|위협 회피|군집 비행|drone formation	메일=rest
+ruh2_battery	배터리 모델|배터리 분석|ruh2|ni-h2|니켈 수소|니켈수소|충방전|배터리 사이클|battery model|battery cycle|c-rate|c 레이트|수소 전극|프리차지|precharge	무엇=enum:사양/사이클/율/과충전/ru_pt/산화대책/자가방전대책/실험설계/지식/요약;c_rate=num:c-rate/c rate/c레이트/씨레이트/c 레이트/c,;temp_c=num:온도/temp/temperature/°c/도씨/도에서/ c;precharge=bool:프리차지/precharge;protect=bool:보호/protect/protection
+ruh2_make	ruh2 산출물|ruh2 보고서|배터리 보고서|배터리 도면|battery report|ruh2 report|ruh2 make|배터리 영상|scene output|산출물 만들|산출물~1.2|만들어~0.8|generate~0.8	산출물=enum:보고서/영상/도면/그림/상태;장면=enum:battery/atom
+report_pdf	@markdown|pdf로 만들|pdf 로 만들|pdf 만들어|pdf로 뽑|보고서 pdf|report pdf|markdown to pdf|마크다운|into a report pdf|pdf로 변환	markdown_text=code;제목=ident:제목은/제목:/title
+recon_rover	정찰 로버|recon-r1|recon r1|정보수집 로버|recon rover|로버 설계|로버 시뮬|정찰 로버 설계	무엇=enum:요약/사양/정책/시나리오/지식/결과;시나리오=enum:t01/t02/t03/t04/t05/t06/t07/t08/f01/f02/f03/b01/p01
+recon_make	recon 산출물|로버 산출물|recon make|로버 도면|로버 영상|산출물 전부|산출물 상태|recon outputs|산출물~1.2|만들어~0.8|generate~0.8	산출물=enum:상태/시뮬/영상/보고서/도면;대상=enum:전부/t01/t02/t03/t04/t05/t06/t07/t08
+render_space	렌더링|렌더해|렌더 해|3d 렌더|평면도|매장 배치|실내 배치|render the|floor plan|render space|aerial view|render hongdae|render	대상=enum:@layouts;시점=enum:aerial/eye/top/onboard/pay/back
+draw_circuit	회로도|회로 그려|회로를 그려|schematic|circuit diagram|draw circuit|draw the circuit|draw the schematic|회로 그림|그려줘~0.8|draw~0.8	code=code;example=enum:@circuit_examples;check=bool:체크/check
+run_rtl	@verilog~0.6|테스트벤치|testbench|iverilog|rtl 시뮬|시뮬레이션 돌려|시뮬 돌려|simulate the verilog|run rtl|run the rtl|run this sim|vvp|파형|waveform	design=code;testbench=code;top=ident:top/탑 모듈;seconds=num:초/seconds/sec;waveform=bool:파형/waveform;min_coverage=num:커버리지/coverage
+lint_rtl	@verilog~0.6|린트|lint|verilator|베릴레이터|문법 검사|정적 검사|static check|경고 있는지|warnings	design=code;strict=bool:strict/엄격
+synth_rtl	@verilog~0.6|합성|synthesize|synthesis|yosys|셀 수|cell count|면적 세|how many cells	design=code;top=ident:top is/top/탑 모듈은/탑 모듈/탑
+prove_rtl	@verilog~0.6|형식 검증|정형 검증|formal|prove|증명해|assertion|property|귀납|모든 입력|all inputs	design=code;top=ident:top/탑;depth=num:깊이/depth;unbounded=bool:!bounded only/!bounded/!유한/unbounded/무한
+place_rtl	@verilog~0.6|배치 배선|배치배선|place and route|place & route|pnr|nextpnr|fpga 타이밍|타이밍 맞|timing closure|fpga에 올려	design=code;target_mhz=num:mhz/목표 주파수/주파수;chip=enum:hx8k/hx1k/up5k/lp8k;top=ident:top/탑
+serdes_link	serdes|서데스|링크 시뮬|link sim|비트 오류|bit error|아이 다이어그램|eye diagram|채널 손실|ctle|등화 링크|링크 ber|ber 재|ber만|ber 측정|measure ber|serdes link	loss_db=num:손실/loss/채널 손실/insertion loss/db loss;snr_db=num:snr/신호대잡음/잡음비;bits=num:비트/bits;dfe_taps=num:dfe 탭/dfe tap/dfe taps/dfe;ffe_taps=num:ffe 탭/ffe tap/ffe taps/ffe;ctle_peaking_db=num:피킹/peaking/ctle;eye=bool:아이 다이어그램/eye/아이;seed=num:시드/seed
+quant_sweep	양자화|워드 길이|워드길이|탭 비트|탭 워드|비트폭|quantization|word length|quant sweep|계수 비트|트레이드오프 곡선	widths=list:비트폭/widths/폭;loss_db=num:손실/loss;snr_db=num:snr;ffe_taps=num:ffe;dfe_taps=num:dfe;bits=num:비트/bits
+adc_sweep	adc 해상도|adc 비트|adc 분해능|adc resolution|adc sweep|풀스케일|full scale|full-scale|adc 스윕|adc 비트수	widths=list:분해능/비트/widths/resolution;full_scales=list:full scales/풀스케일;loss_db=num:손실/loss;snr_db=num:snr;bits=num:비트/bits
+loss_sweep	손실 스윕|로스 스윕|loss sweep|손실별|손실에 따라|손실을 바꿔|손실 여러|sweep the loss|as loss grows|나빠질수록|목표 ber|target ber	losses=list:손실/losses/loss;widths=list:워드/widths;target_ber=num:목표 ber/target ber;quantize_adc=bool:adc 양자화/quantize
+nn_equalizer	신경망 등화|nn 등화|neural equalizer|nn equalizer|mlp 등화|신경망 이퀄라이저|딥러닝 등화|nn 등화기	loss_db=num:손실/loss;snr_db=num:snr;hidden=num:은닉/hidden;epochs=num:에폭/epoch/epochs;weight_bits=num:가중치/weight;window=num:윈도우/window
+eq_area	등화기 면적|equalizer area|등화기 fmax|등화기를 fpga|eq area|등화기 크기|이퀄라이저 면적|area and fmax|면적이랑 fmax|디바이스 면적|equaliser	kind=enum:nn/ffe/dfe;taps=num:탭/taps;target_mhz=num:mhz/target;bits=num:비트/bits;hidden=num:히든/hidden
+ip_signoff	사인오프|signoff|sign-off|sign off|ip 인도|납품 전 검사|딜리버리|납품	design=code;testbench=code;min_coverage=num:커버리지/coverage;target_mhz=num:mhz/timing target
+run_spice	@netlist~0.8|spice|스파이스|ngspice|넷리스트|netlist|아날로그 시뮬|과도 해석|transient|ac 해석|dc 해석|회로 시뮬|simulate this netlist	netlist=code;seconds=num:초/seconds
+monte_carlo	@netlist~0.8|몬테카를로|몬테 카를로|monte carlo|monte-carlo|공정 편차|공정편차|공정 산포|process variation|mismatch|산포	netlist=code;runs=num:회/번/runs/times;seed=num:시드/seed;spread=rest
+concept	@acronym~0.4|개념|뜻이 뭐|정의가|concept|개념들|what is~0.6|what's~0.6|설명해 줘~0.8|뭐야~0.6|뭔가요~0.6|이란~0.6	name=rest;level=enum:학부/석사/박사;domain=enum:analog/digital/device/mixed
+textbook	@acronym~0.4|교재|교과서|책에서|책 기준|textbook|강의 자료|book says|according to the book|in the book	question=rest;sections=num:섹션/sections
+spice_example	spice 예제|예제 넷리스트|넷리스트 예제|example netlist|netlist examples|예제 회로 목록|샘플 넷리스트|ready-made|예제 목록|검증된 스파이스	name=enum:@spice_examples
+read_image	@img|사진|이미지|스크린샷|screenshot|image|그림 파일|캡처|look at	path=path;question=rest
+read_pdf	@pdf|pdf 읽|pdf 봐|pdf 요약|read the pdf|read pdf|pdf에서|pdf 몇 쪽|pdf 페이지|쪽 읽	path=path;쪽=pages:;물음=rest
+search_memory	기억해 둔|기억에서|전에 말한|메모리에서|search memory|what did i tell you|remember when	query=rest
+orchestrator_solve	오케스트레이터로|단계별로 풀어|dag로 풀|계획 세워서 풀|solve with the orchestrator|orchestrator로 풀	problem=rest
+orchestrator_status	진행 상황|런 상태|최근 런|run status|orchestrator status|status of run|어떻게 되고있|어떻게 되고 있|어디까지 됐	run=ident:run/런
+run_shell	@backtick~1.0|셸|쉘|shell|터미널|terminal|명령 실행|명령어 실행|명령을 실행|명령어를 실행|명령 돌려|명령어 돌려|이 명령|run this command|run the command|run command|execute|bash|실행해~0.6|돌려~0.5|run~0.5	command=cmd
+run_experiment	@backtick~1.0|격리|깨끗한|흔적 없이|흔적 안|흔적이 안|흔적 남기지|sandbox|샌드박스|clean worktree|clean checkout|isolated|isolation|임시 워크트리|워크트리|실험으로|experiment|without leaving|no trace	command=cmd;minutes=num:분/minutes/minute/min
+run_probes	@multicode~1.5|탐침|probe|probes|여러 명령|명령 여러|명령들|한꺼번에|병렬로|in parallel|parallel|동시에|several commands|multiple commands|these commands|표로	commands=cmds;minutes=num:분/minutes/minute/min
+edit_file	@pair~1.2|@file~0.6|고쳐~0.9|수정|바꿔~0.9|바꾸|replace|edit|change~0.8|치환|대신|으로 바꿔|로 바꿔|to be|with	path=path;old=quote1;new=quote2
+set_key	@envname~1.5|.env|env 에|env에|환경변수|환경 변수|secret|시크릿|api key|api 키|토큰|token|비밀번호|password|설정값|저장해 둬~0.6|set key|set_key|store the|save the token	name=envname;value=after:값은/값:/값을/값 /value is/value:/value/=/ to / as /는 /은 
+create_pr	pr|풀 리퀘|풀리퀘|풀 리퀘스트|pull request|pr 열|pr 올려|pr 만들|pr을|pr 을|open a pr|create a pr|raise a pr|merge request	title=after:제목은/제목:/제목을/제목 /title:/titled/title /called/이름은/이름:;body=after:본문은/본문:/본문/내용은/내용:/body:/body/description:/description
+dispatch_command	@bang~2.5|고정 명령|고정명령|명령 표|명령표|dispatch|bot command|봇 명령	command=bang
+repair	스스로 고쳐|알아서 고쳐|자동으로 고쳐|자동 수리|수리 루프|수리해|repair|fix loop|self-repair|auto-fix|autofix|fix it yourself|고칠 때까지|해결될 때까지|until it passes|증상|symptom|에러가 나|에러 나|오류가 나|오류 나|fails with|failing with|traceback	command=cmd;symptom=after:증상은/증상:/증상/에러는/에러:/에러 메시지/오류는/오류:/오류 메시지/symptom:/symptom/error:/error is/fails with/failing with/라는 에러/라는 오류
+send_email	@email~2.0|메일|이메일|email|e-mail|mail~0.8|전송~0.6|send~0.5	to=email;subject=after:제목은/제목:/제목을/제목 /subject:/subject line/subject/titled/re:;body=after:내용은/내용:/내용을/내용 /본문은/본문:/본문/body:/body/saying/message:/message
+save_memory	기억해|기억 해|기억해 둬|기억해줘|기억에 저장|장기 기억|메모해|메모 해|메모리에 저장|remember that|remember this|remember:|save to memory|save this to memory|store in memory|memorize|note that	topic=after:주제는/주제:/주제를/주제 /topic:/topic is/topic/under/제목은/제목:;content=after:내용은/내용:/내용을/내용 /content:/content/that /:
+write_public_answer	공개 폴더|공개 답변|공개 채널|public answer|public_agent|public folder|publicly|결과 파일|파일로 저장|파일로 남겨|파일로 써|save as|save it as|write it to|write to file|저장해 줘~0.6|@file~0.4	filename=fname;content=after:내용은/내용:/내용을/내용 /content:/content/with the text/containing/:

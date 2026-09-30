@@ -1,0 +1,184 @@
+# 봉인 시험 모음 v2 — 독립 에이전트가 규칙·다른 모음을 보지 않고 씀, 2026-09-30
+task	파란 카드 좀 찾아줘
+task	열쇠 어딨는지 찾아봐
+task	빨간 컵 찾아줘 책상은 피해서
+task	find the red cup
+task	yo walp grab me a blue key asap
+task	비자 카드 좀 찾아주세요 10틱 안에요
+task	초록색 상자 어디 있나 봐줄래?
+task	마스터카드 찾아 선반 쪽 가지 말고
+task	검은 열쇠좀ㅋㅋ 빨리
+task	can you find the green box without touching the counter
+task	컵찾아줘
+task	상자 하나 찾아와 바닥은 밟지 말고 20틱 줄게
+task	혹시 까만 컵 어디 있는지 좀 찾아주실 수 있을까요?
+task	야 카드 찾아
+task	빨간색 비자카드 5틱 안에 찾아줘 카운터 피하고
+task	need the blue master card, avoid desk and shelf pls
+task	열쇠 잃어버렸어 ㅠ 좀 찾아줘
+task	파랑 상자 ㄱㄱ
+task	컵 어디갔지.. 찾아봐줘 🙏
+task	초록 열쇠 찾아. 책상이랑 선반 빼고.
+task	locate a black card within 15 ticks
+task	부탁인데 빨간 상자 좀 찾아줘라
+task	형 파란 컵 한번 찾아봐 줘요
+task	마스타 카드 찾아조
+task	카운터 근처 말고 녹색 컵 찾아
+task	find key
+task	사무실 어딘가에 비자 카드 있을 텐데 좀 찾아줄 수 있어? 바닥은 가지 말고
+task	빨간거 말고 파란 열쇠 찾아
+task	상자좀찾아바
+task	hey could u look for the red key? like 30 ticks max
+task	검정 상자를 찾아 주십시오.
+task	카드 찾아줘 빨강으로
+task	그 초록색 머그컵 좀 찾아줘
+task	지갑... 아니 카드 찾아줘 파란거
+task	search for a blue box, skip the floor
+task	열쇠 찾기 시작해
+task	빨간 컵 위치 좀 알아봐줘
+task	비자 말고 마스터 카드로 찾아줘
+task	선반이랑 카운터 둘 다 피해서 검은 카드 찾아줘 12틱
+task	walp 파란 key 찾아줘 plz
+greet	안녕
+greet	ㅎㅇ
+greet	안녕하세요 월프님!
+greet	hi
+greet	yo walp
+greet	좋은 아침~
+greet	하이하이 ㅎㅎ
+greet	반가워
+greet	hello there 👋
+greet	방가방가
+greet	굿모닝 walp
+greet	여어 오랜만이다
+greet	안뇽하세여
+bye	잘가
+bye	ㅂㅇ
+bye	gtg
+bye	이만 가볼게요
+bye	내일 봐
+bye	수고해~
+bye	bye walp
+bye	나 퇴근함 ㅂㅂ
+bye	see ya later
+bye	안녕히 계세요
+bye	잘자 월프
+bye	담에 또 올게
+bye	ㅃㅇ
+thanks	고마워
+thanks	ㄱㅅ
+thanks	thx
+thanks	감사합니다!
+thanks	오 찾았네 잘했어
+thanks	최고다 월프 👍
+thanks	thank you so much
+thanks	덕분에 살았다
+thanks	굿굿
+thanks	역시 믿고 쓰는 walp
+thanks	nice job
+thanks	ㄳㄳ
+thanks	수고했어 진짜 빠르네
+about_self	너 누구야?
+about_self	너 AI야?
+about_self	are you a real robot?
+about_self	누가 너 만들었어?
+about_self	이름이 왜 walp임
+about_self	너 GPT 기반이야?
+about_self	너 사람이야 봇이야
+about_self	what are you exactly
+about_self	너 몇 살이야
+about_self	너 LLM 쓰냐
+about_self	월프는 어디서 돌아가? 서버에서?
+about_self	너 감정 있어?
+about_self	혹시 claude야?
+capability	너 뭐 할 수 있어?
+capability	what can you do
+capability	너 날씨도 알려줄 수 있어?
+capability	열쇠 말고 다른 물건도 찾을 수 있음?
+capability	할 줄 아는 게 뭐야
+capability	노래 부를 수 있어?
+capability	can u find my phone too?
+capability	기능 뭐 있어요
+capability	너 영어도 알아들어?
+capability	색깔 조건도 걸 수 있나요?
+capability	시간 제한도 되나
+capability	너 문 열 수 있어?
+capability	얼마나 많은 걸 할 수 있냐 너는
+help	어떻게 써?
+help	사용법 알려줘
+help	how do i use this
+help	뭐라고 쳐야 돼?
+help	예시 좀 보여줘
+help	명령어 목록
+help	help
+help	도움말
+help	틱 제한은 어떻게 입력해?
+help	피할 구역 지정하는 법 알려주세요
+help	처음인데 뭐부터 하면 돼요?
+help	what's the syntax for avoiding zones
+help	색깔은 어떻게 넣어서 말해야 알아들어?
+knowledge	오늘 서울 날씨 어때?
+knowledge	비자카드랑 마스터카드 차이가 뭐야?
+knowledge	what is the capital of australia
+knowledge	광합성이 뭐야
+knowledge	물 끓는 온도 몇 도야?
+knowledge	요즘 뉴스 뭐 있어
+knowledge	지구에서 달까지 거리가 얼마야
+knowledge	열쇠는 어떻게 자물쇠를 여는 거야?
+knowledge	1 마일은 몇 km?
+knowledge	who won the world cup in 2022
+knowledge	세종대왕이 언제 태어났어?
+knowledge	블록체인이 뭔지 쉽게 설명해줘
+knowledge	컵라면 원조가 어느 나라야?
+complaint	아 또 틀렸잖아
+complaint	그거 파란색 아니고 초록색이라고 몇 번 말해
+complaint	왜 이렇게 느려
+complaint	this is useless
+complaint	책상 피하라니까 왜 책상으로 가냐
+complaint	엉뚱한 거 찾아왔네 ㅡㅡ
+complaint	답답해 죽겠다 진짜
+complaint	너 말귀를 못 알아듣네
+complaint	wrong card dude
+complaint	시간 넘겼잖아 20틱 안에 하라고 했는데
+complaint	이거 고장났냐?
+complaint	아니 그게 아니라니까 왜 자꾸 상자를 찾아
+complaint	별로다 진짜
+out_of_scope	커피 좀 타줘
+out_of_scope	시 한 편 써줘
+out_of_scope	점심 뭐 먹을지 추천해줘
+out_of_scope	나 오늘 너무 우울해
+out_of_scope	write me a python script
+out_of_scope	내 대신 이메일 보내줘
+out_of_scope	문 좀 열어줘
+out_of_scope	이 노래 어때? 네 생각은?
+out_of_scope	order me a pizza
+out_of_scope	상자 좀 들어서 창고로 옮겨줘
+out_of_scope	로또 번호 뽑아줘
+out_of_scope	여친이랑 싸웠는데 어떡하지
+out_of_scope	카드로 결제 좀 해줘
+yes	응
+yes	ㅇㅇ
+yes	ㅇㅋ
+yes	yes
+yes	네
+yes	맞아
+yes	yep
+yes	그래 그걸로 해
+yes	웅웅
+yes	넹
+yes	sure
+yes	좋아
+yes	오케이
+no	아니
+no	ㄴㄴ
+no	no
+no	아니요
+no	틀려
+no	nope
+no	놉
+no	그거 아님
+no	nah
+no	됐어
+no	아니 그거 말고
+no	ㄴㄴ 괜찮아
+no	싫어

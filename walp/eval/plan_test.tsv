@@ -1,0 +1,169 @@
+# 봉인 계획 시험 모음 — 독립 에이전트가 계획기를 보지 않고 씀, 2026-09-30
+find(card)	카드 찾아줘
+find(key)	열쇠 어디 있는지 찾아봐
+find(cup)	컵 좀 찾아 주세요
+find(box)	find the box
+find(card,blue)	파란 카드 찾아줘
+find(card,red,visa)	빨간 비자 카드 찾아주세요
+find(card,blue,visa)	비자 파란 카드 찾아
+find(card,black,master)	black master card, find it please
+find(card,green,master)	카드 초록색 마스터꺼 찾아줘
+find(key,black)	검은 키 찾아봐
+find(cup,red)	빨강 컵 어딨는지 찾아줘
+find(box,green)	초록 상자를 찾아주세요
+find(box,blue,avoid=floor)	바닥은 피해서 파란 박스 찾아
+find(cup,avoid=desk)	책상 쪽은 가지 말고 컵 찾아줘
+find(key,avoid=shelf+counter)	선반이랑 카운터는 피해서 열쇠 찾아
+find(card,visa)	비자카드 찾아줘
+find(card,master,avoid=desk)	책상 피해서 마스터 카드 찾아 주세요
+find(cup,blue,avoid=counter)	find the blue cup but avoid the counter
+find(key,red)	look for a red key
+find(box,black)	검정 상자 찾아줄래?
+find(card,red)	카드 빨간거 찾아
+find(cup,green)	컵 초록색으로 된거 찾아줘요
+find(key)	키 찾아줘
+find(box)	박스 하나 찾아봐
+find(card,blue,master,avoid=floor)	바닥은 피하고 파란 마스터카드 찾아줘
+find(cup,black,avoid=shelf)	선반 근처는 피해서 검은 컵 찾아줘
+find(key,green,avoid=desk+floor)	avoid desk and floor, find green key
+find(card)	카드좀찾아줘
+find(key,blue)	파란열쇠찾아
+find(cup)	cup 찾아줘
+find(box,red)	red box 찾아봐
+find(card,black,visa,avoid=counter)	카운터는 피해서 black visa card 찾아
+find(cup,red,avoid=desk+floor)	책상하고 바닥 피해서 빨간 컵 찾아줘
+find(card,green)	초록 카드 찾아주실래요
+find(key,black,avoid=shelf)	선반 쪽 피해서 검정 키 좀 찾아
+find(box,blue)	please find the blue box
+find(card,master)	master card 찾아
+find(cup,blue)	파랑 컵 찾아 줘
+find(key,red,avoid=counter)	빨간 키 찾아, 카운터는 피하고
+find(card,blue,visa)	파란색 비자카드 어딨는지 찾아줄래
+find(card)	카드 찾아쥬
+find(key)	열쇄 찾아줘
+find(card) && find(key)	카드랑 열쇠 찾아줘
+find(cup) && find(box)	컵하고 상자 찾아
+find(key) && find(cup)	find the key and the cup
+find(card,blue) && find(key)	파란 카드랑 열쇠 찾아줘
+find(card,red,visa) && find(cup)	빨간 비자카드하고 컵 찾아 주세요
+find(box) && find(card)	상자 찾고 그다음 카드 찾아
+find(cup,green) && find(key,black)	초록 컵 찾고 나서 검은 열쇠 찾아줘
+find(cup,avoid=shelf) && find(key,avoid=shelf)	선반은 피해서 컵이랑 열쇠 찾아줘
+find(card,avoid=desk) && find(box,avoid=desk)	책상 피해서 카드하고 박스 찾아
+find(key) && find(cup) && find(box)	열쇠, 컵, 상자 찾아줘
+find(card,blue) && find(cup,red) && find(key)	파란 카드랑 빨간 컵이랑 열쇠 찾아
+find(box,black) && find(card,master)	first find the black box, then the master card
+find(key,red) && find(card)	빨강 키 찾고 카드도 찾아
+find(cup) && find(card,green,visa)	컵 찾은 다음에 초록 비자 카드 찾아줘
+find(card,avoid=floor+counter) && find(key,avoid=floor+counter)	바닥이랑 카운터 피해서 카드와 키 찾아
+find(box,blue) && find(cup,blue)	파란 상자랑 파란 컵 찾아줘
+find(card,blue) && find(cup)	파란 카드와 컵 찾아줘
+find(key) && find(box)	키 찾고 박스 찾아
+find(cup,black) && find(key,green)	black cup and green key please find
+find(card,visa) && find(card,master)	비자 카드랑 마스터 카드 둘 다 찾아줘
+find(box) && find(key)	상자부터 찾고 그 다음에 열쇠 찾아
+find(card,red) && find(box,red)	빨간 카드하고 빨간 상자 찾아
+find(key,avoid=desk) && find(cup,avoid=desk) && find(box,avoid=desk)	책상은 피해서 열쇠, 컵, 박스 다 찾아줘
+find(cup) && find(key)	컵이랑 키 찾아줄래?
+find(card,black,master) && find(key,blue)	검정 마스터카드 찾고 파란 열쇠도 찾아
+find(box,green) && find(cup)	find the green box, then the cup
+find(key) && find(card,blue,visa)	키 먼저 찾고 blue visa card 찾아
+find(cup,red,avoid=counter) && find(box,avoid=counter)	카운터 피해서 빨간 컵이랑 상자 찾아줘
+find(card) && find(cup) && find(key)	카드 찾고 컵 찾고 열쇠 찾아
+find(box,avoid=shelf+floor) && find(card,avoid=shelf+floor)	avoid the shelf and the floor, find the box and the card
+find(key,black) && find(box,blue)	검은 열쇠하고 파란 박스 찾아봐
+find(cup,green) && find(card,green)	초록 컵이랑 초록 카드 찾아줘
+find(card,master) && find(box)	마스터카드 찾은 뒤에 상자 찾아
+find(key) && find(cup,blue)	열쇠하고 파란 컵 찾아주세요
+find(card,red) && find(key,red) && find(cup,red)	빨간 카드, 빨간 키, 빨간 컵 찾아
+find(box) && find(cup)	박스랑 컵 찾아봐
+find(cup) && find(box,black)	cup 찾고 검정 box 찾아
+find(key,green) && find(card)	초록 열쇠 찾고 나서 카드 찾아
+find(card) && find(box)	find card and box
+find(cup,avoid=floor) && find(key,avoid=floor)	바닥 피해서 컵하구 키 찾아조
+find(box,red) && find(key,blue)	빨간상자랑파란열쇠찾아줘
+find(card,visa) && find(cup,black)	비자 카드 찾고, 검정 컵 찾아
+find(key) && find(card)	열쇠랑 카드 좀 찾아줄래요
+find(box,green) && find(card,blue,visa) && find(cup)	초록 상자, 파란 비자카드, 컵 순서대로 찾아
+find(cup,blue,avoid=desk) && find(card,blue,avoid=desk)	책상 피해서 파란 컵이랑 파란 카드 찾아
+find(card) && find(key)	Find a card and then a key
+find(key,black) && find(cup,red)	검정 키와 빨강 컵을 찾아 주세요
+find(box) && find(card,master) && find(key)	box, master card, key 찾아
+find(cup,green,avoid=counter) && find(key,avoid=counter)	카운터 쪽 피하고 초록 컵이랑 열쇠 찾아
+find(card,black) && find(box,black)	검은 카드와 검은 상자 찾아
+find(cup) && find(key) && find(card)	컵 그리고 열쇠 그리고 카드 찾아줘
+find(key,blue) && find(box)	파란 키 찾은 다음 박스 찾아줘
+find(card,red,master) && find(cup,green)	red master card and a green cup, find both
+find(card) || find(key)	카드 찾아보고 없으면 열쇠 찾아
+find(cup) || find(box)	컵 찾아, 못 찾으면 상자
+find(card,blue) || find(card,red)	파란 카드 없으면 빨간 카드 찾아줘
+find(card,visa) || find(card,master)	비자카드 아니면 마스터카드라도 찾아
+find(key) || find(cup)	find the key, if not the cup
+find(cup,red) || find(cup)	빨간 컵 찾아보고 없으면 아무 컵이나 찾아
+find(box,green) || find(box,blue)	초록 상자 못 찾으면 파란 상자 찾아줘
+find(card,black,master) || find(card,black,visa)	검은 마스터카드 없으면 검은 비자카드 찾아
+find(key,avoid=shelf) || find(cup,avoid=shelf)	선반은 피해서, 키 찾고 없으면 컵 찾아
+find(cup,blue) || find(key,blue)	파란 컵 아니면 파란 열쇠라도 찾아줘
+find(box) || find(card)	상자 찾아보고 없으면 카드라도
+find(card,red,visa) || find(key)	빨간 비자 카드 찾아, 없으면 키
+find(key,black) || find(key)	검정 열쇠 찾고 없으면 그냥 열쇠
+find(cup,green) || find(box,green)	look for a green cup, otherwise a green box
+find(card,blue,visa) || find(card,blue,master)	blue visa card, if you can't find it then blue master card
+find(key) || find(box)	열쇠 없으면 박스 찾아
+find(cup,avoid=desk+floor) || find(box,avoid=desk+floor)	책상이랑 바닥 피해서 컵 찾되 없으면 상자
+find(card) || find(cup)	카드 못 찾으면 컵 찾아줘요
+find(box,black) || find(cup,black)	검은 상자 없으면 검은 컵 찾아
+find(card,green) || find(card)	초록 카드 찾아보고 없으면 아무 카드나
+find(key,red) || find(key,blue)	빨간 키 아니면 파란 키라도
+find(cup) || find(key)	cup first; if not found, key
+find(card,master) || find(box)	마스터 카드 없으면 상자 찾아줘
+find(box,red) || find(box)	빨강 박스 없음 그냥 박스 찾아
+find(key,green) || find(cup,red)	초록 열쇠 못찾으면 빨간 컵 찾아
+find(card,avoid=counter) || find(key,avoid=counter)	카운터 피해서 카드 찾고 못 찾으면 키
+find(cup,black) || find(cup,blue)	검정컵없으면파랑컵찾아
+find(box) || find(key)	try the box, if not there try the key
+find(card,blue) || find(key)	파란 카드 없으면 열쇠라도 찾아줘
+find(cup) || find(card)	컵 찾아 봐, 없으면 카드
+find(card,red) || find(cup,red)	빨간 카드 아니면 빨간 컵이라도
+find(key,blue,avoid=desk) || find(key,avoid=desk)	책상은 피하고 파란 키 찾아, 없으면 그냥 키
+find(box,blue) || find(card,black,visa)	파란 상자 없으면 검은 비자카드 찾아
+find(card,visa) || find(key)	find a visa card or else a key
+find(cup,red) || find(box,green)	빨간 컵 못 찾으면 초록 상자
+find(key) || find(card,master)	열쇠 없으면 마스터 카드라도 찾아줄래
+find(box,green,avoid=shelf) || find(box,avoid=shelf)	선반 피해서 초록 상자 찾고 없으면 아무 상자
+find(card,black) || find(card,blue)	black card, if not then blue card
+find(cup,green) || find(key)	초록 컵 없으면 키 찾아
+find(key,red) || find(box,red)	빨간 열쇠 찾아보고 없으면 빨간 상자
+find(card) || find(box)	카드 아니면 상자라도 찾아줘
+find(cup,blue,avoid=floor) || find(cup,avoid=floor)	바닥은 피해. 파란 컵 찾되 없으면 아무 컵
+find(card,green,master) || find(card,green,visa)	초록 마스터카드 없으면 초록 비자카드 찾아
+find(box) || find(cup)	find a box; if there's none, find a cup
+find(key,black) || find(card,black)	검은 키 못 찾겠으면 검은 카드 찾아
+find(cup) || find(box)	컵 찾아주시고 없으면 상자 찾아주세요
+find(card,master) || find(card)	master 카드 찾아봐 없으면 아무 카드
+find(box,red) || find(cup,blue)	빨간 박스 찾고, 못 찾으면 파란 컵 찾아줘
+REJECT	컵 찾아서 가져와
+REJECT	상자 옮겨줘
+REJECT	책상 정리해
+REJECT	안녕
+REJECT	커피 사와
+REJECT	열쇠 가져다 줘
+REJECT	bring me the red cup
+REJECT	카드 좀 갖다줄래?
+REJECT	바닥 청소해줘
+REJECT	선반 위 상자 치워
+REJECT	hello there
+REJECT	오늘 날씨 어때?
+REJECT	파란 컵 씻어줘
+REJECT	move the box to the desk
+REJECT	카드로 결제해줘
+REJECT	고마워
+REJECT	열쇠 찾아서 나한테 줘
+REJECT	카운터 닦아줘
+REJECT	박스 들어서 선반에 올려놔
+REJECT	노래 불러줘
+REJECT	clean the floor
+REJECT	이름이 뭐야?
+REJECT	컵에 물 따라줘
+REJECT	상자 열어봐
+REJECT	put the key on the shelf

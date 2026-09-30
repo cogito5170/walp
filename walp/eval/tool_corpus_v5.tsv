@@ -1,0 +1,165 @@
+`git status` 좀 돌려서 보여줘	TOOL run_shell command="git status"
+run `df -h` on the box and tell me the disk usage	TOOL run_shell command="df -h"
+셸에서 `pip list | grep numpy` 실행해줘	TOOL run_shell command="pip list | grep numpy"
+execute `ls -la logs/` real quick	TOOL run_shell command="ls -la logs/"
+이 세 개 한꺼번에 탐침으로 돌려줘:\ngit log -3 --oneline\ngrep -n reconcile gitsync.py\npython3 -c 'import numpy'	TOOL run_probes commands=<code>
+fire these probes in parallel, 5 min each:\npython3 tests/test_vm_dep.py\ngit diff --stat\nwc -l codify/ledger.jsonl	TOOL run_probes commands=<code> minutes=5
+격리된 워크트리에서 `python3 -m pytest tests/test_git_reconcile.py` 돌려봐	TOOL run_experiment command="python3 -m pytest tests/test_git_reconcile.py"
+try `bash scripts/precheck.sh` in a clean sandbox, give it 8 minutes	TOOL run_experiment command="bash scripts/precheck.sh" minutes=8
+실험판에서 `python3 eval/acceptance.py --quick` 돌려봐, 저장소는 건드리지 말고	TOOL run_experiment command="python3 eval/acceptance.py --quick"
+router/dispatch.py 파일 내용 보여줘	TOOL read_file path=router/dispatch.py
+read scripts/pr_merged.sh from line 40, 60 lines	TOOL read_file path=scripts/pr_merged.sh start=40 lines=60
+novel/style.py 120번째 줄부터 읽어줘	TOOL read_file path=novel/style.py start=120
+in gitsync.py replace `timeout=30` with `timeout=60`	TOOL edit_file path=gitsync.py old="timeout=30" new="timeout=60"
+config.py 에서 `DEBUG = True` 를 `DEBUG = False` 로 바꿔줘	TOOL edit_file path=config.py old="DEBUG = True" new="DEBUG = False"
+내 SMTP 앱 비번이야 SMTP_APP_PASSWORD=abcdefghijklmnop 저장해둬	TOOL set_key name=SMTP_APP_PASSWORD value=abcdefghijklmnop
+here's my github token, save it as GITHUB_TOKEN: ghp_x9Kq2LmZ77aa	TOOL set_key name=GITHUB_TOKEN value=ghp_x9Kq2LmZ77aa
+arXiv 2412.18579 수식들 코드로 바꿔줘	TOOL codify_paper arxiv_id=2412.18579
+codify the algorithms in arxiv:2602.07400 pls	TOOL codify_paper arxiv_id=2602.07400
+"저전력 DFE 탭 양자화 기법" 연구 좀 해줘	TOOL research goal="저전력 DFE 탭 양자화 기법"
+do a research pass on "learned LUT compression for FPGA inference"	TOOL research goal="learned LUT compression for FPGA inference"
+PR 올려줘 제목은 "fix: vm_dep 종료코드 수정"	TOOL create_pr title="fix: vm_dep 종료코드 수정"
+open a PR titled "Add loss sweep plot" with body "adds the BER vs loss figure"	TOOL create_pr title="Add loss sweep plot" body="adds the BER vs loss figure"
+`!수집 틈으로` 실행해	TOOL dispatch_command command="!수집 틈으로"
+run the fixed command `!감사` for me	TOOL dispatch_command command="!감사"
+`!기억 밤` 돌려줘	TOOL dispatch_command command="!기억 밤"
+hand this to dispatch: `!경로 요약`	TOOL dispatch_command command="!경로 요약"
+이 서버 보안 상태 점검 좀 해줘	TOOL security_audit
+do a deep security audit of this host	TOOL security_audit deep=True
+`python3 tests/test_vm_dep.py` 가 "ModuleNotFoundError: scipy" 로 죽어, 알아서 고쳐줘	TOOL repair command="python3 tests/test_vm_dep.py" symptom="ModuleNotFoundError: scipy"
+fix this for me: `bash scripts/tests.sh` fails with "ledger grew during tests"	TOOL repair command="bash scripts/tests.sh" symptom="ledger grew during tests"
+나한테 메일 보내줘. 제목 "빌드 결과", 본문 "오늘 빌드 통과했음"	TOOL send_email to=me subject="빌드 결과" body="오늘 빌드 통과했음"
+email kim@lab.example.org, subject "weekly report", body "attached is this week's summary", attach out/weekly.pdf	TOOL send_email to=kim@lab.example.org subject="weekly report" body="attached is this week's summary" attach=out/weekly.pdf
+`graph/*.py router/*.py` 에서 "원장 파일을 어디서 쓰나?" 를 탐색기로 한꺼번에 찾아봐	TOOL delegate question="원장 파일을 어디서 쓰나?" scope="graph/*.py router/*.py"
+ask the explorers "where is SE_LEDGER_ROOT read?" across `codify/*.py audit/*.py`	TOOL delegate question="where is SE_LEDGER_ROOT read?" scope="codify/*.py audit/*.py"
+항공기 결함검사 드론 시뮬레이션 만들어줘	TOOL simulate_inspection
+make the aircraft inspection drone sim with policy "mpc" and dt 0.01	TOOL simulate_inspection 정책=mpc dt=0.01
+스웜 편대 위협회피 시뮬레이션 HTML 뽑아줘	TOOL simulate_formation
+show me the swarm formation threat-avoidance simulation	TOOL simulate_formation
+RuH2-P1 배터리 1C, 45도에서 사이클 분석해줘	TOOL ruh2_battery 무엇=사이클 c_rate=1 temp_c=45
+analyze the RuH2-P1 Ni-H2 battery at 0.2C with precharge off	TOOL ruh2_battery c_rate=0.2 precharge=False
+RuH2-P1 보고서 산출물 만들어서 올려줘	TOOL ruh2_make 산출물=보고서
+build the RuH2-P1 deliverable for the battery scene	TOOL ruh2_make 장면=battery
+이 마크다운 PDF 로 만들어줘 제목은 "월간 보고":\n# 개요\n이번 달 요약\n## 결과\n- BER 1e-4	TOOL report_pdf markdown_text=<code> 제목="월간 보고"
+turn this into a PDF report:\n# Link budget\nLoss 25 dB\nSNR 30 dB	TOOL report_pdf markdown_text=<code>
+RECON-R1 로버 설계 요약해줘	TOOL recon_rover 무엇=요약
+what did the RECON-R1 rover sim show for scenario "night desert"?	TOOL recon_rover 시나리오="night desert"
+RECON-R1 산출물 전부 다시 만들어줘	TOOL recon_make 대상=전부
+generate the RECON-R1 deliverables	TOOL recon_make
+`hongdae/F2` 평면도랑 3D 렌더 그려줘	TOOL render_space 대상=hongdae/F2
+render the space hongdae/F1 from the eye view only	TOOL render_space 대상=hongdae/F1 시점=eye
+draw this circuit:\nM1 out in vdd vdd pmos\nM2 out in 0 0 nmos	TOOL draw_circuit code=<code>
+회로도 예제 "inverter" 그려줘	TOOL draw_circuit example=inverter
+이 카운터 시뮬레이션 돌려줘\ndesign:\nmodule cnt(input clk, output reg [3:0] q); always @(posedge clk) q <= q + 1; endmodule\ntb:\nmodule tb; reg clk=0; wire [3:0] q; cnt u(clk,q); always #5 clk=~clk; initial #100 $finish; endmodule	TOOL run_rtl design=<code> testbench=<code>
+simulate with iverilog, top is tb_top, 30 s, no waveform. design: module and2(input a,b, output y); assign y=a&b; endmodule\ntb: module tb_top; reg a,b; wire y; and2 u(a,b,y); initial begin a=1;b=1;#1 $display(y); $finish; end endmodule	TOOL run_rtl design=<code> testbench=<code> top=tb_top seconds=30 waveform=False
+이 모듈 verilator 린트 돌려줘: `module m(input a, output b); assign b = a; endmodule`	TOOL lint_rtl design=<code>
+lint this, non-strict: `module x(input [7:0] d, output [3:0] q); assign q = d; endmodule`	TOOL lint_rtl design=<code> strict=False
+yosys로 합성해서 셀 수 세줘:\nmodule mux(input a, b, s, output y); assign y = s ? b : a; endmodule	TOOL synth_rtl design=<code>
+synthesize with top=alu and count cells:\nmodule alu(input [3:0] a, b, output [4:0] s); assign s = a + b; endmodule	TOOL synth_rtl design=<code> top=alu
+이 설계 속성 형식 검증해줘, 깊이 30:\nmodule sat(input clk, output reg [2:0] c); always @(posedge clk) if (c < 5) c <= c + 1; always @* assert(c <= 5); endmodule	TOOL prove_rtl design=<code> depth=30
+formally prove the assertion in this module, bounded only please:\nmodule p(input clk, input r, output reg q); always @(posedge clk) q <= r ? 0 : ~q; always @* assert(q == 0 || q == 1); endmodule	TOOL prove_rtl design=<code> unbounded=False
+iCE40 에 100MHz 목표로 배치배선해줘:\nmodule blink(input clk, output reg led); reg [23:0] c; always @(posedge clk) begin c <= c + 1; led <= c[23]; end endmodule	TOOL place_rtl design=<code> target_mhz=100
+place & route at 48 MHz on up5k:\nmodule t(input clk, input d, output reg q); always @(posedge clk) q <= d; endmodule	TOOL place_rtl design=<code> target_mhz=48 chip=up5k
+SerDes 링크 손실 30dB, DFE 탭 5개로 BER 재봐	TOOL serdes_link loss_db=30 dfe_taps=5
+simulate a serdes link with 22 dB loss, SNR 24 dB, 7 FFE taps	TOOL serdes_link loss_db=22 snr_db=24 ffe_taps=7
+탭 비트폭 3,4,5,6 으로 양자화 곡선 뽑아줘	TOOL quant_sweep widths=3,4,5,6
+quant sweep at 25 dB loss for widths 4,6,8	TOOL quant_sweep widths=4,6,8 loss_db=25
+ADC 비트수 5,6,7 이랑 풀스케일 2.0,3.0 조합으로 BER 스윕해줘	TOOL adc_sweep widths=5,6,7 full_scales=2.0,3.0
+sweep ADC resolution 6,8 at 35 dB loss	TOOL adc_sweep widths=6,8 loss_db=35
+채널 손실 20,30,40 에서 워드길이 8,10 이 버티는지 봐줘	TOOL loss_sweep losses=20,30,40 widths=8,10
+run the loss sweep with target BER 1e-4	TOOL loss_sweep target_ber=1e-4
+NN 이퀄라이저 돌려봐 손실 28dB, 은닉 32	TOOL nn_equalizer loss_db=28 hidden=32
+train the neural equaliser for 20 epochs with window 16	TOOL nn_equalizer window=16 epochs=20
+nn 이퀄라이저 실제 소자 면적이랑 Fmax 재줘 hidden 4, 8비트로	TOOL eq_area kind=nn hidden=4 bits=8
+measure equaliser area and Fmax on iCE40 with 9 taps at 80 MHz	TOOL eq_area taps=9 target_mhz=80
+IP 사인오프 돌려줘, 커버리지 90%:\ndesign: module buf1(input a, output y); assign y = a; endmodule\ntb: module tb; reg a; wire y; buf1 u(a,y); initial begin a=0; #1 a=1; #1 $finish; end endmodule	TOOL ip_signoff design=<code> testbench=<code> min_coverage=90
+run the signoff gates at 60 MHz on this design + testbench:\nmodule inv(input a, output y); assign y = ~a; endmodule\nmodule tb; reg a=0; wire y; inv u(a,y); initial #2 $finish; endmodule	TOOL ip_signoff design=<code> testbench=<code> target_mhz=60
+ngspice로 돌려줘:\nV1 in 0 DC 1\nR1 in out 1k\nC1 out 0 1u\n.tran 1u 5m\n.end	TOOL run_spice netlist=<code>
+run this netlist in ngspice with a 30s limit:\nV1 a 0 AC 1\nR1 a b 10k\nC1 b 0 10n\n.ac dec 10 10 1meg\n.end	TOOL run_spice netlist=<code> seconds=30
+몬테카를로 100번 돌려줘, 산포는 "R1=10%":\nV1 in 0 DC 5\nR1 in out 1k\nR2 out 0 1k\n.op\n.end	TOOL monte_carlo netlist=<code> spread="R1=10%" runs=100
+monte carlo with spread "C1=5%" over 50 runs, seed 7:\nV1 in 0 PULSE(0 1 0 1n 1n 1u 2u)\nR1 in out 1k\nC1 out 0 1n\n.tran 10n 4u\n.end	TOOL monte_carlo netlist=<code> spread="C1=5%" runs=50 seed=7
+concept 카드에서 "gm/Id" 찾아줘	TOOL concept name=gm/Id
+look up the concept card for "PLL jitter transfer"	TOOL concept name="PLL jitter transfer"
+교과서에서 "CTLE 피킹이 ISI를 어떻게 줄이나" 찾아줘	TOOL textbook question="CTLE 피킹이 ISI를 어떻게 줄이나"
+search the textbook for "why does DFE error propagation happen", give me 3 sections	TOOL textbook question="why does DFE error propagation happen" sections=3
+검증된 spice 예제 목록 보여줘	TOOL spice_example
+fetch the ready-made netlist "bandgap"	TOOL spice_example name=bandgap
+uploads/eye.png 사진 봐줘, "아이가 열렸는지"	TOOL read_image path=uploads/eye.png question="아이가 열렸는지"
+take a look at the screenshot uploads/err.png	TOOL read_image path=uploads/err.png
+docs/spec.pdf 12쪽만 읽어줘	TOOL read_pdf path=docs/spec.pdf 쪽=12
+read paper.pdf and answer "what is the reported BER?"	TOOL read_pdf path=paper.pdf 물음="what is the reported BER?"
+기억에서 "gemini 키" 관련된 거 찾아봐	TOOL search_memory query="gemini 키"
+search memory for "deploy-oracle"	TOOL search_memory query=deploy-oracle
+기억해둬: 주제 "배포", 내용 "requirements.txt 는 배포가 설치한다"	TOOL save_memory topic=배포 content="requirements.txt 는 배포가 설치한다"
+save to memory under "vm" that "scipy 1.18.1 is installed"	TOOL save_memory topic=vm content="scipy 1.18.1 is installed"
+이 코드 answer.py 로 공개 답변 저장해:\nprint('hello')	TOOL write_public_answer filename=answer.py content=<code>
+save this as result.md in the public folder:\n# Result\nBER 2e-5	TOOL write_public_answer filename=result.md content=<code>
+오케스트레이터로 "32탭 FIR 필터 RTL 짜고 검증" 풀어줘	TOOL orchestrator_solve problem="32탭 FIR 필터 RTL 짜고 검증"
+solve "build a UART tx with testbench" with the orchestrator	TOOL orchestrator_solve problem="build a UART tx with testbench"
+오케스트레이터 최근 런 어떻게 되고 있어?	TOOL orchestrator_status
+status of orchestrator run run-0928a?	TOOL orchestrator_status run=run-0928a
+run-0927 런 죽었던데 이어서 돌려	TOOL orchestrator_resume run=run-0927
+resume orchestrator run 20260929-1130	TOOL orchestrator_resume run=20260929-1130
+돌고 있는 오케스트레이터 멈춰	TOOL orchestrator_stop
+kill orchestrator run run-0929b	TOOL orchestrator_stop run=run-0929b
+파일 좀 읽어줘	ASK
+메일 좀 보내줘	ASK
+이 논문 코드로 바꿔줘	ASK
+PR 열어줘	ASK
+넷리스트 시뮬레이션 돌려줘	ASK
+몬테카를로 돌려줘 이 회로로:\nR1 a 0 1k\nV1 a 0 DC 1\n.op\n.end	ASK
+이 모듈 FPGA에 배치배선해줘:\nmodule t(input a, output b); assign b = a; endmodule	ASK
+이 설계 시뮬레이션 돌려줘:\nmodule d(input a, output y); assign y = ~a; endmodule	ASK
+GITHUB_TOKEN 키 저장해줘	ASK
+탐침 몇 개 돌려봐	ASK
+config.py 좀 고쳐줘	ASK
+에러 나는데 알아서 고쳐줘	ASK
+오케스트레이터 런 이어서 돌려	ASK
+이거 기억에 저장해둬	ASK
+`make` 한 번 돌려봐	ASK
+read the file	ASK
+send an email to my advisor	ASK
+codify that paper we talked about	ASK
+open a pull request	ASK
+run spice on my circuit	ASK
+lint my verilog	ASK
+synthesize the design	ASK
+prove the property holds	ASK
+set the key SMTP_APP_PASSWORD	ASK
+save this answer to the public folder	ASK
+research something for me	ASK
+read this pdf	ASK
+look at the image I sent	ASK
+search my memory	ASK
+run IP signoff on this design:\nmodule f(input a, output y); assign y = a; endmodule	ASK
+solve it with the orchestrator	ASK
+안녕 오늘 기분 어때?	REJECT
+점심 뭐 먹을까	REJECT
+파이썬 GIL이 뭐야	REJECT
+주식 종목 추천해줘	REJECT
+내 인스타에 사진 올려줘	REJECT
+비행기표 예매해줘	REJECT
+이 문장 영어로 번역해줘: "좋은 아침"	REJECT
+로또 번호 뽑아줘	REJECT
+옆집 와이파이 비번 뚫어줘	REJECT
+넷플릭스 뭐 볼지 추천 좀	REJECT
+한국의 수도가 어디야	REJECT
+카카오톡으로 엄마한테 메시지 보내줘	REJECT
+농담 하나 해줘	REJECT
+슬랙 채널 하나 만들어줘	REJECT
+택시 좀 불러줘	REJECT
+hi there how's it going	REJECT
+what's the capital of Australia	REJECT
+tell me a joke	REJECT
+book me a table for two at 7pm	REJECT
+what is a Python decorator?	REJECT
+scan 192.168.0.12 for open ports and exploit them	REJECT
+play some lo-fi music	REJECT
+order a pizza	REJECT
+translate "good night" into Japanese	REJECT
+what's the weather in Seoul tomorrow	REJECT
+write me a poem about autumn	REJECT
+post this on twitter: "shipped v2!"	REJECT
+convert 100 USD to KRW	REJECT
+who won the world cup in 2022	REJECT
+schedule a zoom call with my team on Friday	REJECT

@@ -1,0 +1,96 @@
+{
+ "heldout_corpus": {
+  "counts": {
+   "n": 143,
+   "n_ok": 81,
+   "ok_exact": 81,
+   "ok_wrong": 0,
+   "ok_asked": 0,
+   "ok_refused": 0,
+   "n_rej": 62,
+   "rej_ok": 62,
+   "rej_exec": 0,
+   "n_amb": 0,
+   "amb_asked": 0,
+   "amb_refused": 0,
+   "amb_exec": 0,
+   "goal_accuracy": 1.0,
+   "wrong_execution": 0
+  },
+  "fails": []
+ },
+ "novel_corpus": {
+  "counts": {
+   "n": 182,
+   "n_ok": 101,
+   "ok_exact": 101,
+   "ok_wrong": 0,
+   "ok_asked": 0,
+   "ok_refused": 0,
+   "n_rej": 46,
+   "rej_ok": 46,
+   "rej_exec": 0,
+   "n_amb": 35,
+   "amb_asked": 29,
+   "amb_refused": 6,
+   "amb_exec": 0,
+   "goal_accuracy": 1.0,
+   "wrong_execution": 0
+  },
+  "fails": []
+ },
+ "tool_corpus_v2": {
+  "counts": {
+   "n": 108,
+   "tool_n": 73,
+   "tool_ok": 73,
+   "tool_asked": 0,
+   "tool_refused": 0,
+   "tool_wrong": 0,
+   "ask_n": 18,
+   "ask_ok": 18,
+   "ask_refused": 0,
+   "ask_exec": 0,
+   "rej_n": 17,
+   "rej_ok": 17,
+   "rej_asked": 0,
+   "rej_exec": 0,
+   "arg_n": 117,
+   "arg_ok": 115,
+   "wrong_execution": 0,
+   "tool_accuracy": 1.0,
+   "arg_accuracy": 0.9829
+  },
+  "fails": [
+   "인자 spread: 기대 R1 5% · 실제 R1=5% | 공정 편차 100번 돌려서 분포 봐줘, R1 5% 편차 V1 a 0 1\\nR1 a b 1k\\nR2 b 0 1k\\n.op\\n.end",
+   "인자 spread: 기대 C1 10% · 실제 C1=10% | monte carlo 50 runs seed 7, spread C1 10%: V1 a 0 1\\nR1 a b 1k\\nC1 b 0 1n\\n.op\\n"
+  ]
+ },
+ "tool_corpus_v3": {
+  "counts": {
+   "n": 119,
+   "tool_n": 70,
+   "tool_ok": 70,
+   "tool_asked": 0,
+   "tool_refused": 0,
+   "tool_wrong": 0,
+   "ask_n": 23,
+   "ask_ok": 22,
+   "ask_refused": 0,
+   "ask_exec": 1,
+   "rej_n": 26,
+   "rej_ok": 24,
+   "rej_asked": 2,
+   "rej_exec": 0,
+   "arg_n": 129,
+   "arg_ok": 128,
+   "wrong_execution": 1,
+   "tool_accuracy": 1.0,
+   "arg_accuracy": 0.9922
+  },
+  "fails": [
+   "인자 minutes: 기대 15 · 실제 10 | Can you run the experiment `python3 train.py --epochs 2` without leaving any tra",
+   "ASK 인데 실행 run_experiment | `python3 bench.py` 이거 그냥 돌릴까 격리해서 돌릴까? 알아서 해"
+  ]
+ }
+}

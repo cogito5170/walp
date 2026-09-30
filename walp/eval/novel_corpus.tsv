@@ -1,0 +1,182 @@
+find the red card	OK type=card color=red
+find a blue key	OK type=key color=blue
+find the green cup	OK type=cup color=green
+find a black box	OK type=box color=black
+find the visa card	OK type=card brand=visa
+find a master card	OK type=card brand=master
+find the red card but avoid the desk	OK type=card color=red avoid=desk
+find a box within 20 steps	OK type=box deadline=20
+빨간 카드 찾아	OK type=card color=red
+파란 열쇠를 찾아줘	OK type=key color=blue
+초록색 컵 찾아	OK type=cup color=green
+검은 상자 찾아	OK type=box color=black
+비자 카드 찾아	OK type=card brand=visa
+열쇠를 찾아, 선반은 피하고	OK type=key avoid=shelf
+컵을 찾아. 불확실하면 다시 관찰해	OK type=cup uncertain=observe
+Locate the crimson credit card	OK type=card color=red
+Could you track down the navy mug for me	OK type=cup color=blue
+Search for an emerald teacup	OK type=cup color=green
+Look for the jet-black key fob	OK type=key color=black
+Hunt for a scarlet carton	OK type=box color=red
+Seek out the azure tumbler	OK type=cup color=blue
+I need you to find a Visa debit card	OK type=card brand=visa
+Spot the Mastercard	OK type=card brand=master
+Find me a crate, the ebony one	OK type=box color=black
+Scout around for a cobalt key	OK type=key color=blue
+Go find the forest-green drinking cup	OK type=cup color=green
+Please locate the coal-black cardboard box	OK type=box color=black
+Find the red Visa	OK type=card color=red brand=visa
+Track down a ruby-red mug, skip the counter	OK type=cup color=red avoid=counter
+Find a key; stay off the floor	OK type=key avoid=floor
+Get your eyes on a sapphire card	OK type=card color=blue
+Find the key, quick, within 15 moves	OK type=key deadline=15
+Find the mug in under 40 steps and don't go near the shelf	OK type=cup avoid=shelf deadline=40
+Locate a box. If you can't tell for sure, take another look.	OK type=box uncertain=observe
+Find a card; if the path is blocked, plan a new route	OK type=card blocked=replan
+Find the black coffee mug, avoid the desk, 25 steps max, re-check if unsure, reroute if blocked	OK type=cup color=black avoid=desk deadline=25 uncertain=observe blocked=replan
+Card, blue, Visa. Find it.	OK type=card color=blue brand=visa
+A green key is what I need you to find.	OK type=key color=green
+The mug, the navy one, go find it	OK type=cup color=blue
+Find a crimson crate	OK type=box color=red
+Look for a pitch-black tumbler	OK type=cup color=black
+Search for the scarlet charge card	OK type=card color=red
+Look for a debit card from Mastercard	OK type=card brand=master
+Find the house key	OK type=key
+Find my car key, the midnight-blue one	OK type=key color=blue
+Find the verdant box	OK type=box color=green
+Find a sky-blue mug	OK type=cup color=blue
+yo, find the coffee cup	OK type=cup
+Find a shipping carton	OK type=box
+Kindly locate the cardboard box	OK type=box
+Find a jade key	OK type=key color=green
+Find the inky black card	OK type=card color=black
+Find a cherry-red teacup	OK type=cup color=red
+Would you please find the Visa credit card, avoiding the floor	OK type=card brand=visa avoid=floor
+Find the emerald crate but keep away from the counter, 30 steps tops	OK type=box color=green avoid=counter deadline=30
+If you get blocked, replan -- just find the scarlet key	OK type=key color=red blocked=replan
+Before 12 steps are up, find the sapphire tumbler	OK type=cup color=blue deadline=12
+Find the Visa	OK type=card brand=visa
+남색 머그컵 찾아줘	OK type=cup color=blue
+새빨간 신용카드를 찾아 주세요	OK type=card color=red
+하늘색 텀블러 좀 찾아봐	OK type=cup color=blue
+비자 체크카드 찾아	OK type=card brand=visa
+마스터 신용카드 찾아줘	OK type=card brand=master
+에메랄드색 열쇠 찾아	OK type=key color=green
+새까만 궤짝 찾아	OK type=box color=black
+초록빛 상자 찾아봐	OK type=box color=green
+진홍색 머그 찾아	OK type=cup color=red
+까만 차키를 찾아줘	OK type=key color=black
+파랑 박스 찾아	OK type=box color=blue
+종이 상자 찾아줘	OK type=box
+찻잔 찾아	OK type=cup
+커피잔 찾아줘	OK type=cup
+빨간색 택배 상자를 찾아 주실래요	OK type=box color=red
+열쇠 찾아, 책상 쪽은 가지 말고	OK type=key avoid=desk
+머그컵을 30걸음 안에 찾아	OK type=cup deadline=30
+검정 카드 찾아, 헷갈리면 다시 봐	OK type=card color=black uncertain=observe
+상자 찾아. 막히면 경로 다시 짜	OK type=box blocked=replan
+녹색 컵 찾되 조리대는 피해	OK type=cup color=green avoid=counter
+바닥은 피해서 파란 열쇠 찾아	OK type=key color=blue avoid=floor
+선반 말고 다른 데서 비자카드 찾아	OK type=card brand=visa avoid=shelf
+50스텝 이내로 검은색 머그잔 찾아줘	OK type=cup color=black deadline=50
+새파란 카드 찾아	OK type=card color=blue
+칠흑같이 검은 열쇠 찾아	OK type=key color=black
+찾아줘, 빨간 열쇠	OK type=key color=red
+카드, 파란 거, 마스터로 찾아	OK type=card color=blue brand=master
+초록 머그 찾아라	OK type=cup color=green
+코발트색 텀블러 찾아	OK type=cup color=blue
+네이비 카드 찾아줘	OK type=card color=blue
+나무 궤짝 찾아	OK type=box
+골판지 박스 좀 찾아봐	OK type=box
+컵 하나 찾아줄래	OK type=cup
+열쇠 좀 찾아주시겠어요	OK type=key
+카드 찾아 주세요, 20걸음 넘기지 말고	OK type=card deadline=20
+확실하지 않으면 한 번 더 보고, 막히면 다시 계획해서 빨간 머그 찾아	OK type=cup color=red uncertain=observe blocked=replan
+책상 피하고 40걸음 안에 비자 신용카드 찾아	OK type=card brand=visa avoid=desk deadline=40
+초록색 상자를 찾아. 카운터는 가지 마.	OK type=box color=green avoid=counter
+검은 텀블러를 찾아 주세요, 바닥 쪽은 피해 주시고요	OK type=cup color=black avoid=floor
+진녹색 열쇠 찾아	OK type=key color=green
+시뻘건 박스 찾아봐	OK type=box color=red
+마스터카드 체크카드 찾아, 선반은 가지 마	OK type=card brand=master avoid=shelf
+15걸음 안에 하늘색 찻잔 찾아 주세요	OK type=cup color=blue deadline=15
+Find the container	AMBIGUOUS
+용기 찾아줘	AMBIGUOUS
+Find the dark one	AMBIGUOUS
+Find that thing	AMBIGUOUS
+그거 찾아줘	AMBIGUOUS
+까만 거 찾아	AMBIGUOUS
+Find a teal mug	AMBIGUOUS
+청록색 컵 찾아	AMBIGUOUS
+Find the turquoise box	AMBIGUOUS
+Find the navy one	AMBIGUOUS
+Find something red	AMBIGUOUS
+빨간 거 하나 찾아	AMBIGUOUS
+Find the card or the key	AMBIGUOUS
+컵이나 상자 찾아	AMBIGUOUS
+Find the receptacle	AMBIGUOUS
+통 찾아	AMBIGUOUS
+Find the case	AMBIGUOUS
+케이스 찾아	AMBIGUOUS
+Find the lime key	AMBIGUOUS
+연두색 열쇠 찾아	AMBIGUOUS
+Find the aqua cup	AMBIGUOUS
+하늘색 거 찾아	AMBIGUOUS
+Find the charcoal box	AMBIGUOUS
+Find the plastic one	AMBIGUOUS
+Find the keycard	AMBIGUOUS
+카드키 찾아	AMBIGUOUS
+Find the bin	AMBIGUOUS
+Find the vessel	AMBIGUOUS
+그 파란 거 찾아봐	AMBIGUOUS
+빨간 카드나 파란 카드 찾아	AMBIGUOUS
+Find the indigo key	AMBIGUOUS
+Find it	AMBIGUOUS
+찾아	AMBIGUOUS
+그 물건 좀 찾아봐	AMBIGUOUS
+Find the red card or the blue one, whichever	AMBIGUOUS
+Bring me the red card	REJECT
+Pick up the blue key	REJECT
+Go to the counter	REJECT
+Move to the shelf	REJECT
+Clean the desk	REJECT
+Approach the box	REJECT
+Where is the green cup?	REJECT
+Is there a black box on the shelf?	REJECT
+Find a card that isn't red	REJECT
+Find any cup except the blue ones	REJECT
+Find the yellow key	REJECT
+Find a purple mug	REJECT
+Find an orange crate	REJECT
+Find the pink card	REJECT
+Find the red card and then the blue key	REJECT
+Find a cup and bring it to the desk	REJECT
+Find the phone	REJECT
+Find my wallet	REJECT
+Find the Amex card	REJECT
+Open the box	REJECT
+Find a white cup	REJECT
+Don't look for the key	REJECT
+Count the cups	REJECT
+빨간 카드 가져와	REJECT
+파란 열쇠 집어	REJECT
+카운터로 가	REJECT
+선반으로 이동해	REJECT
+책상 청소해	REJECT
+상자에 다가가	REJECT
+초록 컵 어디 있어?	REJECT
+선반에 검은 상자 있어?	REJECT
+빨갛지 않은 카드 찾아	REJECT
+파란색 아닌 컵 찾아	REJECT
+노란 열쇠 찾아	REJECT
+보라색 머그 찾아	REJECT
+주황색 상자 찾아	REJECT
+분홍 카드 찾아	REJECT
+빨간 카드 찾고 파란 열쇠도 찾아	REJECT
+컵 찾아서 책상에 갖다 놔	REJECT
+휴대폰 찾아줘	REJECT
+지갑 찾아	REJECT
+아멕스 카드 찾아	REJECT
+상자 열어	REJECT
+흰 컵 찾아	REJECT
+컵 몇 개야?	REJECT
+안녕하세요	REJECT
