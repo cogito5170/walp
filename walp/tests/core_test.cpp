@@ -211,7 +211,7 @@ int main() {
             ++runs;
             if (r == StepResult::Declared && !R.world.is_target(R.ex->declared_x(), R.ex->declared_y())) ++declares_wrong;
         }
-        CHECK(declares_wrong == 0, "모순 관측이 매 프레임 붙어도 엉뚱한 것을 확정하지 않는다(10판)");
+        CHECK(runs == 10 && declares_wrong == 0, "모순 관측이 매 프레임 붙어도 엉뚱한 것을 확정하지 않는다(10판)");
     }
     // 4) 검색 결과 없음: 빈 결과로 균등 사전확률, 근거 없는 확정은 허가되지 않는다
     {
