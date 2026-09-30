@@ -47,26 +47,68 @@ def _작업(arg) -> dict:
     return out
 
 
+def _반쪽(seed, 학습, 시험글, 다수, 성장만들기, 손: bool) -> dict:
+    """한 씨앗의 한 판(손 있음 H / 손 없음 N). 두 판은 서로 독립이라 따로 돌려도 같은 수가 나온다
+    (재시작이 잦아 씨앗 5 를 둘로 나눠 병렬로 돌렸다 — 2026-09-30)."""
+    만들기 = (lambda s, sd: 성장만들기(s, sd, 손)) if 성장만들기 else None
+    체 = B.기르기(학습, seed=seed, 손=손, 성장만들기=만들기)
+    L1 = {c: (체["되묻기"] if c == B.C else B.L1기르기(체["에피소드"], c, seed)) for c in CS}
+    k = "H" if 손 else "N"
+    out = {k: [], f"{k}물음": {c: [] for c in CS}}
+    if 손:
+        out["A"] = []
+    for t in 시험글:
+        st = 체["센서"].읽기(t)
+        o = 체["반응"].행(st, {})
+        if 손:
+            out["A"].append(D._모드들(체["센서"].성장, t, 다수)["채움"] or "task")
+        out[k].append(o["행위"])
+        for c in CS:
+            out[f"{k}물음"][c].append(L1[c].행(st, {"반응": o}) is not None)
+    return out
+
+
 def _작업_본(seed, 학습, 시험글, 다수, 성장만들기) -> dict:
     t0 = time.time()
-    체 = {}
+    import os
+    ck = os.environ.get("WALP_CKPT_DIR")
+    out = {"seed": seed}
     for 손 in (True, False):
-        만들기 = (lambda s, sd, 손=손: 성장만들기(s, sd, 손)) if 성장만들기 else None
-        체[손] = B.기르기(학습, seed=seed, 손=손, 성장만들기=만들기)
-    L1N = {c: (체[False]["되묻기"] if c == B.C else B.L1기르기(체[False]["에피소드"], c, seed)) for c in CS}
-    L1H = {c: (체[True]["되묻기"] if c == B.C else B.L1기르기(체[True]["에피소드"], c, seed)) for c in CS}
-    out = {"seed": seed, "A": [], "H": [], "N": [], "H물음": {c: [] for c in CS}, "N물음": {c: [] for c in CS}}
-    for t in 시험글:
-        sH, sN = 체[True]["센서"].읽기(t), 체[False]["센서"].읽기(t)
-        oH, oN = 체[True]["반응"].행(sH, {}), 체[False]["반응"].행(sN, {})
-        out["A"].append(D._모드들(체[True]["센서"].성장, t, 다수)["채움"] or "task")
-        out["H"].append(oH["행위"])
-        out["N"].append(oN["행위"])
-        for c in CS:
-            out["H물음"][c].append(L1H[c].행(sH, {"반응": oH}) is not None)
-            out["N물음"][c].append(L1N[c].행(sN, {"반응": oN}) is not None)
+        hp = Path(ck) / f"seed{seed}_{'H' if 손 else 'N'}.json" if ck else None
+        if hp and hp.exists():
+            d = json.loads(hp.read_text(encoding="utf-8"))
+            for kk in ("H물음", "N물음"):
+                if kk in d:
+                    d[kk] = {float(c): v for c, v in d[kk].items()}
+        else:
+            d = _반쪽(seed, 학습, 시험글, 다수, 성장만들기, 손)
+            if hp:
+                hp.parent.mkdir(parents=True, exist_ok=True)
+                hp.with_suffix(".tmp").write_text(json.dumps(d, ensure_ascii=False), encoding="utf-8")
+                os.replace(hp.with_suffix(".tmp"), hp)
+        out.update(d)
     out["sec"] = round(time.time() - t0, 1)
     return out
+
+
+def 반쪽만(seed: int, 손: bool) -> None:
+    """`python3 -m walp.nohandtest --반쪽 5 H` — 한 씨앗의 한 판만 계산해 WALP_CKPT_DIR 에 둔다(병렬로 나눠 돌리기)."""
+    import os
+    학습 = [(t, act) for p in TRAIN_FILES for act, t in D.모음(p)]
+    if hashlib.sha256(TEST_V7.read_bytes()).hexdigest() != V7_SHA:
+        raise SystemExit("봉인 v7 sha 가 다르다")
+    시험 = D.모음(TEST_V7)
+    시험알 = {D._알맹이(t) for _, t in 시험}                     # 실험() 과 같은 준비
+    학습 = [(t, a) for t, a in 학습 if D._알맹이(t) not in 시험알]
+    시험글 = [t for _, t in 시험]
+    빈 = [a for t, a in 학습 if D.손규칙(t, D._파스(t)) is None]
+    다수 = max(set(빈), key=빈.count) if 빈 else "task"
+    ck = Path(os.environ["WALP_CKPT_DIR"])
+    hp = ck / f"seed{seed}_{'H' if 손 else 'N'}.json"
+    d = _반쪽(seed, 학습, 시험글, 다수, None, 손)
+    ck.mkdir(parents=True, exist_ok=True)
+    hp.with_suffix(".tmp").write_text(json.dumps(d, ensure_ascii=False), encoding="utf-8")
+    os.replace(hp.with_suffix(".tmp"), hp)
 
 
 def _순열(u1, u2, n회=20000):
@@ -160,7 +202,11 @@ def main() -> int:
     ap.add_argument("--out")
     ap.add_argument("--smoke", action="store_true")
     ap.add_argument("--procs", type=int, default=4)
+    ap.add_argument("--반쪽", nargs=2, metavar=("씨앗", "H|N"))
     a = ap.parse_args()
+    if a.반쪽:
+        반쪽만(int(a.반쪽[0]), a.반쪽[1] == "H")
+        return 0
     학습 = [(t, act) for p in TRAIN_FILES for act, t in D.모음(p)]
     if a.smoke:
         random.Random(0).shuffle(학습)
