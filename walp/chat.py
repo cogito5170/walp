@@ -33,6 +33,10 @@ def main() -> int:
         pass
     대화형 = sys.stdin.isatty()
     if 대화형:
+        try:                                      # 줄 편집을 readline 에 맡긴다 — macOS 터미널은 iutf8 가 꺼져 있어
+            import readline                       # noqa: F401  백스페이스가 한글 한 글자(3바이트)의 1바이트만 지웠다
+        except ImportError:
+            pass
         print("WALP 터미널 — LLM 없음. `도움` · `결과` · `끝`(또는 Ctrl-D)")
     while True:
         try:
