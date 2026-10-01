@@ -206,9 +206,40 @@ def 뜻들읽기(줄들: list, who: "str | None" = None) -> list:
     return list(뜻.values())
 
 
+# ================================================================ 답 캐시 — LLM(숙고층)이 준 답을 다시 쓴다(사전등록 walp/eval/PREREG_LLM앞단.md)
+CACHE_θ = 0.75              # 가르친 뜻(0.5)보다 엄하다 — LLM 답은 사실 질문이 많아 겉이 닮은 다른 질문에 틀린 답을 주면 안 된다
+
+
+class 답캐시(배움):
+    """층 1.6 — LLM 에게 물었던 말과 겉이 닮으면(포함률 ≥ θ) 그때의 답을 LLM 없이 다시 쓴다. 기억 · 숙고가 이것을 억제한다."""
+    이름, 층 = "답캐시", 1.6
+
+    def 행(self, 상태, 아래):
+        f, 점 = self.고르기(상태["text"])
+        return {"행위": f"캐시:{f.id}", "배운": f.id, "답": f.답, "점수": 점, "부류": f.설명} if f else None
+
+
+def 캐시읽기(줄들: list, who: "str | None" = None) -> list:
+    """원장 → 답 캐시. kind=llm_answer(물은 말 · 부류 · 답) · llm_tune(다시 쓴 답 뒤 불만 → θ +0.05).
+    LLM 답은 사람이 아니라 모형이 준 것이라 사람 사이에 나눠 쓴다(같은 질문의 같은 답) — who 는 받지만 거르지 않는다."""
+    표: dict = {}
+    for z in sorted(줄들, key=lambda z: z.get("ts", 0)):
+        k = z.get("kind")
+        if k == "llm_answer" and z.get("id") and z.get("text") and z.get("답"):
+            e = 표.get(z["id"])
+            if e:
+                if z["text"] not in e.예:
+                    e.예.append(z["text"])
+            else:
+                표[z["id"]] = 배운뜻(z["id"], [z["text"]], z["답"], z.get("행위", ""), CACHE_θ)
+        elif k == "llm_tune" and z.get("id") in 표:
+            표[z["id"]].θ = round(min(1.0, 표[z["id"]].θ + 0.05), 4)
+    return list(표.values())
+
+
 # ================================================================ 버스 — 모두 계산하고, 억제 선이 작동기 입력을 대체한다
-기본선 = {"되묻기": {"반응"}, "배움": {"반응", "되묻기"}, "기억": {"반응", "되묻기", "배움"},
-         "숙고": {"반응", "되묻기", "기억", "배움"}}
+기본선 = {"되묻기": {"반응"}, "배움": {"반응", "되묻기"}, "답캐시": {"반응", "되묻기"},
+         "기억": {"반응", "되묻기", "배움", "답캐시"}, "숙고": {"반응", "되묻기", "기억", "배움", "답캐시"}}
 
 
 @dataclass
@@ -290,9 +321,10 @@ def 기르기(표본: list, seed: int = 7, c: float = C, 성장만들기=None, �
             "oof": [oof[i] for i in sorted(oof)]}
 
 
-def 버스짓기(체계: dict, 숙고켜기: bool = True, 기억켜기: bool = True, 뜻들: "list | None" = None) -> 버스:
-    hs = ([체계["반응"], 체계["되묻기"]] + ([배움(뜻들)] if 뜻들 else []) + ([기억()] if 기억켜기 else [])
-          + ([숙고()] if 숙고켜기 else []))
+def 버스짓기(체계: dict, 숙고켜기: bool = True, 기억켜기: bool = True, 뜻들: "list | None" = None,
+           캐시: "list | None" = None) -> 버스:
+    hs = ([체계["반응"], 체계["되묻기"]] + ([배움(뜻들)] if 뜻들 else []) + ([답캐시(캐시)] if 캐시 else [])
+          + ([기억()] if 기억켜기 else []) + ([숙고()] if 숙고켜기 else []))
     return 버스(체계["센서"], hs)
 
 
@@ -410,9 +442,41 @@ def 고른것(대답: str, 선택지: list, l0행위: "str | None") -> "str | No
     return None
 
 
-def 대화(버스_: 버스, text: str, who: str, 원장: list, now: float) -> dict:
+위로행위 = {"knowledge", "out_of_scope"}      # WALP 가 스스로 못 하는 것 — 답 캐시가 덮지 않으면 숙고층으로
+틀행위 = {"greet", "bye", "thanks", "about_self", "capability", "help", "complaint", "yes", "no"}
+
+
+def 모름(r: dict) -> bool:
+    """순서층의 판정(사전등록 고정): 되묻기 층이 흔들려 L0 을 억제했거나, L0 이 WALP 가 못 하는 행위를 골랐다.
+    위 층(배움 · 답 캐시 · 기억 · 숙고)이 가져간 말은 모르는 것이 아니다."""
+    if r["승자"] == "되묻기":
+        return True
+    return r["승자"] == "반응" and (r["행한것"] or {}).get("행위") in 위로행위
+
+
+def 숙고결과(d: dict, text: str, 기록: list) -> dict:
+    """숙고층의 답 → 이 턴의 말 + 배울 것(원장 줄). 부류는 L0 · 센서의 라벨로(via=llm), 열린 답만 답 캐시로."""
+    import hashlib
+    act = d["행위"]
+    qid = "q" + hashlib.sha256(D._알맹이(text).encode()).hexdigest()[:8]
+    if act in D.ACTS:
+        기록.append({"kind": "act_fix", "via": "llm", "act": act, "text": text})
+    if act not in D.ACTS or act in 위로행위:
+        기록.append({"kind": "llm_answer", "id": qid, "text": text, "행위": act, "답": d["답"],
+                    "입력토큰": d.get("입력토큰", 0), "출력토큰": d.get("출력토큰", 0), "모형": d.get("모형", "")})
+    기록.append({"kind": "behavior", "text": text, "승자": "숙고", "글": text, "행위": f"llm:{act}",
+                "입력토큰": d.get("입력토큰", 0), "출력토큰": d.get("출력토큰", 0)})
+    if act == "task":
+        return {"종류": "찾기", "내용": None, "행위": "task", "글": text, "기록": 기록}
+    if act in 틀행위:
+        return {"종류": "틀", "내용": D.틀[act], "행위": act, "글": text, "기록": 기록}
+    return {"종류": "숙고", "내용": d["답"], "행위": f"llm:{act}", "글": text, "기록": 기록}
+
+
+def 대화(버스_: 버스, text: str, who: str, 원장: list, now: float, 숙고=None) -> dict:
     """한 턴. 돌려주는 것: {종류, 내용, 행위, 글(실행할 원래 말), 기록(원장 줄들)}.
-    원장 = 이 사람의 최근 kind=behavior 줄들(시간순). 실행(찾기·계획·지식)은 부르는 쪽이 한다."""
+    원장 = 이 사람의 최근 kind=behavior 줄들(시간순). 실행(찾기·계획·지식)은 부르는 쪽이 한다.
+    숙고 = 숙고층(walp/deliberate.py) — 있으면 "모른다" 를 사람 대신 LLM 에게 묻고 그 답을 배운다. 없으면 예전처럼 되묻는다."""
     앞 = next((z for z in reversed(원장) if z.get("who") == who and now - z.get("ts", 0) <= 대기초), None)
     r = 버스_.돌기(text)
     l0 = r["출력"].get("반응") or {}
@@ -447,11 +511,17 @@ def 대화(버스_: 버스, text: str, who: str, 원장: list, now: float) -> di
     if 답했던 and not 앞.get("선택지") and 앞.get("행위") and l0.get("행위") in ("complaint", "no"):   # ② 답한 뒤의 자연어 불만
         if str(앞["행위"]).startswith("배움:"):
             기록.append({"kind": "act_tune", "id": 앞["행위"][3:]})
+        if str(앞["행위"]).startswith("캐시:"):
+            기록.append({"kind": "llm_tune", "id": 앞["행위"][3:]})
         옛 = 버스_.돌기(앞["글"])
         선 = 후보들(옛["출력"].get("반응") or {}, 뺄={앞["행위"]}, k=2)
         기록.append({"kind": "behavior", "text": text, "승자": "고쳐묻기", "글": 앞["글"], "선택지": 선, "틀린행위": 앞["행위"]})
         return {"종류": "되물음", "내용": "제가 잘못 알아들었나 봐요. " + 선택지말(선) + " 편하게 말씀해 주세요.",
                 "행위": None, "글": 앞["글"], "기록": 기록}
+    if 숙고 is not None and 모름(r):                               # ⑤ 순서층: 모른다 → 숙고층(LLM) — 그 답에서 배운다
+        d = 숙고.묻기(text)
+        if d and "오류" not in d:
+            return 숙고결과(d, text, 기록)
     종류, 내용 = 말(r)
     if 종류 == "되물음":                                          # ③ 되묻기 층이 L0 을 억제했다
         선 = 후보들(l0, k=2)
@@ -486,8 +556,8 @@ class 행동모형:
         pa = [p for p in (o.get("pa") or []) if p is not None]
         return o["행위"], (max(pa) / 1000.0 if pa else 0.0)
 
-    def 버스(self, 뜻들: "list | None" = None) -> 버스:
-        return 버스짓기(self.체, 뜻들=뜻들)
+    def 버스(self, 뜻들: "list | None" = None, 캐시: "list | None" = None) -> 버스:
+        return 버스짓기(self.체, 뜻들=뜻들, 캐시=캐시)
 
     def to_json(self) -> dict:
         return to_json(self.체)

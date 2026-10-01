@@ -279,6 +279,8 @@ def 재생표본(줄들: list) -> "tuple[list, list, list]":
         k = z.get("kind")
         if k in ("run", "interpret") and z.get("status") == "ok" and z.get("text"):
             라벨[z["text"]] = "task"
+        elif k == "act_fix" and z.get("via") == "llm" and z.get("act") in ACTS and z.get("text"):
+            라벨[z["text"]] = z["act"]           # LLM(숙고층)이 단 부류 — 학습 라벨일 뿐, 사람의 고침(사용자 관문 · 기억)이 아니다
         elif k == "act_fix" and z.get("act") in ACTS and z.get("text"):
             고침[z["text"]] = z["act"]
         elif k == "dialog" and z.get("act") in ACTS:
@@ -672,8 +674,8 @@ def 고침표(줄들: "list | None" = None) -> dict:
         key = None
     표: dict = {}
     for z in sorted(줄들, key=lambda z: z.get("ts", 0)):
-        if z.get("kind") != "act_fix" or z.get("act") not in ACTS or not z.get("text"):
-            continue
+        if z.get("kind") != "act_fix" or z.get("act") not in ACTS or not z.get("text") or z.get("via") == "llm":
+            continue                             # 기억 층은 사람의 고침만 — LLM 이 단 부류는 진화의 라벨로만 쓴다
         k = _알맹이(z["text"])
         e = 표.get(k)
         if not e or e["행위"] != z["act"]:

@@ -182,10 +182,13 @@ def _행동길(m, text: str, r: dict, who: str, via: str, seed: "int | None", fa
     from walp import behavior as B, dialog   # noqa: PLC0415
     h = usability.누구(who)
     앞줄 = [z for z in usability.읽기() if z.get("kind") == "behavior" and z.get("who") == h][-5:]
-    out = B.대화(m.버스(뜻들=B.뜻들읽기(usability.읽기(), h)), text, h, 앞줄, time.time())
+    from walp import deliberate   # noqa: PLC0415
+    줄들 = usability.읽기()
+    out = B.대화(m.버스(뜻들=B.뜻들읽기(줄들, h), 캐시=B.캐시읽기(줄들)), text, h, 앞줄, time.time(),
+                 숙고=_숙고층(deliberate))
     for rec in out["기록"]:
         rec = {"who": h, "via": via, **rec}
-        if rec["kind"] in ("act_fix", "act_new"):
+        if rec["kind"] in ("act_fix", "act_new") and rec.get("via") != "llm":
             rec["w"] = bool(allow_write)
         usability.적기(rec)
     usability.적기({"who": h, "via": via, "kind": "dialog", "act": out["행위"], "by": "behavior", "text": text[:400]})
@@ -197,9 +200,21 @@ def _행동길(m, text: str, r: dict, who: str, via: str, seed: "int | None", fa
         답 = _run(글, who, via, seed, family)
     elif 종류 == "지식":
         답 = search(글, who, via)
+    elif 종류 == "숙고":
+        답 = out["내용"] + "\n_(숙고층 LLM 의 답 — 비슷한 말에는 다음부터 WALP 가 LLM 없이 답합니다)_"
     else:
         답 = out["내용"]
     return 답 + dialog.알림(h)
+
+
+_숙고캐시: dict = {}
+
+
+def _숙고층(deliberate):
+    """숙고층(LLM)을 한 번만 짓는다. 쓸 수 없으면(키 없음 · 검사) None — 예전처럼 사람에게 되묻는다."""
+    if "x" not in _숙고캐시:
+        _숙고캐시["x"] = deliberate.기본숙고()
+    return _숙고캐시["x"]
 
 
 def _여러걸음(text: str) -> bool:
