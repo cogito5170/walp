@@ -13,6 +13,31 @@ make -C walp BUILD=/tmp/wb all test       # C++ 코어 + 시뮬 + CLI, 코어 �
 
 내 PC 에 설치하기: [`PC_실행.md`](walp/PC_실행.md). 디스코드: `!walp <말>`. MCP: `python3 walp/mcp_server.py`.
 
+## walp-front — WALP 를 Claude · Gemini CLI 앞에 세우는 도구
+
+잡담(인사 · 감사 · 작별 · 자기소개 · 할 수 있는 것 · 쓰는 법)은 WALP 가 10 ms 안팎에 토큰 0 으로 답하고, 나머지만
+`claude -p` / `gemini -p` 로 넘긴다(사용자의 로그인 · MCP 설정을 그대로 쓴다). 학습된 체계(`walp/data/front_model.json`)가 묶여 있고,
+숙고 · 기억 층을 끄므로 **C++ 코어를 빌드하지 않는다** — 맥에서 Xcode 없이 돈다. 표준 라이브러리만.
+
+```bash
+pip install git+https://github.com/cogito5170/walp
+walp-front ask "안녕하세요"                         # WALP 가 답한다 (토큰 0)
+walp-front ask "다음 주 회의 잡아줘" --llm gemini    # WALP 가 모른다 -> gemini 가 답한다
+walp-front ask "..." --llm auto                     # gemini 먼저, 로그인 · 설치 실패면 claude
+walp-front route "고마워"                           # WALP 판정만(JSON)
+```
+
+```python
+from walp.llmfront import SmallTalk
+SmallTalk().act("고마워")      # "thanks" -- 잡담이 아니거나 모르면 None
+```
+
+**알고 쓸 것.** worldplan 의 봉인 모음(사전등록, 60 문장 × 2)에서 이 층은 LLM 토큰을 **38~44%** 줄였지만, 일정 요청이 섞인 말
+("고마워~ 근데 latam 을 화요일로 옮겨줘")을 잡담으로 읽어 **60 문장 중 9~10 개**를 LLM 에 안 보내고 잡담으로 답했다
+(사전등록 안전 기준 5% 를 못 넘었다 — worldplan `eval/PREREG_앞단비교*.md`). WALP 는 한 말에 행위 하나만 고른다.
+숙고 · 기억 층을 끈 판정은 그 120 문장에서 켠 것과 0 개 달랐다(그 밖의 말에서는 다를 수 있다).
+검사: `python3 -m unittest tests.test_llmfront`.
+
 ## LLM 앞단 — 세 층
 
 **Control**(아래 행동 버스, LLM 없음) → **Sequencing**(스스로 답할지 · 계획을 돌릴지 · "모른다" 로 위로 보낼지) →

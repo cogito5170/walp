@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "walp"
+version = "0.5.0"
+description = "WALP — weight-free adaptive language policy; walp-front puts its small-talk layer in front of Claude/Gemini CLIs"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.scripts]
+walp-front = "walp.llmfront:main"
+
+[tool.setuptools]
+packages = ["walp"]
+
+[tool.setuptools.package-data]
+walp = ["data/*.json", "data/*.csv", "eval/*.tsv"]
