@@ -1,6 +1,7 @@
 """실행 정책층 P1~P3 -- 진짜 git 저장소(bare 원격) · 진짜 백그라운드 프로세스로 돌린다."""
 import json
 import os
+import re
 import subprocess
 import sys
 import tempfile
@@ -286,6 +287,52 @@ class CallMetrics(unittest.TestCase):
                         "tool_name": "mcp__walp__walp_publish", "tool_input": {}, "error": "boom"}, led)
         c = X.report(led)["calls"]["P2"]                                         # 실패 호출은 다른 사건으로 온다(실측)
         self.assertEqual((c["calls"], c["fail"], c["status"].get("tool_error")), (3, 2, 1))
+
+
+class Budget(unittest.TestCase):
+    """P4 -- 긴 Bash 출력만 줄이고, 오류 · 실패 · 요약 줄은 남기고, 전체는 파일로. 응답 꼴(stdout/stderr dict)을 지킨다(실측)."""
+
+    def setUp(self):
+        self.tmp = Path(tempfile.mkdtemp())
+        self.old = X.LEDGER
+        X.LEDGER = self.tmp / "s.jsonl"                     # 검사는 진짜 원장(~/.walp)에 흔적을 남기지 않는다
+
+    def tearDown(self):
+        X.LEDGER = self.old
+
+    def test_긴_출력만_줄이고_중요한_줄은_남긴다(self):
+        big = "\n".join([f"test_{i} ... ok" for i in range(2000)] + ["FAIL: test_zz (m.T)", "AssertionError: 1 != 2",
+                                                                     "Ran 2001 tests", "FAILED (failures=1)"])
+        big = big.replace("test_1000 ... ok", "Traceback (most recent call last):\nValueError: 가운데 오류")
+        resp = {"stdout": big, "stderr": "", "interrupted": False, "isImage": False, "noOutputExpected": False}
+        o = X.budget_hook({"tool_name": "Bash", "tool_response": resp}, store=self.tmp)
+        u = o["hookSpecificOutput"]["updatedToolOutput"]
+        self.assertEqual(set(u), set(resp))                                     # 꼴을 지킨다(문자열이면 무시된다)
+        self.assertLess(len(u["stdout"]), len(big) / 5)
+        for must in ("가운데 오류", "FAIL: test_zz", "Ran 2001 tests", "FAILED (failures=1)", "test_0 ... ok"):
+            self.assertIn(must, u["stdout"])
+        full = re.search(r"전체: (\S+)\]", u["stdout"]).group(1)
+        self.assertEqual(Path(full).read_text(encoding="utf-8"), big)            # 전체는 파일에 그대로
+        self.assertEqual(json.loads(X.LEDGER.read_text())["before"], len(big))   # 원장에는 수만
+
+    def test_짧은_출력_다른_도구_꺼짐은_그대로(self):
+        small = {"stdout": "ok\n", "stderr": ""}
+        self.assertIsNone(X.budget_hook({"tool_name": "Bash", "tool_response": small}))
+        self.assertIsNone(X.budget_hook({"tool_name": "Read", "tool_response": {"stdout": "x" * 100000}}))
+        os.environ["WALP_BUDGET"] = "0"
+        try:
+            self.assertIsNone(X.budget_hook({"tool_name": "Bash", "tool_response": {"stdout": "x\n" * 100000}}))
+        finally:
+            os.environ.pop("WALP_BUDGET")
+
+    def test_사용자_설정은_경로를_대야만(self):
+        with self.assertRaises(ValueError):
+            X.install_budget(None)
+        p = self.tmp / "settings.json"
+        X.install_budget(p)
+        self.assertFalse(X.install_budget(p)["changed"])
+        X.install_budget(p, remove=True)
+        self.assertEqual(json.loads(p.read_text()), {})
 
 
 class Replay(unittest.TestCase):

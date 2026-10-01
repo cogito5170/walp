@@ -9,6 +9,8 @@
     walp-exec wait --pid N [--log 파일] [--timeout 초]       P3
     walp-exec shadow-hook                                    그림자 모드 훅(표준입력) -- 막지 않고 원장에 제안만 적는다
     walp-exec install-shadow [--settings 경로]               Claude Code 에 그림자 훅을 건다 / uninstall-shadow
+    walp-exec budget-hook                                    P4 출력 예산(PostToolUse 훅, 기본 꺼짐) -- 긴 Bash 출력은 머리 · 꼬리 ·
+                                                             오류 줄만 모형에 보내고 전체는 파일로. 설치: install-budget
     walp-exec replay <세션.jsonl> [--sidechain]              오프라인 그림자(기록된 추적에 정책을 대 본다)
     walp-exec report [--ledger 경로]                          실제 그림자 원장의 일치율 · 아낀 턴
 
@@ -341,6 +343,98 @@ def _call_outcome(resp) -> dict:
     return {"ok": None, "status": "unknown"}
 
 
+# ---------------- P4 출력 예산 ----------------
+
+BUDGET_CHARS = int(os.environ.get("WALP_BUDGET_CHARS", "6000"))
+_KEEP = re.compile(r"Traceback|Error|error:|FAIL|FAILED|failed|ERROR|Exception|assert|AssertionError|warning:|"
+                   r"^E\s|^\s*File \"|panic|fatal|exit code|Ran \d+ tests|^OK\b|^FAILED\b|passed|failures?=", re.M)
+
+
+def budget_text(text: str, limit: int = BUDGET_CHARS, head: int = 40, tail: int = 60, keep_max: int = 80) -> "tuple[str, dict] | None":
+    """limit 자를 넘으면: 머리 head 줄 + 가운데의 오류 · 실패 · 요약 줄(최대 keep_max) + 꼬리 tail 줄. 넘지 않으면 None."""
+    if not text or len(text) <= limit:
+        return None
+    lines = text.splitlines()
+    if len(lines) <= head + tail:
+        mid_keep, cut = [], []
+        h, t = lines[:head], lines[head:]
+        kept = h + t
+        if len("\n".join(kept)) > limit:                     # 줄은 적은데 한 줄이 길다 -- 줄마다 자른다
+            kept = [x if len(x) <= 400 else x[:400] + f" …[{len(x) - 400}자 생략]" for x in lines]
+        out = "\n".join(kept)
+        return (out, {"lines": len(lines), "chars": len(text), "kept_chars": len(out)}) if len(out) < len(text) else None
+    h, mid, t = lines[:head], lines[head:-tail], lines[-tail:]
+    keep = [x[:300] for x in mid if _KEEP.search(x)][:keep_max]
+    dropped = len(mid) - len(keep)
+    return None if dropped <= 0 else (None, {"lines": len(lines), "chars": len(text), "dropped": dropped, "keep": keep, "h": h, "t": t})
+
+
+def budget_hook(ev: dict, store: "Path | None" = None) -> "dict | None":
+    """PostToolUse: Bash 출력이 예산을 넘으면 줄인 것으로 바꾼다(updatedToolOutput, Bash 응답과 같은 꼴이어야 먹는다 -- 실측).
+    전체는 파일에 남겨 모형이 필요하면 Read 로 본다. 원장에는 수만 적는다."""
+    if ev.get("tool_name") != "Bash" or os.environ.get("WALP_BUDGET") == "0":
+        return None
+    resp = ev.get("tool_response")
+    if not isinstance(resp, dict):
+        return None
+    new, total = dict(resp), {"before": 0, "after": 0}
+    changed = False
+    for k in ("stdout", "stderr"):
+        text = str(resp.get(k) or "")
+        total["before"] += len(text)
+        b = budget_text(text)
+        if not b:
+            total["after"] += len(text)
+            continue
+        out, st = b
+        if out is None:
+            d = Path(store or os.environ.get("WALP_BUDGET_DIR") or Path(tempfile.gettempdir()) / "walp-outputs")
+            d.mkdir(parents=True, exist_ok=True)
+            f = d / f"{hashlib.sha256(text.encode()).hexdigest()[:16]}.{k}.txt"
+            f.write_text(text, encoding="utf-8")
+            out = "\n".join(st["h"] + [f"… [WALP 출력 예산: {st['lines']:,}줄 · {st['chars']:,}자 가운데 {st['dropped']:,}줄 생략. "
+                                       f"오류 · 실패 · 요약 줄 {len(st['keep'])}개는 아래에 남김. 전체: {f}]"] + st["keep"]
+                            + ["… [생략 끝 -- 마지막 줄들]"] + st["t"])
+        new[k] = out
+        total["after"] += len(out)
+        changed = True
+    if not changed:
+        return None
+    try:
+        _append({"t": round(time.time(), 3), "s": str(ev.get("session_id", ""))[:36], "e": "Budget",
+                 "before": total["before"], "after": total["after"]})
+    except OSError:
+        pass
+    return {"hookSpecificOutput": {"hookEventName": "PostToolUse", "updatedToolOutput": new}}
+
+
+def install_budget(settings=None, remove=False) -> dict:
+    """P4 훅을 그 설정 파일의 PostToolUse(Bash)에 하나만 건다. 사용자 설정을 건드리려면 경로를 명시한다."""
+    if not settings:
+        raise ValueError("--settings 경로를 명시하라 -- 사용자 수준 설정은 승인 없이 바꾸지 않는다")
+    p = Path(settings).expanduser()
+    d = json.loads(p.read_text(encoding="utf-8")) if p.is_file() and p.read_text(encoding="utf-8").strip() else {}
+    exe = shutil.which("walp-exec")
+    cmd = f'"{exe}" budget-hook' if exe else f'"{sys.executable}" -m walp.execpolicy budget-hook'
+    ours = lambda h: re.search(r'walp-exec"?\s+budget-hook|walp\.execpolicy"?\s+budget-hook', h.get("command", ""))
+    before = json.dumps(d, sort_keys=True)
+    groups = d.setdefault("hooks", {}).setdefault("PostToolUse", [])
+    for g in groups:
+        g["hooks"] = [h for h in g.get("hooks", []) if not ours(h)]
+    groups[:] = [g for g in groups if g.get("hooks")]
+    if not remove:
+        groups.append({"matcher": "Bash", "hooks": [{"type": "command", "command": cmd, "timeout": 20}]})
+    if not groups:
+        del d["hooks"]["PostToolUse"]
+        if not d["hooks"]:
+            del d["hooks"]
+    changed = json.dumps(d, sort_keys=True) != before
+    if changed:
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_text(json.dumps(d, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return {"settings": str(p), "changed": changed, "installed": not remove}
+
+
 SHADOW_TAG = "walp-exec shadow-hook"
 
 
@@ -607,6 +701,9 @@ def main(argv=None) -> int:
     a.add_argument("--timeout", type=float, default=3600)
     a.add_argument("--progress-every", type=float, default=0, help="초마다 진행 한 줄을 stderr 로")
     sub.add_parser("shadow-hook")
+    sub.add_parser("budget-hook")
+    for n in ("install-budget", "uninstall-budget"):
+        sub.add_parser(n).add_argument("--settings", required=True)
     for n in ("install-shadow", "uninstall-shadow"):
         sub.add_parser(n).add_argument("--settings")
     a = sub.add_parser("replay"); a.add_argument("transcript"); a.add_argument("--sidechain", action="store_true")
@@ -617,6 +714,17 @@ def main(argv=None) -> int:
             shadow_event(json.loads(sys.stdin.read() or "{}"))
         except Exception as e:  # noqa: BLE001 -- 그림자는 아무것도 막지 않는다
             print(f"walp-exec shadow-hook: {type(e).__name__}: {e}", file=sys.stderr)
+        return 0
+    if args.cmd == "budget-hook":
+        try:
+            o = budget_hook(json.loads(sys.stdin.read() or "{}"))
+            if o:
+                print(json.dumps(o, ensure_ascii=False))
+        except Exception as e:  # noqa: BLE001 -- 예산이 터지면 원래 출력 그대로 간다
+            print(f"walp-exec budget-hook: {type(e).__name__}: {e}", file=sys.stderr)
+        return 0
+    if args.cmd in ("install-budget", "uninstall-budget"):
+        print(json.dumps(install_budget(args.settings, remove=args.cmd == "uninstall-budget"), ensure_ascii=False))
         return 0
     if args.cmd == "state":
         out = {"state": state_hash(args.repo)}
