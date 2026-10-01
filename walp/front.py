@@ -184,7 +184,8 @@ def _행동길(m, text: str, r: dict, who: str, via: str, seed: "int | None", fa
     앞줄 = [z for z in usability.읽기() if z.get("kind") == "behavior" and z.get("who") == h][-5:]
     from walp import deliberate   # noqa: PLC0415
     줄들 = usability.읽기()
-    out = B.대화(m.버스(뜻들=B.뜻들읽기(줄들, h), 캐시=B.캐시읽기(줄들)), text, h, 앞줄, time.time(),
+    캐시 = B.캐시읽기(줄들) if B.답캐시켜기 else None        # 꺼 두었다 — 봉인 흐름 v1 결과(PREREG_LLM앞단.md)
+    out = B.대화(m.버스(뜻들=B.뜻들읽기(줄들, h), 캐시=캐시), text, h, 앞줄, time.time(),
                  숙고=_숙고층(deliberate))
     for rec in out["기록"]:
         rec = {"who": h, "via": via, **rec}
@@ -201,7 +202,7 @@ def _행동길(m, text: str, r: dict, who: str, via: str, seed: "int | None", fa
     elif 종류 == "지식":
         답 = search(글, who, via)
     elif 종류 == "숙고":
-        답 = out["내용"] + "\n_(숙고층 LLM 의 답 — 비슷한 말에는 다음부터 WALP 가 LLM 없이 답합니다)_"
+        답 = out["내용"] + "\n_(숙고층 LLM 의 답 — 무엇을 묻는 말인지는 WALP 가 배웁니다)_"
     else:
         답 = out["내용"]
     return 답 + dialog.알림(h)
