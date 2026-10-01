@@ -1,7 +1,7 @@
 """WALP MCP 서버(stdio, JSON-RPC 2.0) — 선택한 MCP 층의 **바깥쪽**.
 
-사람이든 다른 에이전트든 MCP 클라이언트로 WALP 를 부른다. 도구 아홉 개가 전부이고, 각각
-`front.py` 의 같은 함수를 부른다(디스코드 `!walp` 와 같은 길). 표준 라이브러리만 쓴다.
+사람이든 다른 에이전트든 MCP 클라이언트로 WALP 를 부른다. 도구 아홉 개는 `front.py` 의 같은 함수를
+부르고(디스코드 `!walp` 와 같은 길), `walp_publish` · `walp_wait` 은 실행 정책층(`execpolicy.py`)의 P2 · P3 를 부른다. 표준 라이브러리만 쓴다.
 
     python3 walp/mcp_server.py        # 클라이언트 설정에 이 줄을 command 로 넣는다
 
@@ -50,10 +50,23 @@ TOOLS = [
      "inputSchema": {"type": "object", "properties": {}}},
     {"name": "walp_usability_report", "description": "사용성 원장 집계(첫 시도 성공률·되묻기 회복·모르는 낱말 상위 등).",
      "inputSchema": {"type": "object", "properties": {}}},
+    # 실행 정책층 P2 · P3 (execpolicy.py) -- LLM 이 **스스로 부를 때만** 돈다. 자동으로 켜지지 않는다
+    {"name": "walp_publish", "description": "게시 한 번: 커밋(추적되는 파일의 변경 + files 로 이름을 댄 새 파일만) -> 깨끗한 워크트리 검사 -> (push=true) 밀기 -> (merge=true) PR · 머지 · 머지 조회. "
+     "걸음마다 결정론적으로 확인하고 하나라도 안 되면 그 자리에서 멈춰 stopped_at 과 까닭을 돌려준다. 밀기 · 머지는 인자로 명시하고, "
+     "서버를 WALP_MCP_ALLOW_PUBLISH=1 로 띄운 경우만 한다.",
+     "inputSchema": {"type": "object", "properties": {"repo": {"type": "string"}, "message": {"type": "string"},
+                     "test": {"type": "string"}, "push": {"type": "boolean"}, "merge": {"type": "boolean"},
+                     "base": {"type": "string"}, "files": {"type": "array", "items": {"type": "string"},
+                     "description": "담을 새 파일(추적되는 파일의 변경은 늘 담는다). 이름을 댄 새 파일만 담는다"}},
+                     "required": ["repo", "message"]}},
+    {"name": "walp_wait", "description": "백그라운드 작업을 PID 로 끝날 때까지 기다리고 한 번 돌려준다(폴링 턴 대신). "
+     "status: ended · error(로그에 오류 흔적) · timeout · not_found. progress_every 초마다 진행을 남긴다(progressToken 이 있으면 알림으로도).",
+     "inputSchema": {"type": "object", "properties": {"pid": {"type": "integer"}, "log": {"type": "string"},
+                     "timeout": {"type": "number"}, "progress_every": {"type": "number"}}, "required": ["pid"]}},
 ]
 
 
-def call(name: str, a: dict) -> str:
+def call(name: str, a: dict, notify=None) -> str:
     if name == "walp_interpret":
         return front.interpret(str(a["text"]), WHO, "mcp")
     if name == "walp_run":
@@ -78,10 +91,25 @@ def call(name: str, a: dict) -> str:
         return front.se_catalog()
     if name == "walp_usability_report":
         return front.report()
+    if name == "walp_publish":
+        from walp import execpolicy
+        push, merge = bool(a.get("push")), bool(a.get("merge"))
+        # 바깥 동작(밀기 · 머지) -- MCP 는 호출자를 모르므로 **기본으로 닫는다**(walp_teach 와 같은 규칙)
+        if (push or merge) and os.environ.get("WALP_MCP_ALLOW_PUBLISH") != "1":
+            return "⚠ 밀기 · 머지는 이 MCP 서버에서 닫혀 있다 — 서버를 WALP_MCP_ALLOW_PUBLISH=1 로 띄운 경우만 한다. (push · merge 없이 부르면 커밋 · 검사까지 한다)"
+        r = execpolicy.publish(str(a["repo"]), str(a["message"]), a.get("test"), push, merge, str(a.get("base", "main")),
+                               files=[str(f) for f in a.get("files") or []])
+        return ("" if r.get("ok") else "⚠ ") + json.dumps(r, ensure_ascii=False)
+    if name == "walp_wait":
+        from walp import execpolicy
+        r = execpolicy.wait(int(a["pid"]), a.get("log"), float(a.get("timeout", 3600)),
+                            progress_every=float(a.get("progress_every", 0) or 0), on_progress=notify)
+        return ("" if r["status"] == "ended" else "⚠ ") + json.dumps(r, ensure_ascii=False)
     raise KeyError(name)
 
 
-def handle(msg: dict) -> "dict | None":
+def handle(msg: dict, send=None) -> "dict | None":
+    """send: 진행 알림(notifications/progress)을 바로 내보낼 함수 -- 부른 쪽이 progressToken 을 줬을 때만 쓴다."""
     mid = msg.get("id")
     method = msg.get("method", "")
     if mid is None:            # 알림(notifications/initialized 등)에는 답하지 않는다
@@ -99,8 +127,14 @@ def handle(msg: dict) -> "dict | None":
             name = p.get("name", "")
             if name not in {t["name"] for t in TOOLS}:
                 return {"jsonrpc": "2.0", "id": mid, "error": {"code": -32602, "message": f"모르는 도구: {name}"}}
+            token = (p.get("_meta") or {}).get("progressToken")
+            notify = None
+            if token is not None and send:
+                notify = lambda pr: send({"jsonrpc": "2.0", "method": "notifications/progress",  # noqa: E731
+                                          "params": {"progressToken": token, "progress": pr.get("seconds", 0),
+                                                     "message": json.dumps(pr, ensure_ascii=False)}})
             try:
-                text = call(name, p.get("arguments") or {})
+                text = call(name, p.get("arguments") or {}, notify)
                 res = {"content": [{"type": "text", "text": text}], "isError": text.startswith("⚠")}
             except (KeyError, ValueError, TypeError) as e:
                 res = {"content": [{"type": "text", "text": f"인자 오류: {e}"}], "isError": True}
@@ -121,10 +155,14 @@ def main() -> None:
         except json.JSONDecodeError:
             out = {"jsonrpc": "2.0", "id": None, "error": {"code": -32700, "message": "JSON 이 아니다"}}
         else:
-            out = handle(msg)
+            out = handle(msg, _write)
         if out is not None:
-            sys.stdout.write(json.dumps(out, ensure_ascii=False) + "\n")
-            sys.stdout.flush()
+            _write(out)
+
+
+def _write(obj: dict) -> None:
+    sys.stdout.write(json.dumps(obj, ensure_ascii=False) + "\n")
+    sys.stdout.flush()
 
 
 if __name__ == "__main__":

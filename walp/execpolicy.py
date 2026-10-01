@@ -117,27 +117,34 @@ def detect_test(repo: Path) -> "list[str] | None":
 
 
 def publish(repo: "str | Path", message: str, test: "str | None" = None, push: bool = False, merge: bool = False,
-            base: str = "main", runner=subprocess.run) -> dict:
+            base: str = "main", runner=subprocess.run, files: "list | None" = None) -> dict:
     """한 번에 발행. 걸음마다 결정론적으로 확인하고, 하나라도 안 되면 **그 자리에서 멈추고** 까닭을 돌려준다(LLM 이 이어받는다).
     바깥 동작(밀기 · PR · 머지)은 깃발을 줄 때만 한다."""
     repo = Path(_git(repo, "rev-parse", "--show-toplevel").strip() or repo)
     done = []
 
-    def run(cmd, cwd=repo, timeout=1800):
-        return runner(cmd, cwd=str(cwd), capture_output=True, text=True, timeout=timeout)
+    def run(cmd, cwd=repo, timeout=1800, env=None):
+        return runner(cmd, cwd=str(cwd), capture_output=True, text=True, timeout=timeout, env=env)
 
     def stop(at, r=None, why=""):
         tail = ((r.stdout or "") + (r.stderr or ""))[-800:] if r is not None else why
         return {"ok": False, "stopped_at": at, "done": done, "tail": tail}
 
-    run(["git", "add", "-A"])
+    # 추적되는 파일의 변경만 담는다. 새 파일은 files 로 **이름을 댄 것만** -- 'git add -A' 는 로그 · 원장 같은
+    # 추적 안 되는 흔적까지 쓸어 담았다(실제 그림자에서 slow2.log 가 커밋 · 밀기까지 됐다)
+    run(["git", "add", "-u"])
+    if files:
+        r = run(["git", "add", "--", *[str(f) for f in files]])
+        if r.returncode:
+            return stop("commit", r)
+    left = [x for x in run(["git", "ls-files", "--others", "--exclude-standard"]).stdout.splitlines() if x]
     if run(["git", "diff", "--cached", "--quiet"]).returncode == 0:
-        return stop("commit", why="담을 변경이 없다")
+        return stop("commit", why="담을 변경이 없다" + (f" (추적 안 되는 파일 {len(left)} 개는 files 로 이름을 대야 담는다)" if left else ""))
     r = run(["git", "commit", "-q", "-m", message])
     if r.returncode:
         return stop("commit", r)
     sha = run(["git", "rev-parse", "--short", "HEAD"]).stdout.strip()
-    done.append(f"commit {sha}")
+    done.append(f"commit {sha}" + (f" (안 담은 추적 안 되는 파일 {len(left)}: {', '.join(left[:5])})" if left else ""))
     cmd = test.split() if isinstance(test, str) and test else detect_test(repo)
     if cmd:
         wt = Path(tempfile.mkdtemp(prefix="walp-publish-")) / "wt"
@@ -145,7 +152,7 @@ def publish(repo: "str | Path", message: str, test: "str | None" = None, push: b
         if r.returncode:
             return stop("worktree", r)
         try:
-            r = run(cmd, cwd=wt)
+            r = run(cmd, cwd=wt, env={**os.environ, "PYTHONDONTWRITEBYTECODE": "1"})   # 검사가 .pyc 흔적을 안 남기게
             dirty = run(["git", "status", "--porcelain", "-uno"], cwd=wt).stdout.strip()
         finally:
             run(["git", "worktree", "remove", "--force", str(wt)])
@@ -202,16 +209,40 @@ def _alive(pid: int) -> bool:
         return True
 
 
-def wait(pid: int, log: "str | None" = None, timeout: float = 3600, every: float = 2.0, tail: int = 15) -> dict:
-    """PID 로 기다린다(이름 패턴은 쓰지 않는다 -- 한글 명령줄 · 자기 자신을 잡는 문제). 끝나면 한 번 돌려준다."""
+_ERR = re.compile(r"Traceback \(most recent call last\)|\bError\b|\bFAILED\b|\bfatal:")
+
+
+def _log_state(log: "str | None", tail: int) -> dict:
+    if not log or not Path(log).is_file():
+        return {}
+    lines = Path(log).read_text(encoding="utf-8", errors="replace").splitlines()
+    return {"log_lines": len(lines), "log_tail": lines[-tail:], "log_has_error": any(_ERR.search(x) for x in lines)}
+
+
+def wait(pid: int, log: "str | None" = None, timeout: float = 3600, every: float = 2.0, tail: int = 15,
+         progress_every: float = 0, on_progress=None) -> dict:
+    """PID 로 기다린다(이름 패턴은 쓰지 않는다 -- 한글 명령줄 · 자기 자신을 잡는 문제). 끝나면 한 번 돌려준다.
+    status: ended(끝남) · error(끝났는데 로그에 오류 흔적) · timeout(시간 초과, 아직 돈다) · not_found(처음부터 없는 PID).
+    종료 코드는 남의 PID 라 알 수 없다 -- 로그로만 가른다. progress_every 초마다 진행(로그 줄 수 · 끝 줄)을 on_progress 로
+    내보내고, 결과의 progress 에도 남긴다(중간 보고를 잃지 않게)."""
     t0 = time.time()
+    if not _alive(pid):
+        return {"pid": pid, "status": "not_found", "ended": True, "seconds": 0.0, **_log_state(log, tail)}
+    progress, last = [], t0
     while _alive(pid) and time.time() - t0 < timeout:
         time.sleep(every)
-    out = {"pid": pid, "ended": not _alive(pid), "seconds": round(time.time() - t0, 1)}
-    if log and Path(log).is_file():
-        lines = Path(log).read_text(encoding="utf-8", errors="replace").splitlines()
-        out["log_lines"] = len(lines)
-        out["log_tail"] = lines[-tail:]
+        if progress_every and time.time() - last >= progress_every:
+            last = time.time()
+            ls = _log_state(log, 1)
+            p = {"seconds": round(last - t0, 1), "log_lines": ls.get("log_lines"), "last": (ls.get("log_tail") or [None])[-1]}
+            progress.append(p)
+            if on_progress:
+                on_progress(p)
+    ended = not _alive(pid)
+    out = {"pid": pid, "ended": ended, "seconds": round(time.time() - t0, 1), **_log_state(log, tail)}
+    out["status"] = "timeout" if not ended else ("error" if out.get("log_has_error") else "ended")
+    if progress:
+        out["progress"] = progress[-20:]
     return out
 
 
@@ -251,13 +282,18 @@ def shadow_event(ev: dict, ledger: "Path | None" = None) -> "dict | None":
         seen = [r for r in _prior(sess, ledger) if r.get("e") == "Stop" and r.get("prompt") == h and r.get("state") == st]
         if st and seen:
             rec["propose"] = "P1"
-    elif name == "PostToolUse":
+    elif name in ("PostToolUse", "PostToolUseFailure"):     # 실패한 호출은 PostToolUseFailure 로 온다(claude CLI 실측)
         tool = ev.get("tool_name", "")
         inp = ev.get("tool_input") or {}
         k = sorted(bash_kind(str(inp.get("command", "")))) if tool == "Bash" else (["pr"] if is_pr_tool(tool) else [])
         if tool in ("Write", "Edit", "MultiEdit", "NotebookEdit"):
             k = ["edit", "state"]
         rec.update(tool=tool if not tool.startswith("mcp__") else "mcp", kind=k)
+        call = _walp_call(tool, inp)
+        if call:
+            rec["call"] = call
+            rec.update({"ok": False, "status": "tool_error"} if name == "PostToolUseFailure"
+                       else _call_outcome(ev.get("tool_response")))
         if "commit" in k:
             rec["propose"] = "P2"
         if "poll" in k:
@@ -272,6 +308,39 @@ def shadow_event(ev: dict, ledger: "Path | None" = None) -> "dict | None":
     return rec
 
 
+def _walp_call(tool: str, inp: dict) -> "str | None":
+    """walp 의 P2 · P3 도구를 부른 것인가(MCP 이름 또는 walp-exec 명령)."""
+    if tool.endswith("walp_publish") or (tool == "Bash" and re.search(r"walp-exec\s+publish|walp\.execpolicy\s+publish",
+                                                                     str(inp.get("command", "")))):
+        return "P2"
+    if tool.endswith("walp_wait") or (tool == "Bash" and re.search(r"walp-exec\s+wait|walp\.execpolicy\s+wait",
+                                                                  str(inp.get("command", "")))):
+        return "P3"
+    return None
+
+
+def _call_outcome(resp) -> dict:
+    """도구 응답에서 결과 상태만 뽑는다(ok · stopped_at · status -- 정해진 낱말만, 글은 버린다)."""
+    texts = []
+    if isinstance(resp, dict):
+        texts += [str(resp.get("stdout", ""))] + [str(c.get("text", "")) for c in resp.get("content", []) or []
+                                                  if isinstance(c, dict)]
+    elif isinstance(resp, list):
+        texts += [str(c.get("text", "")) for c in resp if isinstance(c, dict)]
+    elif isinstance(resp, str):
+        texts.append(resp)
+    for t in texts:
+        i = t.find("{")
+        try:
+            d = json.loads(t[i:]) if i >= 0 else None
+        except json.JSONDecodeError:
+            continue
+        if isinstance(d, dict):
+            ok = d.get("ok") if "ok" in d else d.get("status") == "ended"
+            return {"ok": bool(ok), "status": str(d.get("stopped_at") or d.get("status") or ("ok" if ok else "?"))[:20]}
+    return {"ok": None, "status": "unknown"}
+
+
 SHADOW_TAG = "walp-exec shadow-hook"
 
 
@@ -283,14 +352,14 @@ def install_shadow(settings=None, remove=False) -> dict:
     ours = lambda h: re.search(r'walp-exec"?\s+shadow-hook|walp\.execpolicy"?\s+shadow-hook', h.get("command", ""))
     before = json.dumps(d, sort_keys=True)
     hooks = d.setdefault("hooks", {})
-    for ev in ("UserPromptSubmit", "PostToolUse", "Stop"):
+    for ev in ("UserPromptSubmit", "PostToolUse", "PostToolUseFailure", "Stop"):
         groups = hooks.setdefault(ev, [])
         for g in groups:
             g["hooks"] = [h for h in g.get("hooks", []) if not ours(h)]
         groups[:] = [g for g in groups if g.get("hooks")]
         if not remove:
             g = {"hooks": [{"type": "command", "command": cmd, "timeout": 20}]}
-            if ev == "PostToolUse":
+            if ev.startswith("PostToolUse"):
                 g["matcher"] = "*"
             groups.append(g)
         if not groups:
@@ -360,7 +429,7 @@ def report(ledger: "Path | None" = None) -> dict:
                     res[p]["wrong"] += 1
             elif p == "P2":
                 # commit 이 든 그 호출부터 센다 -- 'commit && push' 처럼 한 호출에 같이 있을 수 있다(사전등록: commit 뒤 12턴 안)
-                nxt = [r] + [x for x in ev[i + 1:] if x["e"] == "PostToolUse"][:P2_WINDOW]
+                nxt = [r] + [x for x in ev[i + 1:] if x["e"].startswith("PostToolUse")][:P2_WINDOW]
                 pushed = next((j for j, x in enumerate(nxt) if "push" in x.get("kind", [])), None)
                 pr = next((j for j, x in enumerate(nxt) if "pr" in x.get("kind", [])), None)
                 edit = next((j for j, x in enumerate(nxt) if "edit" in x.get("kind", [])), None)
@@ -379,7 +448,7 @@ def report(ledger: "Path | None" = None) -> dict:
             elif p == "P3":
                 k = 1
                 for x in ev[i + 1:]:
-                    if x["e"] != "PostToolUse":
+                    if not x["e"].startswith("PostToolUse"):
                         continue
                     if "poll" in x.get("kind", []):
                         k += 1
@@ -390,12 +459,32 @@ def report(ledger: "Path | None" = None) -> dict:
                     continue
                 res[p]["agree"] += 1
                 res[p]["saved_turns"] += k - 1
-                polls = [x for x in ev[i:] if x["e"] == "PostToolUse"][:k]
+                polls = [x for x in ev[i:] if x["e"].startswith("PostToolUse")][:k]
                 if k > 1:
                     _, t = tok_between(polls[0]["t"], polls[-1]["t"])
                     res[p]["saved_tokens"] += t
     for v in res.values():
         v["agree_rate"] = v["agree"] / v["proposals"] if v["proposals"] else None
+    # 실제로 부른 도구(P2 · P3): 호출 수 · 성공 · 실패 · 재시도(실패 뒤 같은 세션에서 다시 부름) · 그 턴의 토큰
+    calls = {k: {"calls": 0, "ok": 0, "fail": 0, "unknown": 0, "retries": 0, "tokens": 0, "status": {}} for k in ("P2", "P3")}
+    for sess, ev in by.items():
+        tr = next((r.get("transcript") for r in reversed(ev) if r.get("transcript")), None)
+        turns = _turn_tokens(tr)
+        failed = set()
+        for r in ev:
+            c = r.get("call")
+            if not c:
+                continue
+            v = calls[c]
+            v["calls"] += 1
+            v["ok" if r.get("ok") is True else "fail" if r.get("ok") is False else "unknown"] += 1
+            v["status"][r.get("status", "?")] = v["status"].get(r.get("status", "?"), 0) + 1
+            if c in failed:
+                v["retries"] += 1
+            (failed.add if r.get("ok") is False else failed.discard)(c)
+            prev = [t for ts, t in turns if ts <= r["t"]]
+            v["tokens"] += prev[-1] if prev else 0                  # 그 도구를 부른 턴(직전 턴)의 토큰
+    res["calls"] = calls
     return res
 
 
@@ -511,10 +600,12 @@ def main(argv=None) -> int:
     sub = ap.add_subparsers(dest="cmd", required=True)
     a = sub.add_parser("state"); a.add_argument("--repo", default=".")
     a = sub.add_parser("publish"); a.add_argument("-m", "--message", required=True); a.add_argument("--repo", default=".")
+    a.add_argument("--add", action="append", default=[], help="담을 새 파일(여러 번). 이름을 댄 새 파일만 담는다")
     a.add_argument("--test"); a.add_argument("--push", action="store_true"); a.add_argument("--merge", action="store_true")
     a.add_argument("--base", default="main")
     a = sub.add_parser("wait"); a.add_argument("--pid", type=int, required=True); a.add_argument("--log")
     a.add_argument("--timeout", type=float, default=3600)
+    a.add_argument("--progress-every", type=float, default=0, help="초마다 진행 한 줄을 stderr 로")
     sub.add_parser("shadow-hook")
     for n in ("install-shadow", "uninstall-shadow"):
         sub.add_parser(n).add_argument("--settings")
@@ -530,9 +621,10 @@ def main(argv=None) -> int:
     if args.cmd == "state":
         out = {"state": state_hash(args.repo)}
     elif args.cmd == "publish":
-        out = publish(args.repo, args.message, args.test, args.push, args.merge, args.base)
+        out = publish(args.repo, args.message, args.test, args.push, args.merge, args.base, files=args.add)
     elif args.cmd == "wait":
-        out = wait(args.pid, args.log, args.timeout)
+        out = wait(args.pid, args.log, args.timeout, progress_every=args.progress_every,
+                   on_progress=lambda p: print(json.dumps(p, ensure_ascii=False), file=sys.stderr, flush=True))
     elif args.cmd in ("install-shadow", "uninstall-shadow"):
         out = install_shadow(args.settings, remove=args.cmd == "uninstall-shadow")
     elif args.cmd == "replay":
@@ -540,6 +632,8 @@ def main(argv=None) -> int:
     else:
         out = report(Path(args.ledger) if args.ledger else None)
     print(json.dumps(out, ensure_ascii=False, indent=1 if args.cmd in ("replay", "report") else None))
+    if args.cmd == "wait":
+        return {"ended": 0, "error": 1, "timeout": 2, "not_found": 3}.get(out["status"], 1)
     return 0 if out.get("ok", True) else 1
 
 
