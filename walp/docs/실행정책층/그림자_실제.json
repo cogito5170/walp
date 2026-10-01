@@ -1,0 +1,29 @@
+{
+ "P1": {
+  "proposals": 2,
+  "agree": 2,
+  "wrong": 0,
+  "escalate": 0,
+  "saved_turns": 4,
+  "saved_tokens": 127481,
+  "agree_rate": 1.0
+ },
+ "P2": {
+  "proposals": 1,
+  "agree": 1,
+  "wrong": 0,
+  "escalate": 0,
+  "saved_turns": 2,
+  "saved_tokens": 65986,
+  "agree_rate": 1.0
+ },
+ "P3": {
+  "proposals": 1,
+  "agree": 1,
+  "wrong": 0,
+  "escalate": 0,
+  "saved_turns": 1,
+  "saved_tokens": 32130,
+  "agree_rate": 1.0
+ }
+}
