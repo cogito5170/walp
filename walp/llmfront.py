@@ -13,6 +13,10 @@
 WALP 는 한 말에 행위 하나만 고른다. 그 대가를 받아들이는 곳에서만 켜라. 숫자: worldplan `eval/PREREG_앞단비교*.md`.
 
     walp-front route "안녕"                       WALP 의 판정만(JSON) -- LLM 을 부르지 않는다
+    walp-front install-hook [--settings 경로]     Claude Code 설정(기본 ~/.claude/settings.json)에 그 훅을 건다(다른 훅은 그대로)
+    walp-front uninstall-hook [--settings 경로]   뗀다
+    walp-front hook                               Claude Code 의 UserPromptSubmit 훅(표준입력 JSON) -- 잡담이면 모형에
+                                                  보내지 않고 WALP 가 답한다. '//' 로 시작하는 말 · 슬래시 명령은 그대로 보낸다
     walp-front ask "안녕" [--llm auto|claude|gemini|off] [--replies 답.json] [--json]
     python3 -m walp.llmfront ...                  같은 것
 
@@ -149,6 +153,62 @@ def ask(text: str, llm: str = "auto", replies: "dict | None" = None, st: "SmallT
             "ms": round((time.perf_counter() - t0) * 1000, 1)}
 
 
+BYPASS = "//"
+
+
+def hook(stdin: str, st: "SmallTalk | None" = None, replies: "dict | None" = None) -> "dict | None":
+    """Claude Code UserPromptSubmit 훅. 잡담이면 {"decision": "block", "reason": 답} -- 모형을 안 부르고 그 답을 사람에게 보인다.
+    아니면 None(아무것도 안 찍는다 -> 말이 그대로 모형에 간다). 못 읽는 입력도 None -- 훅이 사람의 말을 막는 쪽으로 틀리지 않게."""
+    try:
+        prompt = str(json.loads(stdin or "{}").get("prompt") or "")
+    except (json.JSONDecodeError, AttributeError):
+        return None
+    p = prompt.strip()
+    if not p or p.startswith(BYPASS) or p.startswith("/") or os.environ.get("WALP_FRONT_HOOK") == "0":
+        return None
+    act = (st or SmallTalk()).act(p)
+    if not act:
+        return None
+    reply = (replies or REPLY).get(act, REPLY[act])
+    return {"decision": "block",
+            "reason": f"{reply}\n(WALP 잡담층이 답했다 -- 모형에 보내지 않음, 토큰 0. 일이 담긴 말이었다면 앞에 // 를 붙여 다시 보내라)"}
+
+
+HOOK_TAG = "walp-front hook"
+
+
+def _hook_command() -> str:
+    exe = shutil.which("walp-front")
+    if exe:
+        return f'"{exe}" hook'
+    return f'"{sys.executable}" -m walp.llmfront hook'
+
+
+def install_hook(settings: "str | Path | None" = None, remove: bool = False) -> dict:
+    """설정 파일의 hooks.UserPromptSubmit 에 이 훅을 하나만 둔다(이미 있으면 바꾸지 않는다). 바꾸기 전 것은 .bak-walp 로."""
+    p = Path(settings or Path.home() / ".claude" / "settings.json").expanduser()
+    d = json.loads(p.read_text(encoding="utf-8")) if p.is_file() and p.read_text(encoding="utf-8").strip() else {}
+    groups = d.setdefault("hooks", {}).setdefault("UserPromptSubmit", [])
+    ours = lambda h: HOOK_TAG in h.get("command", "") or "walp.llmfront hook" in h.get("command", "")
+    before = json.dumps(d, sort_keys=True)
+    for g in groups:
+        g["hooks"] = [h for h in g.get("hooks", []) if not ours(h)]
+    groups[:] = [g for g in groups if g.get("hooks")]
+    if not remove:
+        groups.append({"hooks": [{"type": "command", "command": _hook_command(), "timeout": 30}]})
+    if not groups:
+        del d["hooks"]["UserPromptSubmit"]
+        if not d["hooks"]:
+            del d["hooks"]
+    changed = json.dumps(d, sort_keys=True) != before
+    if changed:
+        p.parent.mkdir(parents=True, exist_ok=True)
+        if p.is_file():
+            p.with_name(p.name + ".bak-walp").write_bytes(p.read_bytes())
+        p.write_text(json.dumps(d, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return {"settings": str(p), "changed": changed, "installed": not remove}
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(prog="walp-front", description="WALP 를 LLM CLI 앞에 세운다 -- 잡담은 WALP, 나머지는 LLM")
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -157,9 +217,27 @@ def main(argv=None) -> int:
     a.add_argument("--llm", default=os.environ.get("WALP_FRONT_LLM", "auto"), help="auto | claude | gemini | claude,gemini | off")
     a.add_argument("--replies", help="부류별 답 JSON {greet: ..., thanks: ...}")
     a.add_argument("--json", action="store_true")
-    for p in (sub.choices["route"], a):
+    for name in ("install-hook", "uninstall-hook"):
+        sub.add_parser(name, help="Claude Code 설정에 훅을 건다/뗀다").add_argument("--settings")
+    h = sub.add_parser("hook", help="Claude Code UserPromptSubmit 훅(표준입력 JSON)")
+    h.add_argument("--replies")
+    for p in (sub.choices["route"], a, h):
         p.add_argument("--model", help="학습된 체계 JSON (기본: 묶여 온 data/front_model.json)")
     args = ap.parse_args(argv)
+    if args.cmd in ("install-hook", "uninstall-hook"):
+        print(json.dumps(install_hook(args.settings, remove=args.cmd == "uninstall-hook"), ensure_ascii=False))
+        return 0
+    if args.cmd == "hook":
+        try:
+            raw = sys.stdin.read()
+            replies = json.loads(Path(args.replies).read_text(encoding="utf-8")) if args.replies else None
+            out = hook(raw, SmallTalk(args.model), replies)
+        except Exception as e:  # noqa: BLE001 -- 훅이 터져도 사람의 말은 막지 않는다(그대로 모형에 간다)
+            print(f"walp-front hook: {type(e).__name__}: {e}", file=sys.stderr)
+            return 0
+        if out:
+            print(json.dumps(out, ensure_ascii=False))
+        return 0
     st = SmallTalk(args.model)
     if args.cmd == "route":
         print(json.dumps(st.judge(args.text), ensure_ascii=False))

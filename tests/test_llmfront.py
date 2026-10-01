@@ -90,5 +90,56 @@ class Front(unittest.TestCase):
         self.assertEqual(r["answer"], "어서 오세요")
 
 
+class Hook(unittest.TestCase):
+    """Claude Code UserPromptSubmit 훅. 진짜 claude -p 로 잰 것(2026-10-01): 막으면 토큰 0 · 비용 0 · 모형 호출 0,
+    WALP 답이 결과로 나온다. 여기서는 훅의 입출력 약속만 본다(하위 프로세스로)."""
+
+    def run_hook(self, payload, env=None):
+        r = subprocess.run([sys.executable, "-m", "walp.llmfront", "hook"], cwd=ROOT, input=payload, capture_output=True,
+                           text=True, timeout=60, env={**os.environ, **(env or {})})
+        self.assertEqual(r.returncode, 0, r.stderr)                 # 훅은 늘 0 -- 막는 것은 JSON 으로만
+        return json.loads(r.stdout) if r.stdout.strip() else None
+
+    def test_잡담이면_막고_WALP_가_답한다(self):
+        out = self.run_hook(json.dumps({"prompt": "안녕하세요", "session_id": "x", "hook_event_name": "UserPromptSubmit"}))
+        self.assertEqual(out["decision"], "block")
+        self.assertTrue(out["reason"].startswith(F.REPLY["greet"]))
+
+    def test_일은_그대로_보낸다(self):
+        for p in ("이 함수 고쳐줘", "//안녕", "/clear", "", "   "):
+            self.assertIsNone(self.run_hook(json.dumps({"prompt": p})), p)
+
+    def test_못_읽는_입력과_꺼짐은_막지_않는다(self):
+        self.assertIsNone(self.run_hook("이건 JSON 이 아니다"))
+        self.assertIsNone(self.run_hook(json.dumps({"prompt": "안녕"}), {"WALP_FRONT_HOOK": "0"}))
+        self.assertIsNone(self.run_hook(json.dumps({"prompt": "안녕"}), {"WALP_FRONT_MODEL": "/없는/체계.json"}))  # 터져도 통과
+
+
+class InstallHook(unittest.TestCase):
+    def test_다른_설정을_지키고_한_번만_건다(self):
+        p = Path(tempfile.mkdtemp()) / "settings.json"
+        other = {"type": "command", "command": "echo 남의 훅"}
+        p.write_text(json.dumps({"model": "sonnet", "hooks": {"UserPromptSubmit": [{"hooks": [other]}], "Stop": [{"hooks": [other]}]}}))
+        self.assertTrue(F.install_hook(p)["changed"])
+        self.assertFalse(F.install_hook(p)["changed"])                      # 두 번 걸어도 하나
+        d = json.loads(p.read_text())
+        cmds = [h["command"] for g in d["hooks"]["UserPromptSubmit"] for h in g["hooks"]]
+        self.assertEqual(sum("hook" in c and ("walp-front" in c or "walp.llmfront" in c) for c in cmds), 1)
+        self.assertIn("echo 남의 훅", cmds)
+        self.assertEqual((d["model"], d["hooks"]["Stop"]), ("sonnet", [{"hooks": [other]}]))
+        self.assertTrue(p.with_name("settings.json.bak-walp").is_file())
+        F.install_hook(p, remove=True)
+        d = json.loads(p.read_text())
+        self.assertEqual([h["command"] for g in d["hooks"]["UserPromptSubmit"] for h in g["hooks"]], ["echo 남의 훅"])
+
+    def test_설정이_없으면_새로_짓는다(self):
+        p = Path(tempfile.mkdtemp()) / ".claude" / "settings.json"
+        F.install_hook(p)
+        d = json.loads(p.read_text())
+        self.assertEqual(len(d["hooks"]["UserPromptSubmit"]), 1)
+        F.install_hook(p, remove=True)
+        self.assertEqual(json.loads(p.read_text()), {})
+
+
 if __name__ == "__main__":
     unittest.main()
