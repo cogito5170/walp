@@ -54,6 +54,9 @@ struct RunOpts {
     std::uint32_t policy_version = 1;
     // 고장 주입 훅(시험용)
     bool force_plan_timeout = false;
+    // 선언한 칸의 물체가 goal 조건에 맞으면 성공 — 사람 명령(run)은 말하지 않은 색·브랜드를 시뮬이 몰래 정하므로.
+    // 평가(eval)는 goal_for 로 조건을 모두 채우므로 끈 채(정답 칸 하나)로 둔다.
+    bool judge_by_goal = false;
 };
 
 GoalSpec goal_for(const ScenarioConfig& sc, std::uint32_t extra_constraints = 0);

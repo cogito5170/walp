@@ -397,6 +397,7 @@ int cmd_run(int argc, char** argv) {
     Arm arm{"WALP", ExploreMode::Search, true, L_NONE, true, true};
     RunOpts o;
     o.keep_decisions = true;
+    o.judge_by_goal = true;   // 말하지 않은 색·브랜드는 아무것이나 맞다(예: '파란 카드' 에 파란 비자카드)
     const EpisodeResult r = run_episode(sc, g, arm, default_params(), cb.get(), o);
     char canon[256];
     goal_to_canon(g, canon, sizeof canon);

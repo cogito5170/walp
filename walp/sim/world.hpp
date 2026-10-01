@@ -67,6 +67,8 @@ public:
 
     // 평가기 전용(코어는 못 부른다)
     bool is_target(int x, int y) const;
+    // (x,y) 의 물체가 명령 조건(종류, 0 이면 아무 색·브랜드)에 맞는가 — 정답 하나가 아니라 말한 대로 채점할 때
+    bool satisfies(int x, int y, std::uint8_t type, std::uint8_t color, std::uint8_t brand) const;
     const Violations& violations() const { return viol_; }
     int target_x() const { return objs_[0].x; }
     int target_y() const { return objs_[0].y; }

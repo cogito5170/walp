@@ -468,6 +468,37 @@ int main() {
         CHECK(r.trace_ok == r.trace_total && r.trace_total > 0, "모든 결정이 규칙·증거·버전으로 되짚인다");
     }
 
+    // ---------------------------------------------------------------- 말한 대로 채점(run): 말하지 않은 브랜드는 아무것이나
+    {
+        ScenarioConfig s = scen(6407);
+        s.brand = kMaster;                       // 시뮬이 몰래 정한 정답은 마스터카드
+        World w(s, 0);
+        const int tx = w.target_x(), ty = w.target_y();
+        CHECK(w.satisfies(tx, ty, kCard, kBlue, kMaster) && w.satisfies(tx, ty, kCard, kBlue, kBrandAny) &&
+                  w.satisfies(tx, ty, kCard, kColorAny, kBrandAny),
+              "정답 칸은 조건을 덜 말해도 맞다");
+        CHECK(!w.satisfies(tx, ty, kCard, kBlue, kVisa) && !w.satisfies(tx, ty, kKey, kColorAny, kBrandAny) &&
+                  !w.satisfies(1, 1, kCard, kColorAny, kBrandAny),
+              "다른 브랜드 · 다른 종류 · 빈 칸은 안 맞다");
+        Arm arm{"t", ExploreMode::Search, false, L_NONE, true, true};
+        int differ = 0, stricter = 0;
+        for (std::uint32_t sd = 6400; sd < 6440; ++sd) {
+            ScenarioConfig c = scen(sd);
+            c.brand = kMaster;
+            GoalSpec g = goal_for(c);
+            g.required_attributes = pack_attrs(kBlue, kBrandAny);   // 사람은 "파란 카드" 라고만 말했다
+            RunOpts strict, said;
+            said.judge_by_goal = true;
+            const bool a = run_episode(c, g, arm, default_params(), nullptr, strict).outcome == O_SUCCESS;
+            const bool b = run_episode(c, g, arm, default_params(), nullptr, said).outcome == O_SUCCESS;
+            differ += !a && b;
+            stricter += a && !b;
+        }
+        CHECK(stricter == 0, "말한 대로 채점은 정답 칸 채점보다 엄하지 않다(40판)");
+        CHECK(differ > 0, "음성 대조: 같은 색 다른 브랜드 카드를 고른 판이 실제로 있고, 그것만 성공으로 바뀐다");
+        std::printf("     말한 대로 채점으로 오답→성공 %d/40판\n", differ);
+    }
+
     std::printf("\n%s — 실패 %d\n", g_fail ? "FAIL" : "PASS", g_fail);
     return g_fail ? 1 : 0;
 }

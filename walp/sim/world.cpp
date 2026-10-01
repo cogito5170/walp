@@ -273,6 +273,12 @@ void World::step_dynamics() {
 
 bool World::is_target(int x, int y) const { return !objs_.empty() && objs_[0].x == x && objs_[0].y == y; }
 
+bool World::satisfies(int x, int y, std::uint8_t type, std::uint8_t color, std::uint8_t brand) const {
+    for (const SimObject& o : objs_)
+        if (o.x == x && o.y == y && o.type == type && (!color || o.color == color) && (!brand || o.brand == brand)) return true;
+    return false;
+}
+
 Status World::execute(const ActionRequest& a, ExecutionResult& r) {
     r = ExecutionResult{Status::Ok, 0};
     auto P = [&]() { return std::uniform_real_distribution<double>(0, 1)(rng_); };

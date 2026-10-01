@@ -119,7 +119,13 @@ EpisodeResult run_episode(const ScenarioConfig& sc, const GoalSpec& goal, const 
     }
     EpisodeRecord er = ex->episode();
     std::uint8_t out = O_NONE;
-    if (sr == StepResult::Declared) out = world.is_target(ex->declared_x(), ex->declared_y()) ? O_SUCCESS : O_FALSE_DECLARE;
+    if (sr == StepResult::Declared) {
+        const int x = ex->declared_x(), y = ex->declared_y();
+        const bool hit = o.judge_by_goal ? world.satisfies(x, y, std::uint8_t(goal.target_type), attr_color(goal.required_attributes),
+                                                           attr_brand(goal.required_attributes))
+                                         : world.is_target(x, y);
+        out = hit ? O_SUCCESS : O_FALSE_DECLARE;
+    }
     else if (sr == StepResult::Deadline) out = O_TIMEOUT;
     else if (sr == StepResult::Aborted) out = er.outcome == O_NONE ? std::uint8_t(O_ABORT_NO_TARGET) : er.outcome;
     else out = O_TIMEOUT;
