@@ -311,7 +311,7 @@ class Budget(unittest.TestCase):
         self.assertLess(len(u["stdout"]), len(big) / 5)
         for must in ("가운데 오류", "FAIL: test_zz", "Ran 2001 tests", "FAILED (failures=1)", "test_0 ... ok"):
             self.assertIn(must, u["stdout"])
-        full = re.search(r"전체: (\S+)\]", u["stdout"]).group(1)
+        full = re.search(r"이 훅이 받은 출력: (\S+) --", u["stdout"]).group(1)
         self.assertEqual(Path(full).read_text(encoding="utf-8"), big)            # 전체는 파일에 그대로
         self.assertEqual(json.loads(X.LEDGER.read_text())["before"], len(big))   # 원장에는 수만
 

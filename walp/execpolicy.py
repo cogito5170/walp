@@ -371,7 +371,9 @@ def budget_text(text: str, limit: int = BUDGET_CHARS, head: int = 40, tail: int 
 
 def budget_hook(ev: dict, store: "Path | None" = None) -> "dict | None":
     """PostToolUse: Bash 출력이 예산을 넘으면 줄인 것으로 바꾼다(updatedToolOutput, Bash 응답과 같은 꼴이어야 먹는다 -- 실측).
-    전체는 파일에 남겨 모형이 필요하면 Read 로 본다. 원장에는 수만 적는다."""
+    훅이 받은 출력은 파일에 남긴다. 원장에는 수만 적는다.
+    **잰 결과(PREREG_P4): 켜지 않는다.** CLI 가 ~30KB 넘는 출력을 이미 파일 + 미리보기로 바꿔 이 훅은 그 위에서 효과가 없고,
+    6k~30k 에서는 가운데가 필요한 집계 과제에 턴이 하나 늘어 입력 토큰이 36% 늘었다."""
     if ev.get("tool_name") != "Bash" or os.environ.get("WALP_BUDGET") == "0":
         return None
     resp = ev.get("tool_response")
@@ -393,7 +395,8 @@ def budget_hook(ev: dict, store: "Path | None" = None) -> "dict | None":
             f = d / f"{hashlib.sha256(text.encode()).hexdigest()[:16]}.{k}.txt"
             f.write_text(text, encoding="utf-8")
             out = "\n".join(st["h"] + [f"… [WALP 출력 예산: {st['lines']:,}줄 · {st['chars']:,}자 가운데 {st['dropped']:,}줄 생략. "
-                                       f"오류 · 실패 · 요약 줄 {len(st['keep'])}개는 아래에 남김. 전체: {f}]"] + st["keep"]
+                                       f"오류 · 실패 · 요약 줄 {len(st['keep'])}개는 아래에 남김. 이 훅이 받은 출력: {f} -- "
+                                       f"Claude Code 가 이미 자른 것일 수 있다(약 30KB 넘으면 CLI 가 따로 파일로 두고, 그때는 이 바꿈이 모형에 닿지 않는다)]"] + st["keep"]
                             + ["… [생략 끝 -- 마지막 줄들]"] + st["t"])
         new[k] = out
         total["after"] += len(out)
