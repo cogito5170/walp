@@ -140,15 +140,19 @@ def publish(repo: "str | Path", message: str, test: "str | None" = None, push: b
     done.append(f"commit {sha}")
     cmd = test.split() if isinstance(test, str) and test else detect_test(repo)
     if cmd:
-        wt = Path(tempfile.mkdtemp(prefix="walp-publish-")) / "wt"
-        r = run(["git", "worktree", "add", "-q", "--detach", str(wt), "HEAD"])
-        if r.returncode:
-            return stop("worktree", r)
+        tmp = Path(tempfile.mkdtemp(prefix="walp-publish-"))     # wt 만 지우면 이 부모가 /tmp 에 하나씩 남는다
+        wt = tmp / "wt"
         try:
-            r = run(cmd, cwd=wt)
-            dirty = run(["git", "status", "--porcelain", "-uno"], cwd=wt).stdout.strip()
+            r = run(["git", "worktree", "add", "-q", "--detach", str(wt), "HEAD"])
+            if r.returncode:
+                return stop("worktree", r)
+            try:
+                r = run(cmd, cwd=wt)
+                dirty = run(["git", "status", "--porcelain", "-uno"], cwd=wt).stdout.strip()
+            finally:
+                run(["git", "worktree", "remove", "--force", str(wt)])
         finally:
-            run(["git", "worktree", "remove", "--force", str(wt)])
+            shutil.rmtree(tmp, ignore_errors=True)
         if r.returncode:
             return stop("test", r)
         if dirty:
@@ -189,6 +193,8 @@ def publish(repo: "str | Path", message: str, test: "str | None" = None, push: b
 # ---------------- P3 기다리기 ----------------
 
 def _alive(pid: int) -> bool:
+    if pid <= 0:                                                # os.kill(0|-1, 0) 은 그룹 · 전체 검사라 늘 성공한다
+        return False
     try:
         os.kill(pid, 0)
     except ProcessLookupError:
@@ -204,6 +210,8 @@ def _alive(pid: int) -> bool:
 
 def wait(pid: int, log: "str | None" = None, timeout: float = 3600, every: float = 2.0, tail: int = 15) -> dict:
     """PID 로 기다린다(이름 패턴은 쓰지 않는다 -- 한글 명령줄 · 자기 자신을 잡는 문제). 끝나면 한 번 돌려준다."""
+    if pid <= 0:
+        raise ValueError(f"잘못된 PID: {pid}")
     t0 = time.time()
     while _alive(pid) and time.time() - t0 < timeout:
         time.sleep(every)
@@ -275,6 +283,23 @@ def shadow_event(ev: dict, ledger: "Path | None" = None) -> "dict | None":
 SHADOW_TAG = "walp-exec shadow-hook"
 
 
+def _keep_one_in_place(groups: list, ours, entry: "dict | None", matcher=None) -> bool:
+    """우리 훅을 첫 자리에 하나만 남긴다(entry 로 바꿔서). 빼고 맨 뒤에 다시 붙이면 다른 설치기와 번갈아
+    돌 때마다 순서가 바뀌어 changed=True 가 되고, 그때마다 .bak 를 덮어써 원래 설정의 백업을 잃는다."""
+    placed = False
+    for g in groups:
+        keep = []
+        for h in g.get("hooks", []):
+            if not ours(h):
+                keep.append(h)
+            elif entry is not None and not placed and g.get("matcher") == matcher:
+                keep.append(dict(entry))
+                placed = True
+        g["hooks"] = keep
+    groups[:] = [g for g in groups if g.get("hooks")]
+    return placed
+
+
 def install_shadow(settings=None, remove=False) -> dict:
     p = Path(settings or Path.home() / ".claude" / "settings.json").expanduser()
     d = json.loads(p.read_text(encoding="utf-8")) if p.is_file() and p.read_text(encoding="utf-8").strip() else {}
@@ -285,13 +310,13 @@ def install_shadow(settings=None, remove=False) -> dict:
     hooks = d.setdefault("hooks", {})
     for ev in ("UserPromptSubmit", "PostToolUse", "Stop"):
         groups = hooks.setdefault(ev, [])
-        for g in groups:
-            g["hooks"] = [h for h in g.get("hooks", []) if not ours(h)]
-        groups[:] = [g for g in groups if g.get("hooks")]
-        if not remove:
-            g = {"hooks": [{"type": "command", "command": cmd, "timeout": 20}]}
-            if ev == "PostToolUse":
-                g["matcher"] = "*"
+        matcher = "*" if ev == "PostToolUse" else None
+        entry = {"type": "command", "command": cmd, "timeout": 20}
+        placed = _keep_one_in_place(groups, ours, None if remove else entry, matcher)
+        if not remove and not placed:
+            g = {"hooks": [entry]}
+            if matcher:
+                g["matcher"] = matcher
             groups.append(g)
         if not groups:
             del hooks[ev]
@@ -320,6 +345,8 @@ def _turn_tokens(transcript: "str | None") -> "list[tuple[float, int]]":
         except json.JSONDecodeError:
             continue
         m = d.get("message")
+        if d.get("isSidechain") or not d.get("timestamp"):        # trace_stats.load · replay 와 같은 줄만 센다
+            continue
         if d.get("type") == "assistant" and isinstance(m, dict) and m.get("usage") and m.get("id") not in seen:
             seen.add(m.get("id"))
             u = m["usage"]
@@ -330,7 +357,8 @@ def _turn_tokens(transcript: "str | None") -> "list[tuple[float, int]]":
 
 
 def report(ledger: "Path | None" = None) -> dict:
-    rows = _prior("", Path(ledger or LEDGER))
+    rows = [r for r in _prior("", Path(ledger or LEDGER))
+            if isinstance(r, dict) and isinstance(r.get("s"), str) and isinstance(r.get("t"), (int, float))]
     by = collections.defaultdict(list)
     for r in rows:
         by[r["s"]].append(r)
@@ -532,6 +560,9 @@ def main(argv=None) -> int:
     elif args.cmd == "publish":
         out = publish(args.repo, args.message, args.test, args.push, args.merge, args.base)
     elif args.cmd == "wait":
+        if args.pid <= 0:
+            print(json.dumps({"error": f"잘못된 PID: {args.pid}"}, ensure_ascii=False))
+            return 2
         out = wait(args.pid, args.log, args.timeout)
     elif args.cmd in ("install-shadow", "uninstall-shadow"):
         out = install_shadow(args.settings, remove=args.cmd == "uninstall-shadow")
