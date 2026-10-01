@@ -194,11 +194,21 @@ def install_hook(settings: "str | Path | None" = None, remove: bool = False) -> 
     # (첫 판은 'walp-front hook' 글자만 찾아 따옴표 꼴을 놓쳤다 -- 다시 돌리면 훅이 두 개가 됐다. setup_mac 실측)
     ours = lambda h: re.search(r'walp-front"?\s+hook|walp\.llmfront"?\s+hook', h.get("command", "")) is not None
     before = json.dumps(d, sort_keys=True)
+    # 우리 것은 제자리에 하나만 둔다 -- 빼고 맨 뒤에 붙이면 install-shadow 와 번갈아 돌 때 순서가 바뀌어 .bak-walp 를 덮어쓴다
+    entry = {"type": "command", "command": _hook_command(), "timeout": 30}
+    placed = False
     for g in groups:
-        g["hooks"] = [h for h in g.get("hooks", []) if not ours(h)]
+        keep = []
+        for h in g.get("hooks", []):
+            if not ours(h):
+                keep.append(h)
+            elif not remove and not placed and g.get("matcher") is None:
+                keep.append(dict(entry))
+                placed = True
+        g["hooks"] = keep
     groups[:] = [g for g in groups if g.get("hooks")]
-    if not remove:
-        groups.append({"hooks": [{"type": "command", "command": _hook_command(), "timeout": 30}]})
+    if not remove and not placed:
+        groups.append({"hooks": [entry]})
     if not groups:
         del d["hooks"]["UserPromptSubmit"]
         if not d["hooks"]:
