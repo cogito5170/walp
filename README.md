@@ -32,6 +32,18 @@ from walp.llmfront import SmallTalk
 SmallTalk().act("고마워")      # "thanks" -- 잡담이 아니거나 모르면 None
 ```
 
+### Claude Code 에도 — 훅으로
+
+```bash
+walp-front install-hook              # ~/.claude/settings.json 의 UserPromptSubmit 훅으로 건다(다른 설정 · 훅은 그대로, .bak-walp 백업)
+walp-front uninstall-hook            # 뗀다
+```
+
+Claude Code 에 보내는 말마다 WALP 가 먼저 본다. 잡담이면 **모형에 보내지 않고** WALP 의 답을 보인다. 진짜 `claude -p` 로 잰 것
+(2026-10-01): "고마워요" → 245 ms · 토큰 0 · 모형 호출 0 / "1+1 은?" → 그대로 모형에(1,766 ms · 2,480 토큰).
+일이 담긴 말을 WALP 가 잡담으로 잘못 막았으면 **앞에 `//` 를 붙여 다시 보내면** 그대로 간다. 슬래시 명령(`/clear` 등)은 안 막는다.
+잠깐 끄려면 `WALP_FRONT_HOOK=0`. 훅이 터지거나 입력을 못 읽으면 막지 않는다(사람의 말을 잃는 쪽으로 틀리지 않게).
+
 **알고 쓸 것.** worldplan 의 봉인 모음(사전등록, 60 문장 × 2)에서 이 층은 LLM 토큰을 **38~44%** 줄였지만, 일정 요청이 섞인 말
 ("고마워~ 근데 latam 을 화요일로 옮겨줘")을 잡담으로 읽어 **60 문장 중 9~10 개**를 LLM 에 안 보내고 잡담으로 답했다
 (사전등록 안전 기준 5% 를 못 넘었다 — worldplan `eval/PREREG_앞단비교*.md`). WALP 는 한 말에 행위 하나만 고른다.
