@@ -1,0 +1,36 @@
+{
+ "turns": 1485,
+ "tokens": 629140318,
+ "policies": {
+  "P1": {
+   "proposals": 27,
+   "agree": 9,
+   "wrong": 18,
+   "escalate": 0,
+   "saved_turns": 39,
+   "saved_tokens": 22780844,
+   "agree_rate": 0.3333333333333333,
+   "saved_share": 0.036209480378588614
+  },
+  "P2": {
+   "proposals": 129,
+   "agree": 15,
+   "wrong": 110,
+   "escalate": 4,
+   "saved_turns": 116,
+   "saved_tokens": 60109475,
+   "agree_rate": 0.11627906976744186,
+   "saved_share": 0.09554223959304417
+  },
+  "P3": {
+   "proposals": 79,
+   "agree": 79,
+   "wrong": 0,
+   "escalate": 0,
+   "saved_turns": 80,
+   "saved_tokens": 42497839,
+   "agree_rate": 1.0,
+   "saved_share": 0.06754906303747649
+  }
+ }
+}

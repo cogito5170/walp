@@ -57,6 +57,11 @@ Claude Code 에 보내는 말마다 WALP 가 먼저 본다. 잡담이면 **모�
 0.7% 였다(일의 종류에 달렸다). [`walp/docs/실행정책층/`](walp/docs/실행정책층/): 선행조사 · 설계 · V&V.
 `python3 -m walp.trace_stats <세션.jsonl>` 로 어느 저장소의 세션이든 잰다(집계만, 글은 안 낸다).
 
+**P1~P3 를 지어 그림자 모드로 돌렸다**(`walp-exec`, 사전등록 `walp/docs/실행정책층/PREREG_그림자.md`). 결정: **아무것도 켜지 않는다.**
+P2(commit 이 방아쇠)는 이 세션에서 11% 만 맞았다 — 발행은 정책이 켤 일이 아니라 LLM 이 부르는 매크로 도구여야 한다. P1 은 진짜 상태
+해시로 2/2 였지만 2 개뿐이다. 실사용에서 그림자를 쌓으려면: `walp-exec install-shadow` (막지 않고 해시 · 종류만 `~/.walp/shadow.jsonl` 에),
+보고는 `walp-exec report`.
+
 ## LLM 앞단 — 세 층
 
 **Control**(아래 행동 버스, LLM 없음) → **Sequencing**(스스로 답할지 · 계획을 돌릴지 · "모른다" 로 위로 보낼지) →

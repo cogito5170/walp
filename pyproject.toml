@@ -12,6 +12,7 @@ dependencies = []
 
 [project.scripts]
 walp-front = "walp.llmfront:main"
+walp-exec = "walp.execpolicy:main"
 
 [tool.setuptools]
 packages = ["walp"]
