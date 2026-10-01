@@ -132,6 +132,18 @@ class InstallHook(unittest.TestCase):
         d = json.loads(p.read_text())
         self.assertEqual([h["command"] for g in d["hooks"]["UserPromptSubmit"] for h in g["hooks"]], ["echo 남의 훅"])
 
+    def test_walp_front_가_PATH_에_있어도_한_번만(self):
+        # 실측 결함: '"/경로/walp-front" hook' 꼴을 우리 것으로 못 알아봐 두 번 걸었다
+        from unittest import mock
+        p = Path(tempfile.mkdtemp()) / "settings.json"
+        with mock.patch.object(F.shutil, "which", return_value="/opt/venv/bin/walp-front"):
+            F.install_hook(p)
+            self.assertFalse(F.install_hook(p)["changed"])
+            cmds = [h["command"] for g in json.loads(p.read_text())["hooks"]["UserPromptSubmit"] for h in g["hooks"]]
+            self.assertEqual(cmds, ['"/opt/venv/bin/walp-front" hook'])
+            F.install_hook(p, remove=True)
+        self.assertEqual(json.loads(p.read_text()), {})
+
     def test_설정이_없으면_새로_짓는다(self):
         p = Path(tempfile.mkdtemp()) / ".claude" / "settings.json"
         F.install_hook(p)
