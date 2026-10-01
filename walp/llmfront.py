@@ -31,6 +31,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -189,7 +190,9 @@ def install_hook(settings: "str | Path | None" = None, remove: bool = False) -> 
     p = Path(settings or Path.home() / ".claude" / "settings.json").expanduser()
     d = json.loads(p.read_text(encoding="utf-8")) if p.is_file() and p.read_text(encoding="utf-8").strip() else {}
     groups = d.setdefault("hooks", {}).setdefault("UserPromptSubmit", [])
-    ours = lambda h: HOOK_TAG in h.get("command", "") or "walp.llmfront hook" in h.get("command", "")
+    # 명령은 '"/경로/walp-front" hook' 꼴(따옴표 사이) 또는 '"python" -m walp.llmfront hook' -- 둘 다 우리 것이다
+    # (첫 판은 'walp-front hook' 글자만 찾아 따옴표 꼴을 놓쳤다 -- 다시 돌리면 훅이 두 개가 됐다. setup_mac 실측)
+    ours = lambda h: re.search(r'walp-front"?\s+hook|walp\.llmfront"?\s+hook', h.get("command", "")) is not None
     before = json.dumps(d, sort_keys=True)
     for g in groups:
         g["hooks"] = [h for h in g.get("hooks", []) if not ours(h)]
