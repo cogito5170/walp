@@ -15,6 +15,11 @@ make -C walp BUILD=/tmp/wb all test       # C++ 코어 + 시뮬 + CLI, 코어 �
 
 ## walp-front — WALP 를 Claude · Gemini CLI 앞에 세우는 도구
 
+> **결정 (2026-10-02): Claude 앞단으로는 MBA(`cogito5170/MBA` 의 `mba-front`)를 쓴다.** 같은 프롬프트 24 개 비교에서
+> MBA 가 LLM 토큰 **0.510 대 0.658**(기준선 대비), 틀린 가로챔 **0 대 3** 으로 우세했다. walp-front 는 섞인 말
+> ("안녕! 17 곱하기 23은?")과 "HEAD 커밋 제목 알려줘" 같은 저장소 질문을 잡담 · 도움말로 가로채 사람의 요청을 잃었다.
+> 잡담만은 walp-front 가 낫다(7/7, 토큰 0). 자세히: [`walp/docs/결정_앞단_MBA.md`](walp/docs/결정_앞단_MBA.md).
+
 잡담(인사 · 감사 · 작별 · 자기소개 · 할 수 있는 것 · 쓰는 법)은 WALP 가 10 ms 안팎에 토큰 0 으로 답하고, 나머지만
 `claude -p` / `gemini -p` 로 넘긴다(사용자의 로그인 · MCP 설정을 그대로 쓴다). 학습된 체계(`walp/data/front_model.json`)가 묶여 있고,
 숙고 · 기억 층을 끄므로 **C++ 코어를 빌드하지 않는다** — 맥에서 Xcode 없이 돈다. 표준 라이브러리만.
